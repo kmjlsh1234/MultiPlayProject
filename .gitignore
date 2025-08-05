@@ -97,3 +97,56 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+
+#######################################################################################################################
+
+########################################
+# 추가: Visual Studio / .NET / C# 관련 #
+########################################
+
+# 빌드 아웃풋
+bin/
+obj/
+
+# 사용자별 설정 파일
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vspscc
+*.vssscc
+*.cache
+*.log
+
+# NuGet 관련
+*.nupkg
+*.snupkg
+*.nuspec
+*.psmdcp
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.nuget.dgspec.json
+*.nuget.props
+*.nuget.targets
+
+# Visual Studio for Mac
+.vscode/
+.idea/
+*.sln.ide
+.DS_Store
+
+# Rider
+*.sln.iml
+.idea/
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# 기타
+*.orig
+*.bak
+*.tmp
