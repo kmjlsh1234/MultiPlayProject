@@ -44,15 +44,6 @@ namespace ServerCore
             {
                 Session session = sessionFactory.Invoke();
                 session.Init(args.ConnectSocket);
-
-                string data = "hello world!";
-                byte[] buffer = Encoding.Unicode.GetBytes(data);
-
-                for(int i=0; i<10; i++)
-                {
-
-                    session.Send(buffer);
-                }
             }
 
             Console.WriteLine("Connect Complete!");
