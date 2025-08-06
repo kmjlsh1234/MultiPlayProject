@@ -10,6 +10,9 @@ namespace Server
 {
     public class ClientSession : Session
     {
+        public int sessionId { get; set; }
+
+        public Room room { get; set; }
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"Client [{endPoint}] Connected!");
