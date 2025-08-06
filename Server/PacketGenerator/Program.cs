@@ -55,13 +55,14 @@ namespace PacketGenerator
                     // {1} : 멤버 변수들, {2} : Read, {3} : Write
                     genPacket += string.Format(PacketFormat.packetFormat, packetName, t.Item1, t.Item2, t.Item3);
                     packetEnums += string.Format(PacketFormat.packetEnumFormat, packetName, enumCount++);
-                    if (packetName.StartsWith("C_"))
+                    if (packetName.StartsWith("S_"))
                     {
-                        serverRegister += string.Format(PacketFormat.managerRegistFormat, packetName);
+                        clientRegister += string.Format(PacketFormat.managerRegistFormat, packetName);
+                        
                     }
                     else
                     {
-                        clientRegister += string.Format(PacketFormat.managerRegistFormat, packetName);
+                        serverRegister += string.Format(PacketFormat.managerRegistFormat, packetName);
                     }
                 }
 

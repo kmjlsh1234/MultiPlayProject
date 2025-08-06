@@ -18,6 +18,11 @@ public class PacketManager
     }
     #endregion
 
+    public PacketManager()
+    {
+        Register();
+    }
+
     Dictionary<ushort, Func<ArraySegment<byte>, IPacket>> makePacket = new Dictionary<ushort, Func<ArraySegment<byte>, IPacket>> ();
     Dictionary<ushort, Action<Session, IPacket>> handler = new Dictionary<ushort, Action<Session, IPacket>>();
 
@@ -26,6 +31,9 @@ public class PacketManager
         
         makePacket.Add((ushort) PacketID.C_Chat, MakePacket<C_Chat>);
         handler.Add((ushort) PacketID.C_Chat, PacketHandler.C_ChatHandler);
+
+        makePacket.Add((ushort) PacketID.TestPacket, MakePacket<TestPacket>);
+        handler.Add((ushort) PacketID.TestPacket, PacketHandler.TestPacketHandler);
 
     }
 

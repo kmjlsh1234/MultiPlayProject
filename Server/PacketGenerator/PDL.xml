@@ -11,8 +11,6 @@
 		<ushort name ="sessionId"/>
 	</packet>
 	<packet name ="TestPacket">
-		<ushort name ="size"/>
-		<ushort name ="packetId"/>
 		<int name = "playerId"/>
 		<string name ="message"/>
 	</packet>

@@ -273,10 +273,6 @@ public class S_BroadCast_EnterRoom : IPacket
 public class TestPacket : IPacket
 {
     
-    public ushort size;
-
-    public ushort packetId;
-
     public int playerId;
 
     public string message;
@@ -299,12 +295,6 @@ public class TestPacket : IPacket
         pos += sizeof(ushort);
 
         
-        this.size = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
-        pos += sizeof(int);
-
-        this.packetId = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
-        pos += sizeof(int);
-
         this.playerId = BitConverter.ToInt32(buffer.Array, buffer.Offset + pos);
         pos += sizeof(int);
 
@@ -337,24 +327,6 @@ public class TestPacket : IPacket
         pos += sizeof(ushort);
  
                 
-        Array.Copy(
-                    sourceArray: BitConverter.GetBytes(this.size),
-                    sourceIndex: 0,
-                    destinationArray: buffer.Array,
-                    destinationIndex: buffer.Offset + pos,
-                    length: sizeof(ushort)
-        );
-        pos += sizeof(ushort);
-
-        Array.Copy(
-                    sourceArray: BitConverter.GetBytes(this.packetId),
-                    sourceIndex: 0,
-                    destinationArray: buffer.Array,
-                    destinationIndex: buffer.Offset + pos,
-                    length: sizeof(ushort)
-        );
-        pos += sizeof(ushort);
-
         Array.Copy(
                     sourceArray: BitConverter.GetBytes(this.playerId),
                     sourceIndex: 0,

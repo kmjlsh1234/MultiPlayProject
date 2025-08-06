@@ -18,6 +18,11 @@ public class PacketManager
     }
     #endregion
 
+    public PacketManager()
+    {
+        Register();
+    }
+
     Dictionary<ushort, Func<ArraySegment<byte>, IPacket>> makePacket = new Dictionary<ushort, Func<ArraySegment<byte>, IPacket>> ();
     Dictionary<ushort, Action<Session, IPacket>> handler = new Dictionary<ushort, Action<Session, IPacket>>();
 
@@ -29,9 +34,6 @@ public class PacketManager
 
         makePacket.Add((ushort) PacketID.S_BroadCast_EnterRoom, MakePacket<S_BroadCast_EnterRoom>);
         handler.Add((ushort) PacketID.S_BroadCast_EnterRoom, PacketHandler.S_BroadCast_EnterRoomHandler);
-
-        makePacket.Add((ushort) PacketID.TestPacket, MakePacket<TestPacket>);
-        handler.Add((ushort) PacketID.TestPacket, PacketHandler.TestPacketHandler);
 
     }
 

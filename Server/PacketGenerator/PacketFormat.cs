@@ -31,6 +31,11 @@ public class PacketManager
     }}
     #endregion
 
+    public PacketManager()
+    {{
+        Register();
+    }}
+
     Dictionary<ushort, Func<ArraySegment<byte>, IPacket>> makePacket = new Dictionary<ushort, Func<ArraySegment<byte>, IPacket>> ();
     Dictionary<ushort, Action<Session, IPacket>> handler = new Dictionary<ushort, Action<Session, IPacket>>();
 

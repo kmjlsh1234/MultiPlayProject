@@ -19,5 +19,10 @@ namespace Server
         {
             Console.WriteLine($"Client [{endPoint}] DisConnected!");
         }
+
+        public override void OnRecvPacket(ArraySegment<byte> buffer)
+        {
+            PacketManager.Instance.OnRecvPacket(this, buffer);
+        }
     }
 }

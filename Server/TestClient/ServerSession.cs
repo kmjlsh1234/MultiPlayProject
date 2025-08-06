@@ -16,16 +16,14 @@ namespace TestClient
             Console.WriteLine($"Server Connected!");
 
             TestPacket testPacket = new TestPacket();
-            testPacket.packetId = 0;
             testPacket.playerId = 4;
             testPacket.message = "hello world";
 
             ArraySegment<byte> buffer = testPacket.Write();
 
-
+            
             for (int i = 0; i < 10; i++)
             {
-
                 Send(buffer);
             }
         }
@@ -33,6 +31,11 @@ namespace TestClient
         public override void OnDisconnected(EndPoint endPoint)
         {
             Console.WriteLine($"Server DisConnected!");
+        }
+
+        public override void OnRecvPacket(ArraySegment<byte> buffer)
+        {
+            PacketManager.Instance.OnRecvPacket(this, buffer);
         }
     }
 }

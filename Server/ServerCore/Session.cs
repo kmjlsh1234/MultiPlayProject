@@ -25,14 +25,13 @@ namespace ServerCore
         #region
         public abstract void OnConnected(EndPoint endPoint);
         public abstract void OnDisconnected(EndPoint endPoint);
+        public abstract void OnRecvPacket(ArraySegment<byte> buffer);
         
         #endregion
 
         public void Init(Socket socket)
         {
-            
             this.socket = socket;
-            OnConnected(socket.RemoteEndPoint);
 
             recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvCompleted);
             sendArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnSendCompleted);
@@ -188,11 +187,7 @@ namespace ServerCore
             return readLen;
         }
 
-        void OnRecvPacket(ArraySegment<byte> buffer)
-        {
-            PacketManager.Instance.OnRecvPacket(this, buffer);
-            
-        }
+        
         #endregion
     }
 }
