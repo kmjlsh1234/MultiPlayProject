@@ -11,8 +11,9 @@ namespace PacketGenerator
     {
 
         public static string managerFormat =
-@"
-using ServerCore;
+@"using ServerCore;
+using System;
+using System.Collections.Generic;
 
 public class PacketManager
 {{
@@ -92,6 +93,9 @@ public class PacketManager
         public static string fileFormat =
 @"using ServerCore;
 using System.Text;
+using System;
+using System.Collections.Generic;
+
 public enum PacketID
 {{
     {0}
@@ -173,12 +177,66 @@ public class {0} : IPacket
 "
 ;
 
-        // {0} : 변수 명
-        // {1} : 리스트 타입
+        // {0} : 변수 명 대무자
+        // {1} : 변수 명 소문자
+        // {2} : 리스트 멤버변수
+        // {3} : 리스트 Read
+        // {4} : 리스트 Write
         public static string memberListFormat =
 @"
-List<{1}> {0}List = new List<{1}>();
+    public List<{0}> {1}List = new List<{0}>();
+
+    public class {0}
+    {{
+        {2}
+
+        public void Read(ArraySegment<byte> buffer, ref ushort pos)
+        {{
+                {3}      
+        }}
+
+        public void Write(ArraySegment<byte> buffer, ref ushort pos)
+        {{
+                {4}
+        }}
+    }}
 ";
+
+        // {0} : 변수 명 대무자
+        // {1} : 변수 명 소문자
+        public static string memberListReadFormat =
+@"
+        ushort {1}Count = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(ushort);
+        for(int i=0; i < {1}Count; i++)
+        {{
+            {0} {1} = new {0}();
+            {1}.Read(buffer, ref pos);
+            {1}List.Add({1});
+        }}
+";
+
+        // {0} : 변수 명 대무자
+        // {1} : 변수 명 소문자
+        public static string memberListWriteFormat =
+@"
+        ushort {1}Count = (ushort) {1}List.Count;
+            
+        Array.Copy(
+            sourceArray: BitConverter.GetBytes({1}Count),
+            sourceIndex: 0,
+            destinationArray: buffer.Array,
+            destinationIndex: buffer.Offset + pos,
+            length: sizeof(ushort)
+        );
+        pos += sizeof(ushort);
+
+        foreach({0} {1} in {1}List)
+        {{
+            {1}.Write(buffer, ref pos);
+        }}
+";
+
 
         // {0} : 변수 명
         // {1} : 변환 함수

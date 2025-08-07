@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,16 +10,31 @@ namespace Server
     public class Room
     {
         
-        public Dictionary<int, ClientSession> sessionDic = new Dictionary<int, ClientSession>();
+        public List<ClientSession> sessionList = new List<ClientSession>();
         public object _lock = new object();
 
         public void EnterRoom(ClientSession session)
         {
             lock( _lock)
             {
-                sessionDic.Add(session.sessionId, session);
+                sessionList.Add(session);
                 session.room = this;
             }    
+        }
+
+        public List<S_PlayerList.Player> getPlayerList()
+        {
+            lock (_lock)
+            {
+                List<S_PlayerList.Player> list = new List<S_PlayerList.Player>();
+                foreach ( ClientSession session in sessionList)
+                {
+                    S_PlayerList.Player player = new S_PlayerList.Player();
+                    player.sessionId = session.sessionId;
+                    list.Add(player);
+                }
+                return list; 
+            }
         }
 
         public void ExitRoom(ClientSession session)
@@ -26,9 +42,12 @@ namespace Server
 
         }
 
-        public void BroadCast()
+        public void BroadCast(ArraySegment<byte> buffer)
         {
-
+            foreach(ClientSession session in sessionList)
+            {
+                session.Send(buffer);
+            }
         }
     }
 }

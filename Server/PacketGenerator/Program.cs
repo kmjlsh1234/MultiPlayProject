@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Data;
+using System.Net;
 using System.Reflection;
 using System.Xml;
 
@@ -77,13 +78,19 @@ namespace PacketGenerator
             string memberCode = string.Empty;
             string readCode = string.Empty;
             string writeCode = string.Empty;
-
+            int depth = r.Depth + 1;
             while (r.Read())
             {
+                if(r.Depth != depth)
+                {
+                    break;
+                }
+                /*
                 if(r.NodeType == XmlNodeType.EndElement && r.Depth == 1)
                 {
                     break;
                 }
+                */
 
                 string memberType = r.Name;
                 string memberName = r["name"];
@@ -125,6 +132,10 @@ namespace PacketGenerator
                         writeCode += string.Format(PacketFormat.writeStringFormat, memberName);                     // {0} : 변수 명
                         break;
                     case "list":
+                        Tuple<string, string, string> t = ParseList(r);
+                        memberCode += t.Item1;                      
+                        readCode += t.Item2;
+                        writeCode += t.Item3;
                         break;
                 }
             }
@@ -151,6 +162,28 @@ namespace PacketGenerator
                     return null;
             }
         }
-       
+        
+        static string GetUpperText(string text)
+        {
+            return text.Substring(0, 1).ToUpper() + text.Substring(1, text.Length - 1);
+        }
+
+        static string GetLowerText(string text)
+        {
+            return text.Substring(0, 1).ToLower() + text.Substring(1, text.Length - 1);
+        }
+
+        static Tuple<string, string, string> ParseList(XmlReader r)
+        {
+            string listName = r["name"];
+            Tuple<string, string, string> t = ParseMembers(r);// {1} : 멤버 변수들, {2} : Read, {3} : Write
+
+            // {0} : 변수 명 대문자, {1} : 변수 명 소문자 ,{2} : 리스트 멤버변수, {3} : 리스트 Read, {4} : 리스트 Write
+            string memberCode = string.Format(PacketFormat.memberListFormat, GetUpperText(listName), GetLowerText(listName), t.Item1, t.Item2, t.Item3);
+            string readCode = string.Format(PacketFormat.memberListReadFormat, GetUpperText(listName), GetLowerText(listName));
+            string writeCode = string.Format(PacketFormat.memberListWriteFormat, GetUpperText(listName), GetLowerText(listName));
+
+            return new Tuple<string,string, string>(memberCode, readCode, writeCode);
+        }
     }
 }

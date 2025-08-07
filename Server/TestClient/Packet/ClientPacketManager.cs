@@ -1,5 +1,6 @@
-
 using ServerCore;
+using System;
+using System.Collections.Generic;
 
 public class PacketManager
 {
@@ -34,6 +35,9 @@ public class PacketManager
 
         makePacket.Add((ushort) PacketID.S_BroadCast_EnterRoom, MakePacket<S_BroadCast_EnterRoom>);
         handler.Add((ushort) PacketID.S_BroadCast_EnterRoom, PacketHandler.S_BroadCast_EnterRoomHandler);
+
+        makePacket.Add((ushort) PacketID.S_PlayerList, MakePacket<S_PlayerList>);
+        handler.Add((ushort) PacketID.S_PlayerList, PacketHandler.S_PlayerListHandler);
 
     }
 

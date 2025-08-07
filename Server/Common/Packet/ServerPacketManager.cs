@@ -1,5 +1,6 @@
-
 using ServerCore;
+using System;
+using System.Collections.Generic;
 
 public class PacketManager
 {
@@ -31,6 +32,9 @@ public class PacketManager
         
         makePacket.Add((ushort) PacketID.C_Chat, MakePacket<C_Chat>);
         handler.Add((ushort) PacketID.C_Chat, PacketHandler.C_ChatHandler);
+
+        makePacket.Add((ushort) PacketID.C_EnterRoom, MakePacket<C_EnterRoom>);
+        handler.Add((ushort) PacketID.C_EnterRoom, PacketHandler.C_EnterRoomHandler);
 
         makePacket.Add((ushort) PacketID.TestPacket, MakePacket<TestPacket>);
         handler.Add((ushort) PacketID.TestPacket, PacketHandler.TestPacketHandler);

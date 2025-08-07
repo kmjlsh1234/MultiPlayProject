@@ -14,7 +14,7 @@ namespace TestClient
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"Server Connected!");
-
+            /*
             TestPacket testPacket = new TestPacket();
             testPacket.playerId = 4;
             testPacket.message = "hello world";
@@ -26,6 +26,7 @@ namespace TestClient
             {
                 Send(buffer);
             }
+            */
         }
 
         public override void OnDisconnected(EndPoint endPoint)
