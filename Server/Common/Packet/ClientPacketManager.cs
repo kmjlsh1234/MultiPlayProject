@@ -33,6 +33,9 @@ public class PacketManager
         makePacket.Add((ushort) PacketID.S_BroadCast_Chat, MakePacket<S_BroadCast_Chat>);
         handler.Add((ushort) PacketID.S_BroadCast_Chat, PacketHandler.S_BroadCast_ChatHandler);
 
+        makePacket.Add((ushort) PacketID.S_BroadCast_ExitRoom, MakePacket<S_BroadCast_ExitRoom>);
+        handler.Add((ushort) PacketID.S_BroadCast_ExitRoom, PacketHandler.S_BroadCast_ExitRoomHandler);
+
         makePacket.Add((ushort) PacketID.S_BroadCast_EnterRoom, MakePacket<S_BroadCast_EnterRoom>);
         handler.Add((ushort) PacketID.S_BroadCast_EnterRoom, PacketHandler.S_BroadCast_EnterRoomHandler);
 

@@ -21,6 +21,13 @@ namespace Server
         public override void OnDisconnected(EndPoint endPoint)
         {
             Console.WriteLine($"Client [{endPoint}] DisConnected!");
+            SessionManager.Instance.Remove(this);
+            if(room != null)
+            {
+                Room copyRoom = room;
+                copyRoom.Push(() => copyRoom.ExitRoom(this));
+                room = null;
+            }
         }
 
         public override void OnRecvPacket(ArraySegment<byte> buffer)

@@ -11,43 +11,63 @@ namespace Server
     {
         
         public List<ClientSession> sessionList = new List<ClientSession>();
+        public List<ArraySegment<byte>> pendingList = new List<ArraySegment<byte>>();
+        public JobQueue JobQueue = new JobQueue();
+
         public object _lock = new object();
 
-        public void EnterRoom(ClientSession session)
+        public void Push(Action job)
         {
-            lock( _lock)
-            {
-                sessionList.Add(session);
-                session.room = this;
-            }    
+            JobQueue.Push(job);
         }
 
-        public List<S_PlayerList.Player> getPlayerList()
+        public void Flush()
         {
-            lock (_lock)
+            foreach (ClientSession session in sessionList)
             {
-                List<S_PlayerList.Player> list = new List<S_PlayerList.Player>();
-                foreach ( ClientSession session in sessionList)
-                {
-                    S_PlayerList.Player player = new S_PlayerList.Player();
-                    player.sessionId = session.sessionId;
-                    list.Add(player);
-                }
-                return list; 
+                session.Send(pendingList);
             }
-        }
-
-        public void ExitRoom(ClientSession session)
-        {
-
+            pendingList.Clear();
         }
 
         public void BroadCast(ArraySegment<byte> buffer)
         {
-            foreach(ClientSession session in sessionList)
-            {
-                session.Send(buffer);
-            }
+            pendingList.Add(buffer);
         }
+
+        #region Room Function
+
+        public void EnterRoom(ClientSession session)
+        {
+            sessionList.Add(session);
+            session.room = this;
+
+            //입장 유저에게 리스트 보내기
+            S_PlayerList playerListPacket = new S_PlayerList();
+            foreach(ClientSession s in sessionList)
+            {
+                playerListPacket.playerList.Add(
+                    new S_PlayerList.Player()
+                    {
+                        sessionId = s.sessionId,
+                    });
+            }
+            session.Send(playerListPacket.Write());
+
+            //기존 입장한 사람에게 알리기
+            S_BroadCast_EnterRoom broadCastPacket = new S_BroadCast_EnterRoom() { sessionId = session.sessionId };
+            BroadCast(broadCastPacket.Write());
+        }
+
+        public void ExitRoom(ClientSession session)
+        {
+            sessionList.Remove(session);
+
+            //모두에게 알린다
+            S_BroadCast_ExitRoom packet = new S_BroadCast_ExitRoom() { sessionId = session.sessionId };
+            BroadCast(packet.Write());
+        }
+        #endregion
+        
     }
 }

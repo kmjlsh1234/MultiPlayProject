@@ -5,27 +5,34 @@
 	</packet>
   
 	<packet name ="S_BroadCast_Chat">
-		<ushort name ="sessionId"/>
+		<int name ="sessionId"/>
 		<string name ="message"/>
 	</packet>
-	
-  <packet name = "C_EnterRoom">
-  </packet>
-  
-  <packet name ="S_BroadCast_EnterRoom">
-		<ushort name ="sessionId"/>
+
+	<packet name ="C_ExitRoom">
+	</packet>
+
+	<packet name ="S_BroadCast_ExitRoom">
+		<int name ="sessionId"/>
 	</packet>
 	
-  <packet name ="TestPacket">
+	<packet name = "C_EnterRoom">
+	</packet>
+  
+	<packet name ="S_BroadCast_EnterRoom">
+		<int name ="sessionId"/>
+	</packet>
+	
+	<packet name ="TestPacket">
 		<int name = "playerId"/>
 		<string name ="message"/>
 	</packet>
 
-  <packet name ="S_PlayerList">
-    <list name ="Player">
-      <int name ="sessionId"/>
-    </list>
-  </packet>
+	<packet name ="S_PlayerList">
+		<list name ="Player">
+			<int name ="sessionId"/>
+		</list>
+	</packet>
   
   
   

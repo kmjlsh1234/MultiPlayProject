@@ -14,12 +14,20 @@ namespace Server
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 8888);
 
-            listener.Init(endPoint, () => { return new ClientSession(); } );
+            listener.Init(endPoint, SessionManager.Instance.CreateSession);
+
+            JobTimer.Instance.Push(FlushRoom);
             
             while (true)
             {
-
+                JobTimer.Instance.Flush();
             }
+        }
+
+        static void FlushRoom()
+        {
+            room.Push(() => room.Flush());
+            JobTimer.Instance.Push(FlushRoom, 250);
         }
     }
 }

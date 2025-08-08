@@ -10,13 +10,17 @@ public enum PacketID
 
     S_BroadCast_Chat = 1,
 
-    C_EnterRoom = 2,
+    C_ExitRoom = 2,
 
-    S_BroadCast_EnterRoom = 3,
+    S_BroadCast_ExitRoom = 3,
 
-    TestPacket = 4,
+    C_EnterRoom = 4,
 
-    S_PlayerList = 5,
+    S_BroadCast_EnterRoom = 5,
+
+    TestPacket = 6,
+
+    S_PlayerList = 7,
 
 }
 
@@ -109,7 +113,7 @@ public class C_Chat : IPacket
 public class S_BroadCast_Chat : IPacket
 {
     
-    public ushort sessionId;
+    public int sessionId;
 
     public string message;
 
@@ -131,7 +135,7 @@ public class S_BroadCast_Chat : IPacket
         pos += sizeof(ushort);
 
         
-        this.sessionId = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
+        this.sessionId = BitConverter.ToInt32(buffer.Array, buffer.Offset + pos);
         pos += sizeof(int);
 
         ushort messageSize = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
@@ -168,9 +172,9 @@ public class S_BroadCast_Chat : IPacket
                     sourceIndex: 0,
                     destinationArray: buffer.Array,
                     destinationIndex: buffer.Offset + pos,
-                    length: sizeof(ushort)
+                    length: sizeof(int)
         );
-        pos += sizeof(ushort);
+        pos += sizeof(int);
 
         ushort messageSize = (ushort)Encoding.Unicode.GetByteCount(message);
 
@@ -191,6 +195,136 @@ public class S_BroadCast_Chat : IPacket
             length: messageSize
         );
         pos += messageSize;
+
+ 
+        Array.Copy(
+            sourceArray: BitConverter.GetBytes(pos),
+            sourceIndex: 0,
+            destinationArray: buffer.Array,
+            destinationIndex: buffer.Offset,
+            length: sizeof(ushort)
+        );
+
+        return SendBufferHelper.Commit(pos);
+    }
+}
+
+public class C_ExitRoom : IPacket
+{
+    
+    
+    public ushort Protocol
+    {
+        get
+        {
+            return (ushort) PacketID.C_ExitRoom;
+        }
+    }
+    
+    public void Read(ArraySegment<byte> buffer)
+    {
+        ushort pos = 0;
+        ushort pacetSize = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(ushort);
+        ushort packetId = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(ushort);
+
+        
+
+    }
+
+    public ArraySegment<byte> Write()
+    {
+        ArraySegment<byte> buffer = SendBufferHelper.Reserve(4096);
+
+        ushort pos = 0;
+
+        //패킷 사이즈 공간만큼 더하기
+        pos += sizeof(ushort);
+
+        //버퍼에 패킷 ID 추가
+        Array.Copy(
+            sourceArray: BitConverter.GetBytes(Protocol),
+            sourceIndex: 0,
+            destinationArray: buffer.Array,
+            destinationIndex: buffer.Offset + pos,
+            length: sizeof(ushort)
+            );
+        //패킷 id만큼 사이즈 추가
+        pos += sizeof(ushort);
+ 
+                
+ 
+        Array.Copy(
+            sourceArray: BitConverter.GetBytes(pos),
+            sourceIndex: 0,
+            destinationArray: buffer.Array,
+            destinationIndex: buffer.Offset,
+            length: sizeof(ushort)
+        );
+
+        return SendBufferHelper.Commit(pos);
+    }
+}
+
+public class S_BroadCast_ExitRoom : IPacket
+{
+    
+    public int sessionId;
+
+    
+    public ushort Protocol
+    {
+        get
+        {
+            return (ushort) PacketID.S_BroadCast_ExitRoom;
+        }
+    }
+    
+    public void Read(ArraySegment<byte> buffer)
+    {
+        ushort pos = 0;
+        ushort pacetSize = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(ushort);
+        ushort packetId = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(ushort);
+
+        
+        this.sessionId = BitConverter.ToInt32(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(int);
+
+
+    }
+
+    public ArraySegment<byte> Write()
+    {
+        ArraySegment<byte> buffer = SendBufferHelper.Reserve(4096);
+
+        ushort pos = 0;
+
+        //패킷 사이즈 공간만큼 더하기
+        pos += sizeof(ushort);
+
+        //버퍼에 패킷 ID 추가
+        Array.Copy(
+            sourceArray: BitConverter.GetBytes(Protocol),
+            sourceIndex: 0,
+            destinationArray: buffer.Array,
+            destinationIndex: buffer.Offset + pos,
+            length: sizeof(ushort)
+            );
+        //패킷 id만큼 사이즈 추가
+        pos += sizeof(ushort);
+ 
+                
+        Array.Copy(
+                    sourceArray: BitConverter.GetBytes(this.sessionId),
+                    sourceIndex: 0,
+                    destinationArray: buffer.Array,
+                    destinationIndex: buffer.Offset + pos,
+                    length: sizeof(int)
+        );
+        pos += sizeof(int);
 
  
         Array.Copy(
@@ -266,7 +400,7 @@ public class C_EnterRoom : IPacket
 public class S_BroadCast_EnterRoom : IPacket
 {
     
-    public ushort sessionId;
+    public int sessionId;
 
     
     public ushort Protocol
@@ -286,7 +420,7 @@ public class S_BroadCast_EnterRoom : IPacket
         pos += sizeof(ushort);
 
         
-        this.sessionId = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
+        this.sessionId = BitConverter.ToInt32(buffer.Array, buffer.Offset + pos);
         pos += sizeof(int);
 
 
@@ -318,9 +452,9 @@ public class S_BroadCast_EnterRoom : IPacket
                     sourceIndex: 0,
                     destinationArray: buffer.Array,
                     destinationIndex: buffer.Offset + pos,
-                    length: sizeof(ushort)
+                    length: sizeof(int)
         );
-        pos += sizeof(ushort);
+        pos += sizeof(int);
 
  
         Array.Copy(

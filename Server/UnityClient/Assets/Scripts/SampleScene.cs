@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SampleScene : MonoBehaviour
@@ -10,7 +9,6 @@ public class SampleScene : MonoBehaviour
     
     public void Start()
     {
-
         ChatPopup.gameObject.SetActive(false);
         LobbyPopup.gameObject.SetActive(true);
     }

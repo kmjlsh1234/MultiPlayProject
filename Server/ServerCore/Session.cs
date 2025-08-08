@@ -54,6 +54,27 @@ namespace ServerCore
             }
         }
 
+        public void Send(List<ArraySegment<byte>> bufferList)
+        {
+            if(bufferList.Count == 0)
+            {
+                return;
+            }
+
+            lock (_lock)
+            {
+                foreach (ArraySegment<byte> buffer in bufferList)
+                {
+                    sendQueue.Enqueue(buffer);
+                }
+
+                if (pendingList.Count == 0)
+                {
+                    RegistSend();
+                }
+            }
+        }
+
         public void Disconnect()
         {
             

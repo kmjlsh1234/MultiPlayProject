@@ -33,6 +33,9 @@ public class PacketManager
         makePacket.Add((ushort) PacketID.C_Chat, MakePacket<C_Chat>);
         handler.Add((ushort) PacketID.C_Chat, PacketHandler.C_ChatHandler);
 
+        makePacket.Add((ushort) PacketID.C_ExitRoom, MakePacket<C_ExitRoom>);
+        handler.Add((ushort) PacketID.C_ExitRoom, PacketHandler.C_ExitRoomHandler);
+
         makePacket.Add((ushort) PacketID.C_EnterRoom, MakePacket<C_EnterRoom>);
         handler.Add((ushort) PacketID.C_EnterRoom, PacketHandler.C_EnterRoomHandler);
 
