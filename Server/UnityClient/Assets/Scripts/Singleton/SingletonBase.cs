@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SingletonBase<T> : MonoBehaviour where T : Component
+public class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T instance;
 
@@ -18,4 +18,6 @@ public class SingletonBase<T> : MonoBehaviour where T : Component
             return instance;
         }
     }
+
+    public virtual void Init() { }
 }

@@ -10,8 +10,16 @@ public class PacketHandler
 {
     public static void C_ChatHandler(Session s, IPacket pkt)
     {
+        ClientSession session = s as ClientSession;
         C_Chat packet = pkt as C_Chat;
+        S_BroadCast_Chat broadCastPacket = new S_BroadCast_Chat() 
+        { 
+            sessionId = session.sessionId,
+            message = packet.message
+        };
+        Console.WriteLine($"C_ChatHandler");
         Console.WriteLine($"message : {packet.message}");
+        session.room.BroadCast(broadCastPacket.Write());
     }
     
     public static void C_EnterRoomHandler(Session s, IPacket pkt)

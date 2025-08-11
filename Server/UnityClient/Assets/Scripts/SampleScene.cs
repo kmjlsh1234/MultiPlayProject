@@ -3,19 +3,16 @@ using UnityEngine;
 
 public class SampleScene : MonoBehaviour
 {
-    public LobbyPopup LobbyPopup;
-    public ChatPopup ChatPopup;
-
-    
-    public void Start()
+    public void Awake()
     {
-        ChatPopup.gameObject.SetActive(false);
-        LobbyPopup.gameObject.SetActive(true);
+        UIManager.Instance.Init();
+        NetworkManager.Instance.Init();
+        ChatManager.Instance.Init();
+        ResourcesManager.Instance.Init();
     }
 
-    public void EnterRoom()
+    public void Start()
     {
-        LobbyPopup.gameObject.SetActive(false);
-        ChatPopup.gameObject.SetActive(true);
+        UIManager.Instance.Push(UIType.UIPopup_Lobby);
     }
 }
