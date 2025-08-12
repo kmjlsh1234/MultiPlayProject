@@ -39,8 +39,9 @@ namespace Server
 
         public void EnterRoom(ClientSession session)
         {
-            sessionList.Add(session);
+            
             session.room = this;
+            sessionList.Add(session);
 
             //입장 유저에게 리스트 보내기
             S_PlayerList playerListPacket = new S_PlayerList();
@@ -50,10 +51,12 @@ namespace Server
                     new S_PlayerList.Player()
                     {
                         sessionId = s.sessionId,
+                        isSelf = (s.sessionId == session.sessionId),
                     });
             }
+            
             session.Send(playerListPacket.Write());
-
+            
             //기존 입장한 사람에게 알리기
             S_BroadCast_EnterRoom broadCastPacket = new S_BroadCast_EnterRoom() { sessionId = session.sessionId };
             BroadCast(broadCastPacket.Write());

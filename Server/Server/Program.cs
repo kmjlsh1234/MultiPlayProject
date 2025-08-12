@@ -8,6 +8,8 @@ namespace Server
     public class Program
     {
         static Listener listener = new Listener();
+        public static RoomManager roomManagager = new RoomManager();
+
         public static Room room = new Room();
         
         static void Main(string[] args)

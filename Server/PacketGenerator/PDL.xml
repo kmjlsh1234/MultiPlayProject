@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PDL>
+	
 	<packet name ="C_Chat">
 		<string name ="message"/>
 	</packet>
@@ -31,6 +32,7 @@
 	<packet name ="S_PlayerList">
 		<list name ="Player">
 			<int name ="sessionId"/>
+			<bool name ="isSelf"/>
 		</list>
 	</packet>
   

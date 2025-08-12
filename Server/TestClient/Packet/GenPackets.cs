@@ -578,12 +578,17 @@ public class S_PlayerList : IPacket
         
     public int sessionId;
 
+    public bool isSelf;
+
 
         public void Read(ArraySegment<byte> buffer, ref ushort pos)
         {
                 
         this.sessionId = BitConverter.ToInt32(buffer.Array, buffer.Offset + pos);
         pos += sizeof(int);
+
+        this.isSelf = BitConverter.ToBoolean(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(bool);
       
         }
 
@@ -598,6 +603,15 @@ public class S_PlayerList : IPacket
                     length: sizeof(int)
         );
         pos += sizeof(int);
+
+        Array.Copy(
+                    sourceArray: BitConverter.GetBytes(this.isSelf),
+                    sourceIndex: 0,
+                    destinationArray: buffer.Array,
+                    destinationIndex: buffer.Offset + pos,
+                    length: sizeof(bool)
+        );
+        pos += sizeof(bool);
 
         }
     }

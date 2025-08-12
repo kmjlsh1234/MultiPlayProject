@@ -23,6 +23,11 @@ public class PacketHandler
         ServerSession serverSession = session as ServerSession;
         S_BroadCast_EnterRoom packet = pkt as S_BroadCast_EnterRoom;
 
+        if(packet.sessionId == NetworkManager.Instance.sessionId)
+        {
+            return;
+        }
+
         Player player = new Player() { playerId = packet.sessionId };
         ChatManager.Instance.AddPlayer(player);
     }
@@ -35,8 +40,17 @@ public class PacketHandler
 
         foreach (var p in packet.playerList)
         {
-            Player player = new Player();
-            player.playerId = p.sessionId;
+            Player player = new Player()
+            {
+                playerId = p.sessionId,
+                isSelf = p.isSelf,
+            };
+
+            if (p.isSelf)
+            {
+                NetworkManager.Instance.sessionId = p.sessionId;
+
+            }
             list.Add(player);
         }
 

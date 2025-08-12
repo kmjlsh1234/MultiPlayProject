@@ -45,7 +45,7 @@ public class PacketManager
         {0}
     }}
 
-    public void OnRecvPacket(Session session, ArraySegment<byte> buffer)
+    public void OnRecvPacket(Session session, ArraySegment<byte> buffer, Action<Session, IPacket> onRecvCallBack = null)
     {{
         ushort pos = 0;
         ushort dataSize = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
@@ -57,8 +57,14 @@ public class PacketManager
         if(makePacket.TryGetValue(packetId, out func))
         {{
             IPacket packet = func.Invoke(buffer);
-
-            HandlePacket(session, packet);
+            if(onRecvCallBack != null)
+            {{
+                onRecvCallBack(session, packet);
+            }}
+            else
+            {{
+                HandlePacket(session, packet);
+            }} 
         }}
     }}
 
@@ -70,7 +76,7 @@ public class PacketManager
         return packet;
     }}
 
-    private void HandlePacket(Session session, IPacket packet)
+    public void HandlePacket(Session session, IPacket packet)
     {{
         Action<Session, IPacket> action = null;
         if (handler.TryGetValue(packet.Protocol, out action))
@@ -78,6 +84,11 @@ public class PacketManager
             action.Invoke(session, packet);
         }}
     }}
+
+
+
+
+
 }}
 ";
 
@@ -240,10 +251,11 @@ public class {0} : IPacket
 
         // {0} : 변수 명
         // {1} : 변환 함수
+        // {2} 변수 형식
         public static string readFormat =
 @"
         this.{0} = BitConverter.{1}(buffer.Array, buffer.Offset + pos);
-        pos += sizeof(int);
+        pos += sizeof({2});
 ";
 
         // {0} : 변수 명

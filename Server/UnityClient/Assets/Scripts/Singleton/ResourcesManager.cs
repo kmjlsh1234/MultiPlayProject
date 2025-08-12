@@ -17,7 +17,6 @@ public class ResourcesManager : SingletonBase<ResourcesManager>
         foreach (GameObject go in array)
         {
             uiObjDic.Add(go.name, go);
-            Debug.Log(go.name);
         }
     }
 

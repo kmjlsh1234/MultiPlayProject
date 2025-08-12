@@ -18,15 +18,14 @@ public class ChatPopup : UIBase
     public void Awake()
     {
         sendButton.onClick.AddListener(() => SendMessage());
-        ChatManager.Instance.ObserveEveryValueChanged(x => x.playerList).Subscribe((x) => UpdatePlayerList(x));
-        ChatManager.Instance.ObserveEveryValueChanged(x => x.chatStack).Subscribe((x) =>
-        {
-            if(x.Count == 0)
-            {
-                return;
-            }
-            UpdateChatList(x.Peek());
-        });
+        
+        ChatManager.Instance.OnChatRecved += UpdateChatList;
+        ChatManager.Instance.OnPlayerAdd += AddPlayer;
+    }
+
+    private void Start()
+    {
+        PlayerListInitialize();
     }
 
     void SendMessage()
@@ -38,9 +37,11 @@ public class ChatPopup : UIBase
         inputField.text = string.Empty;
     }
 
-    void UpdatePlayerList(List<Player> list)
+    void PlayerListInitialize()
     {
-        Debug.Log("updatePlayerList");
+
+        List<Player> list = ChatManager.Instance.playerList;
+
         if(playerItem == null)
         {
             playerItem = ResourcesManager.Instance.getUIObj("PlayerItem");
@@ -54,12 +55,29 @@ public class ChatPopup : UIBase
             go.transform.SetParent(playerListRoot);
 
             PlayerItem item = go.GetComponent<PlayerItem>();
-            item.Init(false, player.playerId);
+            item.Init(player.isSelf, player.playerId);
         }
+    }
+
+    void AddPlayer(Player player)
+    {
+        if(player.playerId == NetworkManager.Instance.sessionId)
+        {
+            return;
+        }
+
+        GameObject go = Instantiate(playerItem);
+        go.transform.position = Vector3.zero;
+        go.transform.rotation = Quaternion.identity;
+        go.transform.SetParent(playerListRoot);
+
+        PlayerItem item = go.GetComponent<PlayerItem>();
+        item.Init(player.isSelf, player.playerId);
     }
 
     void UpdateChatList(Chat chat)
     {
+        Debug.Log("UpdateChatList");
         if (chatMessage == null)
         {
             chatMessage = ResourcesManager.Instance.getUIObj("ChatMessage");

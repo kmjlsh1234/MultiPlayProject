@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6443849905499707445}
-  - component: {fileID: 5480757863499253085}
+  - component: {fileID: 5475015044838631212}
   m_Layer: 5
   m_Name: PlayerItem
   m_TagString: Untagged
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchoredPosition: {x: 200, y: -75}
   m_SizeDelta: {x: 400, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5480757863499253085
+--- !u!114 &5475015044838631212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,11 +46,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1646104713809482778}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ac40e880247461479a9a754f192a9ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a6e0f4c552465a478d49bc01c1f474f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   chatBubble: {fileID: 1885075538283289117}
-  name: {fileID: 4103604419497603627}
+  name: {fileID: 165990202377062621}
 --- !u!1 &5229979797603956272
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,7 +81,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 182597372829635403}
+  - {fileID: 5109492582791788888}
   m_Father: {fileID: 6443849905499707445}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &8012353429081009575
+--- !u!1 &8587138079823005462
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,9 +135,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 182597372829635403}
-  - component: {fileID: 2767551658024241185}
-  - component: {fileID: 4103604419497603627}
+  - component: {fileID: 5109492582791788888}
+  - component: {fileID: 7055235862520675519}
+  - component: {fileID: 165990202377062621}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -145,13 +145,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &182597372829635403
+--- !u!224 &5109492582791788888
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8012353429081009575}
+  m_GameObject: {fileID: 8587138079823005462}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -164,21 +164,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &2767551658024241185
+--- !u!222 &7055235862520675519
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8012353429081009575}
+  m_GameObject: {fileID: 8587138079823005462}
   m_CullTransparentMesh: 1
---- !u!114 &4103604419497603627
+--- !u!114 &165990202377062621
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8012353429081009575}
+  m_GameObject: {fileID: 8587138079823005462}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -194,8 +194,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 925e56f64aa348e4a944834e52ad5f57, type: 2}
-  m_sharedMaterial: {fileID: 3154206677605184072, guid: 925e56f64aa348e4a944834e52ad5f57, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8dfefb53b805d1240b7032648d0549ec, type: 2}
+  m_sharedMaterial: {fileID: -2920505283877426168, guid: 8dfefb53b805d1240b7032648d0549ec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -219,8 +219,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class NetworkManager : SingletonBase<NetworkManager>
 {
+    public int sessionId;
+
     ServerSession session = new ServerSession();
 
     Connector connector = new Connector();
@@ -14,7 +16,7 @@ public class NetworkManager : SingletonBase<NetworkManager>
 
     
 
-    public void Init()
+    public override void Init()
     {
         IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, 8888);
         connector.Init(endPoint, session);

@@ -9,7 +9,6 @@ namespace Server
 {
     public class SessionManager : SingletonBase<SessionManager>
     {
-
         int sessionId = 0;
         object key = new object();
 

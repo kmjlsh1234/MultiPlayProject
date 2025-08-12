@@ -8,8 +8,9 @@ namespace Server
 {
     public class RoomManager
     {
+        public static RoomManager Instance { get; } = new RoomManager();
         public List<Room> roomList = new List<Room>();
-        object _lock = new object();
+        object key = new object();
 
         public void Init()
         {
@@ -18,7 +19,7 @@ namespace Server
 
         public void CreateRoom(ClientSession session)
         {
-            lock (_lock)
+            lock (key)
             {
                 Room room = new Room();
                 roomList.Add(room);
@@ -29,7 +30,7 @@ namespace Server
 
         public List<Room> GetRoomList(ClientSession session)
         {
-            lock (_lock)
+            lock (key)
             {
                 return roomList;
             }

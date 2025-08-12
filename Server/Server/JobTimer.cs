@@ -24,13 +24,7 @@ namespace Server
         public PriorityQueue<JobTimerElem> priorityQueue = new PriorityQueue<JobTimerElem>();
         object key = new object();
 
-        public static JobTimer Instance
-        {
-            get
-            {
-                return new JobTimer();
-            }
-        }
+        public static JobTimer Instance { get; } = new JobTimer();
 
         //
         public void Push(Action action, int tickAter = 0)
