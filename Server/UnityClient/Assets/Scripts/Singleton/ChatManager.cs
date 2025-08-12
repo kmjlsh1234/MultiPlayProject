@@ -21,6 +21,12 @@ public class ChatManager : SingletonBase<ChatManager>
         OnPlayerAdd.Invoke(player);
     }
 
+    public void RemovePlayer(Player player)
+    {
+        playerList.Remove(player);
+
+    }
+
     public void RecevMessage(Chat chat)
     {
         

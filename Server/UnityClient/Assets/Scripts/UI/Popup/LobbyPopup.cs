@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class LobbyPopup : UIBase
 {
+    [SerializeField] private Transform roomListRoot;
+    [SerializeField] private GameObject roomItem;
 
     [SerializeField] private Button enterButton;
     void Start()

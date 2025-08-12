@@ -11,6 +11,7 @@ public class ChatPopup : UIBase
 
     [SerializeField] private TMP_InputField inputField;
     [SerializeField] private Button sendButton;
+    [SerializeField] private Button backButton;
 
     [SerializeField] private GameObject playerItem;
     [SerializeField] private GameObject chatMessage;
@@ -18,6 +19,7 @@ public class ChatPopup : UIBase
     public void Awake()
     {
         sendButton.onClick.AddListener(() => SendMessage());
+        backButton.onClick.AddListener(() => Back());   
         
         ChatManager.Instance.OnChatRecved += UpdateChatList;
         ChatManager.Instance.OnPlayerAdd += AddPlayer;
@@ -26,6 +28,7 @@ public class ChatPopup : UIBase
     private void Start()
     {
         PlayerListInitialize();
+
     }
 
     void SendMessage()
@@ -35,6 +38,12 @@ public class ChatPopup : UIBase
         NetworkManager.Instance.Send(packet.Write());
 
         inputField.text = string.Empty;
+    }
+
+    void Back()
+    {
+        C_ExitRoom packet = new C_ExitRoom();
+        NetworkManager.Instance.Send(packet.Write());
     }
 
     void PlayerListInitialize()

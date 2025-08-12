@@ -1,5 +1,6 @@
 using ServerCore;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PacketHandler
@@ -60,6 +61,13 @@ public class PacketHandler
 
     public static void S_BroadCast_ExitRoomHandler(Session session, IPacket pkt)
     {
+        ServerSession serverSession = session as ServerSession;
+        S_BroadCast_ExitRoom packet = pkt as S_BroadCast_ExitRoom;
+
+        if(NetworkManager.Instance.sessionId == packet.sessionId){
+            UIManager.Instance.Pop();
+            NetworkManager.Instance.sessionId = 0;
+        }
 
     }
 }

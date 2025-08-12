@@ -98,32 +98,32 @@ namespace PacketGenerator
                 switch(memberType){
                     case "byte":
                         memberCode += string.Format(PacketFormat.memberFormat, memberType, memberName);             // {0} : 변수 타입, {1} : 변수 명
-                        readCode += string.Format(PacketFormat.readFormat, memberName, FindTransFun(memberType));   // {0} : 변수 명, {1} : 변환 함수
+                        readCode += string.Format(PacketFormat.readFormat, memberName, FindTransFun(memberType), memberType);   // {0} : 변수 명, {1} : 변환 함수, {2} 변수 타입
                         writeCode += string.Format(PacketFormat.writeFormat, memberName, memberType);               // {0} : 변수 명, {1} : 변수 타입
                         break;
                     case "bool":
                         memberCode += string.Format(PacketFormat.memberFormat, memberType, memberName);             // {0} : 변수 타입, {1} : 변수 명
-                        readCode += string.Format(PacketFormat.readFormat, memberName, FindTransFun(memberType));   // {0} : 변수 명, {1} : 변환 함수
+                        readCode += string.Format(PacketFormat.readFormat, memberName, FindTransFun(memberType), memberType);   // {0} : 변수 명, {1} : 변환 함수, {2} 변수 타입
                         writeCode += string.Format(PacketFormat.writeFormat, memberName, memberType);               // {0} : 변수 명, {1} : 변수 타입
                         break;
                     case "ushort":
                         memberCode += string.Format(PacketFormat.memberFormat, memberType, memberName);             // {0} : 변수 타입, {1} : 변수 명
-                        readCode += string.Format(PacketFormat.readFormat, memberName, FindTransFun(memberType));   // {0} : 변수 명, {1} : 변환 함수
+                        readCode += string.Format(PacketFormat.readFormat, memberName, FindTransFun(memberType), memberType);   // {0} : 변수 명, {1} : 변환 함수, {2} 변수 타입
                         writeCode += string.Format(PacketFormat.writeFormat, memberName, memberType);               // {0} : 변수 명, {1} : 변수 타입
                         break;
                     case "int":
                         memberCode += string.Format(PacketFormat.memberFormat, memberType, memberName);             // {0} : 변수 타입, {1} : 변수 명
-                        readCode += string.Format(PacketFormat.readFormat, memberName, FindTransFun(memberType));   // {0} : 변수 명, {1} : 변환 함수
+                        readCode += string.Format(PacketFormat.readFormat, memberName, FindTransFun(memberType), memberType);   // {0} : 변수 명, {1} : 변환 함수, {2} 변수 타입
                         writeCode += string.Format(PacketFormat.writeFormat, memberName, memberType);               // {0} : 변수 명, {1} : 변수 타입
                         break;
                     case "float":
                         memberCode += string.Format(PacketFormat.memberFormat, memberType, memberName);             // {0} : 변수 타입, {1} : 변수 명
-                        readCode += string.Format(PacketFormat.readFormat, memberName, FindTransFun(memberType));   // {0} : 변수 명, {1} : 변환 함수
+                        readCode += string.Format(PacketFormat.readFormat, memberName, FindTransFun(memberType), memberType);   // {0} : 변수 명, {1} : 변환 함수, {2} 변수 타입
                         writeCode += string.Format(PacketFormat.writeFormat, memberName, memberType);               // {0} : 변수 명, {1} : 변수 타입
                         break;
                     case "long":
                         memberCode += string.Format(PacketFormat.memberFormat, memberType, memberName);             // {0} : 변수 타입, {1} : 변수 명
-                        readCode += string.Format(PacketFormat.readFormat, memberName, FindTransFun(memberType));   // {0} : 변수 명, {1} : 변환 함수
+                        readCode += string.Format(PacketFormat.readFormat, memberName, FindTransFun(memberType), memberType);   // {0} : 변수 명, {1} : 변환 함수, {2} 변수 타입
                         writeCode += string.Format(PacketFormat.writeFormat, memberName, memberType);               // {0} : 변수 명, {1} : 변수 타입
                         break;
                     case "string":
