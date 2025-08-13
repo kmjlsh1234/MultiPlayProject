@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -75}
-  m_SizeDelta: {x: 400, y: 150}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 440, y: 122}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5475015044838631212
 MonoBehaviour:
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1646104713809482778}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a6e0f4c552465a478d49bc01c1f474f, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ac40e880247461479a9a754f192a9ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   chatBubble: {fileID: 1885075538283289117}
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 9d59a0373eeab4c489e197e6651ef9f8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -194,15 +194,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8dfefb53b805d1240b7032648d0549ec, type: 2}
-  m_sharedMaterial: {fileID: -2920505283877426168, guid: 8dfefb53b805d1240b7032648d0549ec, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8248429576d34fc448e14405943553e4, type: 2}
+  m_sharedMaterial: {fileID: -2609234835295564568, guid: 8248429576d34fc448e14405943553e4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

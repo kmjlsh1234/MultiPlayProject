@@ -8,9 +8,9 @@ namespace Server
     public class Program
     {
         static Listener listener = new Listener();
-        public static RoomManager roomManagager = new RoomManager();
+        public static RoomManager roomManager = new RoomManager();
 
-        public static Room room = new Room();
+        
         
         static void Main(string[] args)
         {
@@ -28,7 +28,11 @@ namespace Server
 
         static void FlushRoom()
         {
-            room.Push(() => room.Flush());
+
+            foreach (KeyValuePair<int, Room> pair in roomManager.GetRoomDic())
+            {
+                pair.Value.Push(() => pair.Value.Flush());
+            }
             JobTimer.Instance.Push(FlushRoom, 250);
         }
     }

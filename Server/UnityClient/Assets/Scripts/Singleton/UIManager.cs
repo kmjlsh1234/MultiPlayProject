@@ -42,6 +42,7 @@ public class UIManager : SingletonBase<UIManager>
 
     public void Pop()
     {
+        Debug.Log("Pop");
         GameObject go = uiStack.Pop();
         canvasOrder--;
         Destroy(go);

@@ -15,17 +15,17 @@ public class PacketHandler
             playerId = packet.sessionId,
             message = packet.message,
         };
-        Debug.Log("S_BroadCast_ChatHandler");
         ChatManager.Instance.RecevMessage(chat);
     }
 
     public static void S_BroadCast_EnterRoomHandler(Session session, IPacket pkt)
     {
+        Debug.Log("S_BroadCast_EnterRoomHandler");
         ServerSession serverSession = session as ServerSession;
         S_BroadCast_EnterRoom packet = pkt as S_BroadCast_EnterRoom;
 
         if(packet.sessionId == NetworkManager.Instance.sessionId)
-        {
+        { 
             return;
         }
 
@@ -37,7 +37,7 @@ public class PacketHandler
     {
         
         S_PlayerList packet = pkt as S_PlayerList;
-        List<Player> list = new List<Player>();
+        Dictionary<int, Player> playerDic = new Dictionary<int, Player>();
 
         foreach (var p in packet.playerList)
         {
@@ -52,10 +52,10 @@ public class PacketHandler
                 NetworkManager.Instance.sessionId = p.sessionId;
 
             }
-            list.Add(player);
+            playerDic.Add(player.playerId, player);
         }
 
-        ChatManager.Instance.playerList = list;
+        ChatManager.Instance.OnPlayerListRecv(playerDic);
         UIManager.Instance.Push(UIType.UIPopup_Chat);
     }
 
@@ -68,6 +68,23 @@ public class PacketHandler
             UIManager.Instance.Pop();
             NetworkManager.Instance.sessionId = 0;
         }
+        else
+        {
+            ChatManager.Instance.RemovePlayer(packet.sessionId);
+        }
+    }
 
+    public static void S_RoomListHandler(Session session, IPacket pkt)
+    {
+        ServerSession serverSession = session as ServerSession;
+        S_RoomList packet = pkt as S_RoomList;
+        
+        Dictionary<int, Room> dic = new Dictionary<int, Room>();
+        foreach(var p in packet.roomList)
+        {
+            dic.Add(p.roomId, new Room() { roomId = p.roomId, roomName = p.roomName });
+        }
+        
+        RoomManager.Instance.OnRoomListRecv(dic);
     }
 }

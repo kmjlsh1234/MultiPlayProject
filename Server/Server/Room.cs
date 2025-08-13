@@ -1,6 +1,7 @@
 ﻿using ServerCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,8 @@ namespace Server
 {
     public class Room
     {
-        
+        public int roomId;
+        public string roomName;
         public List<ClientSession> sessionList = new List<ClientSession>();
         public List<ArraySegment<byte>> pendingList = new List<ArraySegment<byte>>();
         public JobQueue JobQueue = new JobQueue();
@@ -62,9 +64,14 @@ namespace Server
             BroadCast(broadCastPacket.Write());
         }
 
-        public void ExitRoom(ClientSession session)
+        public void ExitRoom(ClientSession session, int roomId)
         {
             sessionList.Remove(session);
+
+            if(sessionList.Count == 0 )
+            {
+                Program.roomManager.RemoveRoom(roomId);
+            }
 
             //모두에게 알린다
             S_BroadCast_ExitRoom packet = new S_BroadCast_ExitRoom() { sessionId = session.sessionId };

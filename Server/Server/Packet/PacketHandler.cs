@@ -30,8 +30,16 @@ public class PacketHandler
         Console.WriteLine($"sessionId : {session.sessionId} enter room!");
 
         //룸 입장 처리
-        session.room = Program.room;
-        Program.room.Push(() => session.room.EnterRoom(session));
+        session.room = Program.roomManager.FindRoom(packet.roomId);
+        if(session.room != null)
+        {
+            session.room.Push(() => session.room.EnterRoom(session));
+        }
+        else
+        {
+            Console.WriteLine("session.room null");
+        }
+        
     }
 
     public static void TestPacketHandler(Session s, IPacket pkt)
@@ -46,6 +54,28 @@ public class PacketHandler
         ClientSession session = s as ClientSession;
         C_ExitRoom packet = pkt as C_ExitRoom;
 
-        Program.room.Push(() => session.room.ExitRoom(session));
+        session.room.Push(() => session.room.ExitRoom(session, session.room.roomId));
+    }
+
+    public static void C_CreateRoomHandler(Session s, IPacket pkt)
+    {
+        ClientSession session = s as ClientSession;
+        C_CreateRoom packet = pkt as C_CreateRoom;
+
+        Program.roomManager.CreateRoom(session, packet);
+    }
+
+    public static void C_RoomListHandler(Session s, IPacket pkt)
+    {
+        ClientSession session = s as ClientSession;
+        S_RoomList packet = new S_RoomList();
+
+        Dictionary<int, Room> dic = Program.roomManager.GetRoomDic();
+        foreach (KeyValuePair<int, Room> pair in dic)
+        {
+            packet.roomList.Add(new S_RoomList.Room() { roomId = pair.Value.roomId, roomName = pair.Value.roomName });
+        }
+
+        session.Send(packet.Write());
     }
 }

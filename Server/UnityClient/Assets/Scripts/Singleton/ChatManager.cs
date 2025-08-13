@@ -5,26 +5,36 @@ using UnityEngine;
 
 public class ChatManager : SingletonBase<ChatManager>
 {
-    public List<Player> playerList = new List<Player>();
+    public Dictionary<int, Player> playerDic = new Dictionary<int, Player>();
     public Queue<Chat> pendingQueue = new Queue<Chat>();
 
     public Action<Chat> OnChatRecved;
     public Action<Player> OnPlayerAdd;
+    public Action<int> OnPlayerRemove;
+    public Action OnPlayerListRecved;
+
     public override void Init()
     {
 
     }
 
+    public void OnPlayerListRecv(Dictionary<int, Player> dic)
+    {
+        playerDic = dic;
+        OnPlayerListRecved.Invoke();
+    }
+
     public void AddPlayer(Player player)
     {
-        playerList.Add(player);
+        Debug.Log("ChatManager.AddPlayer");
+        playerDic.Add(player.playerId, player);
         OnPlayerAdd.Invoke(player);
     }
 
-    public void RemovePlayer(Player player)
+    public void RemovePlayer(int playerId)
     {
-        playerList.Remove(player);
-
+        playerDic.Remove(playerId);
+        OnPlayerRemove.Invoke(playerId);
     }
 
     public void RecevMessage(Chat chat)

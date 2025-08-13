@@ -36,11 +36,17 @@ public class PacketManager
         makePacket.Add((ushort) PacketID.C_ExitRoom, MakePacket<C_ExitRoom>);
         handler.Add((ushort) PacketID.C_ExitRoom, PacketHandler.C_ExitRoomHandler);
 
+        makePacket.Add((ushort) PacketID.C_CreateRoom, MakePacket<C_CreateRoom>);
+        handler.Add((ushort) PacketID.C_CreateRoom, PacketHandler.C_CreateRoomHandler);
+
         makePacket.Add((ushort) PacketID.C_EnterRoom, MakePacket<C_EnterRoom>);
         handler.Add((ushort) PacketID.C_EnterRoom, PacketHandler.C_EnterRoomHandler);
 
         makePacket.Add((ushort) PacketID.TestPacket, MakePacket<TestPacket>);
         handler.Add((ushort) PacketID.TestPacket, PacketHandler.TestPacketHandler);
+
+        makePacket.Add((ushort) PacketID.C_RoomList, MakePacket<C_RoomList>);
+        handler.Add((ushort) PacketID.C_RoomList, PacketHandler.C_RoomListHandler);
 
     }
 

@@ -16,6 +16,15 @@ namespace Server
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"Client [{endPoint}] Connected!");
+            S_RoomList packet = new S_RoomList();
+            
+            Dictionary<int, Room> dic = Program.roomManager.GetRoomDic();
+            foreach (KeyValuePair<int, Room> pair in dic)
+            {
+                packet.roomList.Add(new S_RoomList.Room() { roomId = pair.Value.roomId, roomName = pair.Value.roomName });
+            }
+
+            Send(packet.Write());
         }
 
         public override void OnDisconnected(EndPoint endPoint)
@@ -25,7 +34,7 @@ namespace Server
             if(room != null)
             {
                 Room copyRoom = room;
-                copyRoom.Push(() => copyRoom.ExitRoom(this));
+                copyRoom.Push(() => copyRoom.ExitRoom(this, copyRoom.roomId));
                 room = null;
             }
         }

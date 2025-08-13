@@ -16,8 +16,13 @@
 	<packet name ="S_BroadCast_ExitRoom">
 		<int name ="sessionId"/>
 	</packet>
-	
+
+  <packet name ="C_CreateRoom">
+    <string name ="roomName"/>
+  </packet>
+  
 	<packet name = "C_EnterRoom">
+    <int name ="roomId"/>
 	</packet>
   
 	<packet name ="S_BroadCast_EnterRoom">
@@ -35,6 +40,16 @@
 			<bool name ="isSelf"/>
 		</list>
 	</packet>
+
+  <packet name ="C_RoomList">
+  </packet>
+  
+  <packet name ="S_RoomList">
+    <list name ="Room">
+      <int name ="roomId"/>
+      <string name ="roomName"/>
+    </list>
+  </packet>
   
   
   
