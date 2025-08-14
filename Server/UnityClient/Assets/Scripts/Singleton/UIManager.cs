@@ -1,3 +1,4 @@
+using ServerCore;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ public enum UIType
 {
     UIPopup_Lobby,
     UIPopup_Chat,
+    UIPopup_Error,
 }
 
 public class UIManager : SingletonBase<UIManager>
@@ -25,18 +27,40 @@ public class UIManager : SingletonBase<UIManager>
         }
     }
 
-    public void Push(UIType type)
+    public void Push(UIType type, IPacket pkt = null)
     {
         GameObject go = null;
-        if(uiDic.TryGetValue(type, out go))
+
+        if (type == UIType.UIPopup_Error)
         {
-            go.name = go.name.Replace("(Clone)", "");
-            GameObject ui = Instantiate(go, Vector3.zero, Quaternion.identity, transform);
-            ui.GetComponentInChildren<Canvas>().sortingOrder = canvasOrder++;
-            UIBase uiBase = ui.GetComponent<UIBase>();
-            uiStack.Push(ui);
-            uiBase.Init();
+            S_ErrorCode packet = pkt as S_ErrorCode;
+            if (uiDic.TryGetValue(type, out go))
+            {
+                go.name = go.name.Replace("(Clone)", "");
+                GameObject ui = Instantiate(go, Vector3.zero, Quaternion.identity, transform);
+                ui.GetComponentInChildren<Canvas>().sortingOrder = canvasOrder++;
+                UIBase uiBase = ui.GetComponent<UIBase>();
+                uiStack.Push(ui);
+                ErrorPopup errorPopup = uiBase as ErrorPopup;
+                errorPopup.Init(packet);
+            }
         }
+        else
+        {
+            if (uiDic.TryGetValue(type, out go))
+            {
+                go.name = go.name.Replace("(Clone)", "");
+                GameObject ui = Instantiate(go, Vector3.zero, Quaternion.identity, transform);
+                ui.GetComponentInChildren<Canvas>().sortingOrder = canvasOrder++;
+                UIBase uiBase = ui.GetComponent<UIBase>();
+                uiStack.Push(ui);
+                uiBase.Init();
+            }
+        }
+
+
+        
+        
         //예외 처리
     }
 

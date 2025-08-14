@@ -87,4 +87,12 @@ public class PacketHandler
         
         RoomManager.Instance.OnRoomListRecv(dic);
     }
+
+    public static void S_ErrorCodeHandler(Session session, IPacket pkt)
+    {
+        ServerSession serverSession = session as ServerSession;
+        S_ErrorCode packet = pkt as S_ErrorCode;
+
+        UIManager.Instance.Push(UIType.UIPopup_Error, packet);
+    }
 }

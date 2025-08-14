@@ -19,7 +19,9 @@ public class ServerSession : Session
 
     public override void OnDisconnected(EndPoint endPoint)
     {
-        Console.WriteLine($"Server DisConnected!");
+        UnityEngine.Debug.Log("Server Disconnected");
+        S_ErrorCode errorCode = new S_ErrorCode() { code = 100, message = "Server Disconnected"};
+        UIManager.Instance.Push(UIType.UIPopup_Error, errorCode);
     }
 
     public override void OnRecvPacket(ArraySegment<byte> buffer)

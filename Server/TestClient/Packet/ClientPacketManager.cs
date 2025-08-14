@@ -45,6 +45,9 @@ public class PacketManager
         makePacket.Add((ushort) PacketID.S_RoomList, MakePacket<S_RoomList>);
         handler.Add((ushort) PacketID.S_RoomList, PacketHandler.S_RoomListHandler);
 
+        makePacket.Add((ushort) PacketID.S_ErrorCode, MakePacket<S_ErrorCode>);
+        handler.Add((ushort) PacketID.S_ErrorCode, PacketHandler.S_ErrorCodeHandler);
+
     }
 
     public void OnRecvPacket(Session session, ArraySegment<byte> buffer, Action<Session, IPacket> onRecvCallBack = null)

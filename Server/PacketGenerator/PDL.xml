@@ -50,7 +50,11 @@
       <string name ="roomName"/>
     </list>
   </packet>
-  
+
+	<packet name ="S_ErrorCode">
+		<int name ="code"/>
+		<string name ="message"/>
+	</packet>
   
   
 </PDL>

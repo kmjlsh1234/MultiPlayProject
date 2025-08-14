@@ -62,6 +62,8 @@ namespace Server
             //기존 입장한 사람에게 알리기
             S_BroadCast_EnterRoom broadCastPacket = new S_BroadCast_EnterRoom() { sessionId = session.sessionId };
             BroadCast(broadCastPacket.Write());
+
+            Console.WriteLine($"sessionId : {session.sessionId} enter room {session.room.roomName}");
         }
 
         public void ExitRoom(ClientSession session, int roomId)

@@ -18,6 +18,6 @@ public class ChatMessage : MonoBehaviour
     public void Init(Chat chat)
     {
         this.playerId = chat.playerId;
-        messageText.text = chat.message;
+        messageText.text = $"Client {chat.playerId} : {chat.message}";
     }
 }

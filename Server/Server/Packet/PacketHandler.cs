@@ -27,7 +27,7 @@ public class PacketHandler
         //패킷 파싱
         ClientSession session = s as ClientSession;
         C_EnterRoom packet = pkt as C_EnterRoom;
-        Console.WriteLine($"sessionId : {session.sessionId} enter room!");
+        
 
         //룸 입장 처리
         session.room = Program.roomManager.FindRoom(packet.roomId);
@@ -37,7 +37,8 @@ public class PacketHandler
         }
         else
         {
-            Console.WriteLine("session.room null");
+            S_ErrorCode errorPacket = new S_ErrorCode() { code = ErrorCode.FAIL_ROOM_FIND.Code, message = ErrorCode.FAIL_ROOM_FIND.Message };
+            session.Send(errorPacket.Write());
         }
         
     }

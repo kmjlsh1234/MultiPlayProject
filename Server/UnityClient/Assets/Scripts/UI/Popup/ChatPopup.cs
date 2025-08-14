@@ -8,6 +8,7 @@ public class ChatPopup : UIBase
 {
     [SerializeField] private Transform playerListRoot;
     [SerializeField] private Transform chatListRoot;
+    [SerializeField] private TMP_Text roomInfoText;
 
     [SerializeField] private TMP_InputField inputField;
     [SerializeField] private Button sendButton;
@@ -17,7 +18,6 @@ public class ChatPopup : UIBase
     [SerializeField] private GameObject chatMessage;
 
     public Dictionary<int, PlayerItem> playerDic = new Dictionary<int, PlayerItem>();
-
 
     public void Awake()
     {
