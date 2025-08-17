@@ -5,6 +5,33 @@
 		<string name ="message"/>
 	</packet>
   
+  <packet name ="C_ReadyPacket">
+    <bool name="isReady"/>
+  </packet>
+
+  <packet name ="S_ReadyCheckPacket">
+    <int name ="sessionId"/>
+    <bool name ="isReady"/>
+  </packet>
+  
+  <packet name ="C_MovePacket">
+    <int name ="playerId"/>
+    <float name ="posX"/>
+    <float name ="posY"/>
+    <float name="posZ"/>
+    <float name ="rotY"/>
+    <int name ="tick"/>
+  </packet>
+
+  <packet name ="S_BroadCast_MovePacket">
+    <int name ="playerId"/>
+    <float name ="posX"/>
+    <float name ="posY"/>
+    <float name="posZ"/>
+    <float name ="rotY"/>
+    <int name ="tick"/>
+  </packet>
+  
 	<packet name ="S_BroadCast_Chat">
 		<int name ="sessionId"/>
 		<string name ="message"/>
@@ -17,6 +44,10 @@
 		<int name ="sessionId"/>
 	</packet>
 
+  <packet name ="S_BroadCast_ChangeMaster">
+    <int name ="sessionId"/>
+  </packet>
+  
   <packet name ="C_CreateRoom">
     <string name ="roomName"/>
   </packet>
@@ -24,25 +55,22 @@
 	<packet name = "C_EnterRoom">
     <int name ="roomId"/>
 	</packet>
+
+  <packet name ="C_RoomList">
+  </packet>
   
 	<packet name ="S_BroadCast_EnterRoom">
 		<int name ="sessionId"/>
-	</packet>
-	
-	<packet name ="TestPacket">
-		<int name = "playerId"/>
-		<string name ="message"/>
 	</packet>
 
 	<packet name ="S_PlayerList">
 		<list name ="Player">
 			<int name ="sessionId"/>
+      <bool name ="isMaster"/>
 			<bool name ="isSelf"/>
+      <bool name ="isReady"/>
 		</list>
 	</packet>
-
-  <packet name ="C_RoomList">
-  </packet>
   
   <packet name ="S_RoomList">
     <list name ="Room">

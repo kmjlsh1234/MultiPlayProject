@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class ResourcesManager : SingletonBase<ResourcesManager>
 {
+    Dictionary<string, GameObject> prefabDic = new Dictionary<string, GameObject>();
     Dictionary<string, GameObject> uiObjDic = new Dictionary<string, GameObject>();
     public override void Init()
     {
         LoadUI();
-
+        LoadPrefab();
     }
 
     public void LoadUI()
@@ -20,10 +21,29 @@ public class ResourcesManager : SingletonBase<ResourcesManager>
         }
     }
 
+    public void LoadPrefab()
+    {
+        GameObject[] array = Resources.LoadAll<GameObject>("Prefab/");
+        foreach (GameObject go in array)
+        {
+            prefabDic.Add(go.name, go);
+        }
+    }
+
     public GameObject getUIObj(string name)
     {
         GameObject obj = null;
         if(uiObjDic.TryGetValue(name, out obj))
+        {
+            return obj;
+        }
+        return null;
+    }
+
+    public GameObject getPrefabObj(string name)
+    {
+        GameObject obj = null;
+        if (prefabDic.TryGetValue(name, out obj))
         {
             return obj;
         }

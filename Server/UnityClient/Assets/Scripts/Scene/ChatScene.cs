@@ -9,6 +9,7 @@ public class ChatScene : MonoBehaviour
         NetworkManager.Instance.Init();
         ChatManager.Instance.Init();
         UIManager.Instance.Init();
+        PlayerManager.Instance.Init();
     }
 
     public void Start()

@@ -8,10 +8,16 @@ using System.Threading.Tasks;
 
 namespace Server
 {
+    
     public class Room
     {
+        //Room Info
         public int roomId;
+        public int masterId;
         public string roomName;
+
+        public int readyCount = 0;
+        public Dictionary<int, bool> readyDic = new Dictionary<int, bool>();
         public List<ClientSession> sessionList = new List<ClientSession>();
         public List<ArraySegment<byte>> pendingList = new List<ArraySegment<byte>>();
         public JobQueue JobQueue = new JobQueue();
@@ -44,6 +50,7 @@ namespace Server
             
             session.room = this;
             sessionList.Add(session);
+            readyDic.Add(session.sessionId, false);
 
             //입장 유저에게 리스트 보내기
             S_PlayerList playerListPacket = new S_PlayerList();
@@ -53,7 +60,9 @@ namespace Server
                     new S_PlayerList.Player()
                     {
                         sessionId = s.sessionId,
+                        isMaster = (s.sessionId == masterId),
                         isSelf = (s.sessionId == session.sessionId),
+                        isReady = readyDic[s.sessionId],
                     });
             }
             
@@ -70,6 +79,17 @@ namespace Server
         {
             sessionList.Remove(session);
 
+            //나가는 사람이 Master인지 체크
+            if (session.sessionId == masterId)
+            {
+                masterId = sessionList[0].sessionId;
+                S_BroadCast_ChangeMaster broadCastPacket = new S_BroadCast_ChangeMaster() { sessionId = masterId };
+                BroadCast(broadCastPacket.Write());
+                Console.WriteLine($"Master : {session.sessionId} -> {masterId}");
+            }
+            
+            readyDic.Remove(session.sessionId);
+
             if(sessionList.Count == 0 )
             {
                 Program.roomManager.RemoveRoom(roomId);
@@ -78,6 +98,35 @@ namespace Server
             //모두에게 알린다
             S_BroadCast_ExitRoom packet = new S_BroadCast_ExitRoom() { sessionId = session.sessionId };
             BroadCast(packet.Write());
+        }
+
+        public void Move(ClientSession session, C_MovePacket packet)
+        {
+            Console.WriteLine($"Client {session.sessionId} :: Pos [{packet.posX},{packet.posY},{packet.posZ}] :: Rotation [{packet.rotY}]");
+            //BroadCast
+            S_BroadCast_MovePacket broadcastPacket = new S_BroadCast_MovePacket()
+            {
+                playerId = packet.playerId,
+                posX = packet.posX,
+                posY = packet.posY,
+                posZ = packet.posZ,
+                rotY = packet.rotY,
+            };
+            BroadCast(broadcastPacket.Write());
+        }
+
+        public void Ready(ClientSession session, C_ReadyPacket packet)
+        {
+            readyDic[session.sessionId] = packet.isReady;
+            readyCount = packet.isReady ? ++readyCount : --readyCount;
+
+            S_ReadyCheckPacket responsePacket = new S_ReadyCheckPacket() { sessionId = session.sessionId, isReady = packet.isReady };
+            session.room.BroadCast(responsePacket.Write());
+
+            if(readyCount == readyDic.Count)
+            {
+
+            }
         }
         #endregion
         

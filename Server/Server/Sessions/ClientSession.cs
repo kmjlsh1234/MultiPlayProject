@@ -16,6 +16,7 @@ namespace Server
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"Client [{endPoint}] Connected!");
+            /*
             S_RoomList packet = new S_RoomList();
             
             Dictionary<int, Room> dic = Program.roomManager.GetRoomDic();
@@ -25,6 +26,7 @@ namespace Server
             }
 
             Send(packet.Write());
+            */
         }
 
         public override void OnDisconnected(EndPoint endPoint)

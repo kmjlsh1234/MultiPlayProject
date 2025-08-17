@@ -8,9 +8,20 @@ using System.Threading.Tasks;
 
 public class PacketHandler
 {
+    
+    public static void C_ReadyPacketHandler(Session s, IPacket pkt)
+    {
+        ClientSession session = s as ClientSession;
+        C_ReadyPacket packet = pkt as C_ReadyPacket;
+
+        session.room.Push(() => session.room.Ready(session, packet));
+        
+    }
+
     public static void C_ChatHandler(Session s, IPacket pkt)
     {
         ClientSession session = s as ClientSession;
+
         C_Chat packet = pkt as C_Chat;
         S_BroadCast_Chat broadCastPacket = new S_BroadCast_Chat() 
         { 
@@ -43,13 +54,6 @@ public class PacketHandler
         
     }
 
-    public static void TestPacketHandler(Session s, IPacket pkt)
-    {
-        TestPacket packet = pkt as TestPacket;
-        Console.WriteLine($"playerId : {packet.playerId}");
-        Console.WriteLine($"message: {packet.message}");
-    }
-
     public static void C_ExitRoomHandler(Session s, IPacket pkt)
     {
         ClientSession session = s as ClientSession;
@@ -78,5 +82,13 @@ public class PacketHandler
         }
 
         session.Send(packet.Write());
+    }
+
+    public static void C_MovePacketHandler(Session s, IPacket pkt)
+    {
+        ClientSession session = s as ClientSession;
+        C_MovePacket packet = pkt as C_MovePacket;
+        
+        session.room.Push(() => session.room.Move(session, packet));
     }
 }

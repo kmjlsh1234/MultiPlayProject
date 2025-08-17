@@ -24,6 +24,7 @@ namespace Server
             lock (key)
             {
                 Room room = new Room() { roomId = ++this.roomId, roomName = packet.roomName };
+                room.masterId = session.sessionId;
                 roomDic.Add(roomId, room);
                 room.EnterRoom(session);
                 Console.WriteLine($"CreateRoom / roomName : {room.roomName}, roomId : {room.roomId}");

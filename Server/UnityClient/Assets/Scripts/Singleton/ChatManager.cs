@@ -5,30 +5,36 @@ using UnityEngine;
 
 public class ChatManager : SingletonBase<ChatManager>
 {
-    public Dictionary<int, Player> playerDic = new Dictionary<int, Player>();
-    public Queue<Chat> pendingQueue = new Queue<Chat>();
-
+    public Dictionary<int, PlayerData> playerDic = new Dictionary<int, PlayerData>();
+    public bool isMaster = false;
     public Action<Chat> OnChatRecved;
-    public Action<Player> OnPlayerAdd;
+    public Action<PlayerData> OnPlayerAdd;
     public Action<int> OnPlayerRemove;
-    public Action OnPlayerListRecved;
+    public Action S_PlayerList_Handler;
 
     public override void Init()
     {
 
     }
 
-    public void OnPlayerListRecv(Dictionary<int, Player> dic)
+    public void OnPlayerListRecv(Dictionary<int, PlayerData> dic)
     {
         playerDic = dic;
-        OnPlayerListRecved.Invoke();
+        foreach(KeyValuePair<int, PlayerData> pair in dic)
+        {
+            if (pair.Value.isMaster)
+            {
+                isMaster = true;
+            }
+        }
+        S_PlayerList_Handler.Invoke();
     }
 
-    public void AddPlayer(Player player)
+    public void AddPlayer(PlayerData playerData)
     {
         Debug.Log("ChatManager.AddPlayer");
-        playerDic.Add(player.playerId, player);
-        OnPlayerAdd.Invoke(player);
+        playerDic.Add(playerData.sessionId, playerData);
+        OnPlayerAdd.Invoke(playerData);
     }
 
     public void RemovePlayer(int playerId)
@@ -39,9 +45,6 @@ public class ChatManager : SingletonBase<ChatManager>
 
     public void RecevMessage(Chat chat)
     {
-        
-        pendingQueue.Enqueue(chat);
-
         OnChatRecved.Invoke(chat);
     }
 }

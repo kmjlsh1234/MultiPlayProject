@@ -6,12 +6,12 @@ using UnityEngine;
 
 public class RoomManager : SingletonBase<RoomManager>
 {
-    public Dictionary<int, Room> roomDic = new Dictionary<int, Room>();
-    public Action<Dictionary<int, Room>> OnRoomListRecvCompleted;
+    public Dictionary<int, RoomData> roomDic = new Dictionary<int, RoomData>();
+    public Action<Dictionary<int, RoomData>> OnRoomListRecvCompleted;
 
-    public void OnRoomListRecv(Dictionary<int, Room> dic)
+    public void OnRoomListRecv(Dictionary<int, RoomData> dic)
     {
         this.roomDic = dic;
-        OnRoomListRecvCompleted.Invoke(dic);
+        OnRoomListRecvCompleted?.Invoke(dic);
     }
 }

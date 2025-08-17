@@ -64,6 +64,15 @@ public class UIManager : SingletonBase<UIManager>
         //예외 처리
     }
 
+    public void Clear()
+    {
+        while(uiStack.Count > 0)
+        {
+            GameObject go = uiStack.Pop();
+            canvasOrder--;
+            Destroy(go);
+        }
+    }
     public void Pop()
     {
         Debug.Log("Pop");

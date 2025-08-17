@@ -14,6 +14,7 @@ public class LobbyPopup : UIBase
     [SerializeField] private Button popupOpenButton;
     [SerializeField] private Button popupCloseButton;
     [SerializeField] private Button createRoomButton;
+
     [Header("CreateRoomPopup")]
     [SerializeField] private TMP_InputField roomNameField;
     
@@ -23,7 +24,7 @@ public class LobbyPopup : UIBase
     private void Awake()
     {
         createRoomPopup.gameObject.SetActive(false);
-        ChatManager.Instance.OnPlayerListRecved += (() => createRoomPopup.SetActive(false));
+        ChatManager.Instance.S_PlayerList_Handler += (() => createRoomPopup.SetActive(false));
         RoomManager.Instance.OnRoomListRecvCompleted += RoomListInitialize;
         
     }
@@ -36,7 +37,7 @@ public class LobbyPopup : UIBase
         refreshButton.onClick.AddListener(() => RefreshRoomList());
     }
 
-    void RoomListInitialize(Dictionary<int, Room> dic)
+    void RoomListInitialize(Dictionary<int, RoomData> dic)
     {
 
         if (roomItem == null)
@@ -60,7 +61,7 @@ public class LobbyPopup : UIBase
             roomDic.Remove(key);
         }
 
-        foreach (KeyValuePair<int, Room> pair in dic)
+        foreach (KeyValuePair<int, RoomData> pair in dic)
         {
             if (roomDic.ContainsKey(pair.Key))
             {
