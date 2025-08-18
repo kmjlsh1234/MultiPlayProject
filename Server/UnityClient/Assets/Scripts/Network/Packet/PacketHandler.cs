@@ -151,6 +151,7 @@ public class PacketHandler
     public static void S_BroadCast_StartPacketHandler(Session session, IPacket pkt)
     {
         Debug.Log(" S_BroadCast_StartPacketHandler");
+
         UIManager.Instance.Clear();
         LoadingSceneManager.Instance.LoadScene(SceneType.Playground);
     }
