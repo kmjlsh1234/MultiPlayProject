@@ -30,8 +30,11 @@ public class PacketManager
     public void Register()
     {
         
-        makePacket.Add((ushort) PacketID.S_ReadyCheckPacket, MakePacket<S_ReadyCheckPacket>);
-        handler.Add((ushort) PacketID.S_ReadyCheckPacket, PacketHandler.S_ReadyCheckPacketHandler);
+        makePacket.Add((ushort) PacketID.S_BroadCast_ReadyPacket, MakePacket<S_BroadCast_ReadyPacket>);
+        handler.Add((ushort) PacketID.S_BroadCast_ReadyPacket, PacketHandler.S_BroadCast_ReadyPacketHandler);
+
+        makePacket.Add((ushort) PacketID.S_BroadCast_StartPacket, MakePacket<S_BroadCast_StartPacket>);
+        handler.Add((ushort) PacketID.S_BroadCast_StartPacket, PacketHandler.S_BroadCast_StartPacketHandler);
 
         makePacket.Add((ushort) PacketID.S_BroadCast_MovePacket, MakePacket<S_BroadCast_MovePacket>);
         handler.Add((ushort) PacketID.S_BroadCast_MovePacket, PacketHandler.S_BroadCast_MovePacketHandler);
@@ -42,14 +45,14 @@ public class PacketManager
         makePacket.Add((ushort) PacketID.S_BroadCast_ExitRoom, MakePacket<S_BroadCast_ExitRoom>);
         handler.Add((ushort) PacketID.S_BroadCast_ExitRoom, PacketHandler.S_BroadCast_ExitRoomHandler);
 
-        makePacket.Add((ushort) PacketID.S_BroadCast_ChangeMaster, MakePacket<S_BroadCast_ChangeMaster>);
-        handler.Add((ushort) PacketID.S_BroadCast_ChangeMaster, PacketHandler.S_BroadCast_ChangeMasterHandler);
+        makePacket.Add((ushort) PacketID.S_BroadCast_ChangeRoomInfo, MakePacket<S_BroadCast_ChangeRoomInfo>);
+        handler.Add((ushort) PacketID.S_BroadCast_ChangeRoomInfo, PacketHandler.S_BroadCast_ChangeRoomInfoHandler);
 
         makePacket.Add((ushort) PacketID.S_BroadCast_EnterRoom, MakePacket<S_BroadCast_EnterRoom>);
         handler.Add((ushort) PacketID.S_BroadCast_EnterRoom, PacketHandler.S_BroadCast_EnterRoomHandler);
 
-        makePacket.Add((ushort) PacketID.S_PlayerList, MakePacket<S_PlayerList>);
-        handler.Add((ushort) PacketID.S_PlayerList, PacketHandler.S_PlayerListHandler);
+        makePacket.Add((ushort) PacketID.S_RoomInfo, MakePacket<S_RoomInfo>);
+        handler.Add((ushort) PacketID.S_RoomInfo, PacketHandler.S_RoomInfoHandler);
 
         makePacket.Add((ushort) PacketID.S_RoomList, MakePacket<S_RoomList>);
         handler.Add((ushort) PacketID.S_RoomList, PacketHandler.S_RoomListHandler);

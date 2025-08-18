@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 public class RoomData
 {
     public int roomId;
+    public int masterId;
     public string roomName;
 }

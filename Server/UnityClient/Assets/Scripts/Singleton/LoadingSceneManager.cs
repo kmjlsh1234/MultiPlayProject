@@ -16,6 +16,6 @@ public class LoadingSceneManager : SingletonBase<LoadingSceneManager>
     public void LoadScene(SceneType type)
     {
         sceneType = type;
-        SceneManager.LoadScene(SceneType.LoadingScene.ToString());
+        SceneManager.LoadScene(type.ToString());
     }
 }

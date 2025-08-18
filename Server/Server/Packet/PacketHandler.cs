@@ -3,21 +3,56 @@ using ServerCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
 public class PacketHandler
 {
-    
-    public static void C_ReadyPacketHandler(Session s, IPacket pkt)
+    public static void C_CreateRoomHandler(Session s, IPacket pkt)
     {
         ClientSession session = s as ClientSession;
-        C_ReadyPacket packet = pkt as C_ReadyPacket;
+        C_CreateRoom packet = pkt as C_CreateRoom;
 
-        session.room.Push(() => session.room.Ready(session, packet));
-        
+        Program.roomManager.CreateRoom(session, packet);
     }
 
+    public static void C_EnterRoomHandler(Session s, IPacket pkt)
+    {
+        //패킷 파싱
+        ClientSession session = s as ClientSession;
+        C_EnterRoom packet = pkt as C_EnterRoom;
+
+        //룸 입장 처리
+        session.room = Program.roomManager.FindRoomById(packet.roomId);
+        if (session.room != null)
+        {
+            session.room.Push(() => session.room.EnterRoom(session));
+        }
+        else
+        {
+            S_ErrorCode errorPacket = new S_ErrorCode() { code = ErrorCode.FAIL_ROOM_FIND.Code, message = ErrorCode.FAIL_ROOM_FIND.Message };
+            session.Send(errorPacket.Write());
+        }
+    }
+
+    public static void C_CreateOrJoinRoomHandler(Session s, IPacket pkt)
+    {
+        ClientSession session = s as ClientSession;
+
+        Room room = Program.roomManager.FindAvailableRoom();
+        if(room != null)
+        {
+            session.room = room;
+            session.room.Push(() => session.room.EnterRoom(session));
+        }
+        else
+        {
+            C_CreateRoom packet = new C_CreateRoom() { roomName = "Random Room"};
+            Program.roomManager.CreateRoom(session, packet);
+        }
+    }
+    
     public static void C_ChatHandler(Session s, IPacket pkt)
     {
         ClientSession session = s as ClientSession;
@@ -33,26 +68,7 @@ public class PacketHandler
         session.room.BroadCast(broadCastPacket.Write());
     }
     
-    public static void C_EnterRoomHandler(Session s, IPacket pkt)
-    {
-        //패킷 파싱
-        ClientSession session = s as ClientSession;
-        C_EnterRoom packet = pkt as C_EnterRoom;
-        
-
-        //룸 입장 처리
-        session.room = Program.roomManager.FindRoom(packet.roomId);
-        if(session.room != null)
-        {
-            session.room.Push(() => session.room.EnterRoom(session));
-        }
-        else
-        {
-            S_ErrorCode errorPacket = new S_ErrorCode() { code = ErrorCode.FAIL_ROOM_FIND.Code, message = ErrorCode.FAIL_ROOM_FIND.Message };
-            session.Send(errorPacket.Write());
-        }
-        
-    }
+    
 
     public static void C_ExitRoomHandler(Session s, IPacket pkt)
     {
@@ -62,13 +78,7 @@ public class PacketHandler
         session.room.Push(() => session.room.ExitRoom(session, session.room.roomId));
     }
 
-    public static void C_CreateRoomHandler(Session s, IPacket pkt)
-    {
-        ClientSession session = s as ClientSession;
-        C_CreateRoom packet = pkt as C_CreateRoom;
-
-        Program.roomManager.CreateRoom(session, packet);
-    }
+    
 
     public static void C_RoomListHandler(Session s, IPacket pkt)
     {
@@ -91,4 +101,20 @@ public class PacketHandler
         
         session.room.Push(() => session.room.Move(session, packet));
     }
+
+    public static void C_ReadyPacketHandler(Session s, IPacket pkt)
+    {
+        ClientSession session = s as ClientSession;
+        C_ReadyPacket packet = pkt as C_ReadyPacket;
+
+        session.room.Push(() => session.room.Ready(session, packet));
+
+    }
+
+    public static void C_StartPacketHandler(Session s, IPacket pkt)
+    {
+        ClientSession session = s as ClientSession;
+
+    }
+
 }

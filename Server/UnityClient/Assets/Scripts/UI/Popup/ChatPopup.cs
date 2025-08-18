@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UniRx;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class ChatPopup : UIBase
 {
@@ -22,23 +23,26 @@ public class ChatPopup : UIBase
     public Dictionary<int, PlayerItem> playerDic = new Dictionary<int, PlayerItem>();
 
     [SerializeField] private Sprite[] readySprites;
+
+    private bool isReady = false;
+
     public void Awake()
     {
         sendButton.onClick.AddListener(() => SendMessage());
         backButton.onClick.AddListener(() => Back());
-        enterButton.onClick.AddListener(() =>
-        {
-            SceneManager.LoadScene("Playground");
-            UIManager.Instance.Clear();
-        });
+        enterButton.onClick.AddListener(() => Enter());
         ChatManager.Instance.OnChatRecved += UpdateChatList;
         ChatManager.Instance.OnPlayerAdd += AddPlayer;
         ChatManager.Instance.OnPlayerRemove += RemovePlayer;
+        ChatManager.Instance.S_ChangeRoomInfo_Handler += UpdateRoomInfo;
+        ChatManager.Instance.S_BroadCast_ReadyPacketHandler += UpdateReadyState;
     }
 
     private void Start()
     {
         PlayerListInitialize();
+
+        UpdateRoomInfo(ChatManager.Instance.roomData);
     }
 
     void SendMessage()
@@ -48,6 +52,16 @@ public class ChatPopup : UIBase
         NetworkManager.Instance.Send(packet.Write());
 
         inputField.text = string.Empty;
+    }
+
+    void Enter()
+    {
+        C_ReadyPacket packet = new C_ReadyPacket()
+        {
+            isReady = !isReady,
+        };
+
+        NetworkManager.Instance.Send(packet.Write());
     }
 
     void Back()
@@ -78,6 +92,11 @@ public class ChatPopup : UIBase
 
             playerDic.Add(pair.Value.sessionId, item);
         }
+    }
+
+    void UpdateRoomInfo(RoomData roomData)
+    {
+        roomInfoText.text = $"RoomId : {roomData.roomId} / RoomName : {roomData.roomName} / MasterId : {roomData.masterId}";
     }
 
     void AddPlayer(PlayerData playerData)
@@ -137,6 +156,20 @@ public class ChatPopup : UIBase
 
         ChatMessage message = go.GetComponent<ChatMessage>();
         message.Init(chat);
+    }
 
+    void UpdateReadyState(int sessionId, bool isReady)
+    {
+        PlayerItem playerItem = null;
+        playerDic.TryGetValue(sessionId, out playerItem);
+        if (playerItem != null)
+        {
+            playerItem.ChangeColor(isReady);
+        }
+
+        if(sessionId == NetworkManager.Instance.sessionId)
+        {
+            this.isReady = isReady;
+        }
     }
 }

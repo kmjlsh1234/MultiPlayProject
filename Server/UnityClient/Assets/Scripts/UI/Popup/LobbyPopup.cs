@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class LobbyPopup : UIBase
     [SerializeField] private GameObject createRoomPopup;
 
     [Header("Button")]
+    [SerializeField] private Button createOrJoinRoomButton;
     [SerializeField] private Button refreshButton;
     [SerializeField] private Button popupOpenButton;
     [SerializeField] private Button popupCloseButton;
@@ -24,27 +26,30 @@ public class LobbyPopup : UIBase
     private void Awake()
     {
         createRoomPopup.gameObject.SetActive(false);
-        ChatManager.Instance.S_PlayerList_Handler += (() => createRoomPopup.SetActive(false));
-        RoomManager.Instance.OnRoomListRecvCompleted += RoomListInitialize;
-        
+        ChatManager.Instance.S_RoomInfo_Handler += (() => createRoomPopup.SetActive(false));
     }
 
     void Start()
     {
         popupOpenButton.onClick.AddListener(() => createRoomPopup.gameObject.SetActive(true));
+        createOrJoinRoomButton.onClick.AddListener(() => CreateOrJoinRoom());
         popupCloseButton.onClick.AddListener(() => ResetPopup());
         createRoomButton.onClick.AddListener(() => CreateRoom());
         refreshButton.onClick.AddListener(() => RefreshRoomList());
+
+        DataManager.Instance.RoomListRecvHandler += UpdateRoomList;
+
+        RefreshRoomList();
     }
 
-    void RoomListInitialize(Dictionary<int, RoomData> dic)
+    void UpdateRoomList(Dictionary<int, RoomData> dic)
     {
-
         if (roomItem == null)
         {
             roomItem = ResourcesManager.Instance.getUIObj("RoomItem");
         }
         List<int> removeKeys = new List<int>();
+
         foreach (KeyValuePair<int, RoomItem> pair in roomDic)
         {
             if (!dic.ContainsKey(pair.Key))
@@ -90,6 +95,12 @@ public class LobbyPopup : UIBase
         C_CreateRoom packet = new C_CreateRoom() { roomName = roomNameField.text};
         NetworkManager.Instance.Send(packet.Write());
         roomNameField.text = string.Empty;
+    }
+
+    void CreateOrJoinRoom()
+    {
+        C_CreateOrJoinRoom packet = new C_CreateOrJoinRoom();
+        NetworkManager.Instance.Send(packet.Write());
     }
 
     void RefreshRoomList()

@@ -8,13 +8,20 @@
   <packet name ="C_ReadyPacket">
     <bool name="isReady"/>
   </packet>
+	
+	<packet name ="S_BroadCast_ReadyPacket">
+		<int name ="sessionId"/>
+		<bool name ="isReady"/>
+	</packet>
+	
+	<packet name ="C_StartPacket">
+	</packet>
 
-  <packet name ="S_ReadyCheckPacket">
-    <int name ="sessionId"/>
-    <bool name ="isReady"/>
-  </packet>
-  
-  <packet name ="C_MovePacket">
+	<packet name ="S_BroadCast_StartPacket">
+	</packet>
+
+
+	<packet name ="C_MovePacket">
     <int name ="playerId"/>
     <float name ="posX"/>
     <float name ="posY"/>
@@ -44,18 +51,23 @@
 		<int name ="sessionId"/>
 	</packet>
 
-  <packet name ="S_BroadCast_ChangeMaster">
-    <int name ="sessionId"/>
+  <packet name ="S_BroadCast_ChangeRoomInfo">
+	  <int name ="roomId"/>
+	  <string name ="roomName"/>
+	  <int name ="masterId"/>
   </packet>
   
   <packet name ="C_CreateRoom">
     <string name ="roomName"/>
   </packet>
-  
+
+	<packet name ="C_CreateOrJoinRoom">
+	</packet>
+	
 	<packet name = "C_EnterRoom">
     <int name ="roomId"/>
 	</packet>
-
+	
   <packet name ="C_RoomList">
   </packet>
   
@@ -63,15 +75,18 @@
 		<int name ="sessionId"/>
 	</packet>
 
-	<packet name ="S_PlayerList">
+	<packet name ="S_RoomInfo">
+		<int name ="roomId"/>
+		<string name ="roomName"/>
+		<int name ="masterId"/>
 		<list name ="Player">
 			<int name ="sessionId"/>
-      <bool name ="isMaster"/>
+			<bool name ="isMaster"/>
 			<bool name ="isSelf"/>
-      <bool name ="isReady"/>
+			<bool name ="isReady"/>
 		</list>
 	</packet>
-  
+
   <packet name ="S_RoomList">
     <list name ="Room">
       <int name ="roomId"/>

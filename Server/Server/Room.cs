@@ -52,12 +52,18 @@ namespace Server
             sessionList.Add(session);
             readyDic.Add(session.sessionId, false);
 
-            //입장 유저에게 리스트 보내기
-            S_PlayerList playerListPacket = new S_PlayerList();
+            //입장 유저에게 룸 정보 보내기
+            S_RoomInfo packet = new S_RoomInfo()
+            {
+                roomId = session.room.roomId,
+                masterId = session.room.masterId,
+                roomName = session.room.roomName,
+            };
+
             foreach(ClientSession s in sessionList)
             {
-                playerListPacket.playerList.Add(
-                    new S_PlayerList.Player()
+                packet.playerList.Add(
+                    new S_RoomInfo.Player()
                     {
                         sessionId = s.sessionId,
                         isMaster = (s.sessionId == masterId),
@@ -66,13 +72,13 @@ namespace Server
                     });
             }
             
-            session.Send(playerListPacket.Write());
+            session.Send(packet.Write());
             
             //기존 입장한 사람에게 알리기
             S_BroadCast_EnterRoom broadCastPacket = new S_BroadCast_EnterRoom() { sessionId = session.sessionId };
             BroadCast(broadCastPacket.Write());
 
-            Console.WriteLine($"sessionId : {session.sessionId} enter room {session.room.roomName}");
+            Console.WriteLine($"sessionId : [{session.sessionId}] enter room [{session.room.roomName}]");
         }
 
         public void ExitRoom(ClientSession session, int roomId)
@@ -80,10 +86,16 @@ namespace Server
             sessionList.Remove(session);
 
             //나가는 사람이 Master인지 체크
-            if (session.sessionId == masterId)
+            if (session.sessionId == masterId && sessionList.Count > 0)
             {
                 masterId = sessionList[0].sessionId;
-                S_BroadCast_ChangeMaster broadCastPacket = new S_BroadCast_ChangeMaster() { sessionId = masterId };
+                S_BroadCast_ChangeRoomInfo broadCastPacket = new S_BroadCast_ChangeRoomInfo()
+                {
+                    roomId = session.room.roomId,
+                    roomName = session.room.roomName,
+                    masterId = masterId
+
+                };
                 BroadCast(broadCastPacket.Write());
                 Console.WriteLine($"Master : {session.sessionId} -> {masterId}");
             }
@@ -120,13 +132,36 @@ namespace Server
             readyDic[session.sessionId] = packet.isReady;
             readyCount = packet.isReady ? ++readyCount : --readyCount;
 
-            S_ReadyCheckPacket responsePacket = new S_ReadyCheckPacket() { sessionId = session.sessionId, isReady = packet.isReady };
-            session.room.BroadCast(responsePacket.Write());
-
-            if(readyCount == readyDic.Count)
+            S_BroadCast_ReadyPacket broadcastPacket = new S_BroadCast_ReadyPacket()
             {
+                sessionId = session.sessionId,
+                isReady = packet.isReady,
+            };
 
+            session.room.BroadCast(broadcastPacket.Write());
+
+            if(session.sessionId.Equals(masterId))
+            {
+                if (!readyCount.Equals(readyDic.Count))
+                {
+                    S_ErrorCode errorCode = new S_ErrorCode()
+                    {
+                        code = ErrorCode.ALL_PLAYER_NOT_READY.Code,
+                        message = ErrorCode.ALL_PLAYER_NOT_READY.Message,
+                    };
+                    session.Send(errorCode.Write());
+                }
+                else
+                {
+                    S_BroadCast_StartPacket startPacket = new S_BroadCast_StartPacket();
+                    BroadCast(startPacket.Write());
+                }
             }
+        }
+
+        public void Start()
+        {
+            
         }
         #endregion
         

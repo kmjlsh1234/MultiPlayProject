@@ -2,6 +2,7 @@ using ServerCore;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PacketHandler
 {
@@ -38,9 +39,18 @@ public class PacketHandler
         }
     }
 
-    public static void S_BroadCast_ChangeMasterHandler(Session session, IPacket pkt)
+    public static void S_BroadCast_ChangeRoomInfoHandler(Session session, IPacket pkt)
     {
-        
+        Debug.Log("S_BroadCast_ChangeRoomInfoHandler");
+
+        S_BroadCast_ChangeRoomInfo packet = pkt as S_BroadCast_ChangeRoomInfo;
+        RoomData roomData = new RoomData()
+        {
+            roomId = packet.roomId,
+            roomName = packet.roomName,
+            masterId = packet.masterId,
+        };
+        ChatManager.Instance.ChangeRoomInfo(roomData);
     }
 
     #endregion
@@ -60,12 +70,19 @@ public class PacketHandler
 
     
 
-    public static void S_PlayerListHandler(Session session, IPacket pkt)
+    public static void S_RoomInfoHandler(Session session, IPacket pkt)
     {
-        Debug.Log("S_PlayerListHandler");
+        Debug.Log("S_RoomInfoHandler");
 
-        S_PlayerList packet = pkt as S_PlayerList;
+        S_RoomInfo packet = pkt as S_RoomInfo;
         Dictionary<int, PlayerData> playerDic = new Dictionary<int, PlayerData>();
+
+        RoomData roomData = new RoomData()
+        {
+            roomId = packet.roomId,
+            roomName = packet.roomName,
+            masterId = packet.masterId,
+        };
 
         foreach (var p in packet.playerList)
         {
@@ -80,12 +97,11 @@ public class PacketHandler
             if (p.isSelf)
             {
                 NetworkManager.Instance.sessionId = p.sessionId;
-
             }
             playerDic.Add(playerData.sessionId, playerData);
         }
 
-        ChatManager.Instance.OnPlayerListRecv(playerDic);
+        ChatManager.Instance.OnPlayerListRecv(roomData, playerDic);
         UIManager.Instance.Push(UIType.UIPopup_Chat);
     }
 
@@ -103,7 +119,7 @@ public class PacketHandler
             dic.Add(p.roomId, new RoomData() { roomId = p.roomId, roomName = p.roomName });
         }
         
-        RoomManager.Instance.OnRoomListRecv(dic);
+        DataManager.Instance.OnRoomListRecvCompleted(dic);
     }
 
     public static void S_ErrorCodeHandler(Session session, IPacket pkt)
@@ -122,13 +138,20 @@ public class PacketHandler
         S_BroadCast_MovePacket packet = pkt as S_BroadCast_MovePacket;
     }
 
-    public static void S_ReadyCheckPacketHandler(Session session, IPacket pkt)
+    public static void S_BroadCast_ReadyPacketHandler(Session session, IPacket pkt)
     {
-        Debug.Log("S_ReadyCheckPacketHandler");
+        Debug.Log("S_BroadCast_ReadyPacketHandler");
 
         ServerSession serverSession = session as ServerSession;
-        S_ReadyCheckPacket packet = pkt as S_ReadyCheckPacket;
+        S_BroadCast_ReadyPacket packet = pkt as S_BroadCast_ReadyPacket;
 
+        ChatManager.Instance.OnBroadCastReadyPacketRecv(packet.sessionId, packet.isReady);
+    }
 
+    public static void S_BroadCast_StartPacketHandler(Session session, IPacket pkt)
+    {
+        Debug.Log(" S_BroadCast_StartPacketHandler");
+        UIManager.Instance.Clear();
+        LoadingSceneManager.Instance.LoadScene(SceneType.Playground);
     }
 }

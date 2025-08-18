@@ -36,6 +36,9 @@ public class PacketManager
         makePacket.Add((ushort) PacketID.C_ReadyPacket, MakePacket<C_ReadyPacket>);
         handler.Add((ushort) PacketID.C_ReadyPacket, PacketHandler.C_ReadyPacketHandler);
 
+        makePacket.Add((ushort) PacketID.C_StartPacket, MakePacket<C_StartPacket>);
+        handler.Add((ushort) PacketID.C_StartPacket, PacketHandler.C_StartPacketHandler);
+
         makePacket.Add((ushort) PacketID.C_MovePacket, MakePacket<C_MovePacket>);
         handler.Add((ushort) PacketID.C_MovePacket, PacketHandler.C_MovePacketHandler);
 
@@ -44,6 +47,9 @@ public class PacketManager
 
         makePacket.Add((ushort) PacketID.C_CreateRoom, MakePacket<C_CreateRoom>);
         handler.Add((ushort) PacketID.C_CreateRoom, PacketHandler.C_CreateRoomHandler);
+
+        makePacket.Add((ushort) PacketID.C_CreateOrJoinRoom, MakePacket<C_CreateOrJoinRoom>);
+        handler.Add((ushort) PacketID.C_CreateOrJoinRoom, PacketHandler.C_CreateOrJoinRoomHandler);
 
         makePacket.Add((ushort) PacketID.C_EnterRoom, MakePacket<C_EnterRoom>);
         handler.Add((ushort) PacketID.C_EnterRoom, PacketHandler.C_EnterRoomHandler);

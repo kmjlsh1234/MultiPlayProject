@@ -9,12 +9,12 @@ public class SplashScene : MonoBehaviour
     public void Awake()
     {
         ResourcesManager.Instance.Init();
-        RoomManager.Instance.Init();
+        DataManager.Instance.Init();
         NetworkManager.Instance.Init();
         ChatManager.Instance.Init();
         UIManager.Instance.Init();
         PlayerManager.Instance.Init();
-        
+        LoadingSceneManager.Instance.Init();
     }
 
     public void Start()
