@@ -1,5 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PDL>
+	<packet name ="C_PingPacket">		
+	</packet>
+	
+	<packet name ="S_PongPacket">	
+	</packet>
+
+	<packet name ="C_PlayerInfoPacket">
+		<string name ="nickName"/>
+	</packet>
+
+	<packet name ="S_MoveLobbyPacket">
+		<int name ="sessionId"/>
+	</packet>
 	
 	<packet name ="C_Chat">
 		<string name ="message"/>
@@ -17,7 +30,7 @@
 	<packet name ="C_StartPacket">
 	</packet>
 
-	<packet name ="S_BroadCast_StartPacket">
+	<packet name ="S_BroadCast_LoadingStartPacket">
 	</packet>
 
 
@@ -73,6 +86,7 @@
   
 	<packet name ="S_BroadCast_EnterRoom">
 		<int name ="sessionId"/>
+		<string name ="nickName"/>
 	</packet>
 
 	<packet name ="S_RoomInfo">
@@ -81,6 +95,7 @@
 		<int name ="masterId"/>
 		<list name ="Player">
 			<int name ="sessionId"/>
+			<string name ="nickName"/>
 			<bool name ="isMaster"/>
 			<bool name ="isSelf"/>
 			<bool name ="isReady"/>
@@ -91,6 +106,7 @@
     <list name ="Room">
       <int name ="roomId"/>
       <string name ="roomName"/>
+	  <int name ="playerCount"/>	
     </list>
   </packet>
 
@@ -98,6 +114,11 @@
 		<int name ="code"/>
 		<string name ="message"/>
 	</packet>
-  
+
+	<packet name ="C_LoadingCompletePacket">
+	</packet>
+	
+	<packet name ="S_InGameStart">
+	</packet>
   
 </PDL>

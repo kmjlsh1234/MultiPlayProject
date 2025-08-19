@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     public int playerId;
-    public bool isSelf;
 
     #region ::::PlayerController Property
     [Header("Player")]
@@ -53,10 +52,11 @@ public class Player : MonoBehaviour
     [Tooltip("What layers the character uses as ground")]
     public LayerMask GroundLayers;
 
+    /*
     [Header("Cinemachine")]
     [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
     public GameObject CinemachineCameraTarget;
-
+    */
     [Tooltip("How far in degrees can you move the camera up")]
     public float TopClamp = 70.0f;
 
@@ -77,10 +77,6 @@ public class Player : MonoBehaviour
     protected float _verticalVelocity;
     protected float _terminalVelocity = 53.0f;
 
-    // timeout deltatime
-    private float _jumpTimeoutDelta;
-    private float _fallTimeoutDelta;
-
     // animation IDs
     protected int _animIDSpeed;
     protected int _animIDGrounded;
@@ -100,21 +96,7 @@ public class Player : MonoBehaviour
 
     protected bool _hasAnimator;
 
-    protected bool IsCurrentDeviceMouse
-    {
-        get
-        {
-#if ENABLE_INPUT_SYSTEM
-            return _playerInput.currentControlScheme == "KeyboardMouse";
-#else
-				return false;
-#endif
-        }
-    }
-
-    
     #endregion
-
 
     protected virtual void Start()
     {
@@ -128,15 +110,6 @@ public class Player : MonoBehaviour
 #endif
 
         AssignAnimationIDs();
-
-        // reset our timeouts on start
-        _jumpTimeoutDelta = JumpTimeout;
-        _fallTimeoutDelta = FallTimeout;
-    }
-
-    protected virtual void Update()
-    {
-        _hasAnimator = TryGetComponent(out _animator);
     }
 
     private void AssignAnimationIDs()
@@ -150,35 +123,35 @@ public class Player : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
-        Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
-
-        if (Grounded) Gizmos.color = transparentGreen;
-        else Gizmos.color = transparentRed;
-
-        // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
-        Gizmos.DrawSphere(
-            new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
-            GroundedRadius);
+        
     }
 
     private void OnFootstep(AnimationEvent animationEvent)
     {
-        if (animationEvent.animatorClipInfo.weight > 0.5f)
-        {
-            if (FootstepAudioClips.Length > 0)
-            {
-                var index = Random.Range(0, FootstepAudioClips.Length);
-                AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
-            }
-        }
+        
     }
 
     private void OnLand(AnimationEvent animationEvent)
     {
-        if (animationEvent.animatorClipInfo.weight > 0.5f)
-        {
-            AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
-        }
+        
+    }
+
+    private Vector3 targetPos;
+    private Quaternion targetRot;
+    private float moveSpeed = 10f;  // 위치 보간 속도
+    private float rotSpeed = 10f;
+
+    public void RecvPacket(S_BroadCast_MovePacket packet)
+    {
+        targetPos = new Vector3(packet.posX, packet.posY, packet.posZ);
+        targetRot = Quaternion.Euler(0f, packet.rotY, 0f);
+
+        Debug.Log($"Client {packet.playerId} TargetPos : [{targetPos.x},{targetPos.y},{targetPos.z}]");
+    }
+
+    private void FixedUpdate()
+    {
+        transform.position = Vector3.Lerp(transform.position, targetPos, Time.fixedDeltaTime * moveSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.fixedDeltaTime * rotSpeed);
     }
 }

@@ -15,8 +15,9 @@ public class MyPlayer : Player
     private float sendInterval = 0.1f; // 0.1ÃÊ = 10Hz
     private float lastSendTime = 0f;
 
-    private void Awake()
+    protected void Awake()
     {
+
         if (_mainCamera == null)
         {
             _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -26,12 +27,13 @@ public class MyPlayer : Player
     protected override void Start()
     {
         base.Start();
-        _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+        //_cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+        _mainCamera.transform.position = this.transform.position + Vector3.up * 30f;
+        _mainCamera.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
     }
 
-    protected override void Update()
+    protected void Update()
     {
-        base.Update();
         Move();
     }
 
@@ -42,11 +44,6 @@ public class MyPlayer : Player
             SendPacket();
             lastSendTime = Time.time;
         }
-    }
-
-    private void LateUpdate()
-    {
-        CameraRotation();
     }
 
     private void Move()
@@ -123,40 +120,14 @@ public class MyPlayer : Player
     {
         C_MovePacket packet = new C_MovePacket()
         {
+            playerId = playerId,
             posX = transform.position.x,
             posY = transform.position.y,
             posZ = transform.position.z,
-            rotY = transform.rotation.y,
+            rotY = transform.rotation.eulerAngles.y,
         };
 
         NetworkManager.Instance.Send(packet.Write());
     }
 
-    private void CameraRotation()
-    {
-        // if there is an input and camera position is not fixed
-        if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
-        {
-            //Don't multiply mouse input by Time.deltaTime;
-            float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
-
-            _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier;
-            _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier;
-        }
-
-        // clamp our rotations so our values are limited 360 degrees
-        _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-        _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
-
-        // Cinemachine will follow this target
-        CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-            _cinemachineTargetYaw, 0.0f);
-    }
-
-    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
-    {
-        if (lfAngle < -360f) lfAngle += 360f;
-        if (lfAngle > 360f) lfAngle -= 360f;
-        return Mathf.Clamp(lfAngle, lfMin, lfMax);
-    }
 }

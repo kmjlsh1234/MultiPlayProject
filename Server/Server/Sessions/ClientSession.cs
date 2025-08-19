@@ -11,22 +11,12 @@ namespace Server
     public class ClientSession : Session
     {
         public int sessionId { get; set; }
+        public string nickName { get; set; }
 
         public Room room { get; set; }
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"Client [{endPoint}] Connected!");
-            /*
-            S_RoomList packet = new S_RoomList();
-            
-            Dictionary<int, Room> dic = Program.roomManager.GetRoomDic();
-            foreach (KeyValuePair<int, Room> pair in dic)
-            {
-                packet.roomList.Add(new S_RoomList.Room() { roomId = pair.Value.roomId, roomName = pair.Value.roomName });
-            }
-
-            Send(packet.Write());
-            */
         }
 
         public override void OnDisconnected(EndPoint endPoint)

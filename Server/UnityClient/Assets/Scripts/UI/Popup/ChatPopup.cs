@@ -16,6 +16,10 @@ public class ChatPopup : UIBase
     [SerializeField] private Button sendButton;
     [SerializeField] private Button backButton;
     [SerializeField] private Button enterButton;
+    [SerializeField] private Button popupOpenButton;
+    [SerializeField] private Button inviteButton;
+
+    [SerializeField] private GameObject invitePopup;
 
     [SerializeField] private GameObject playerItem;
     [SerializeField] private GameObject chatMessage;
@@ -88,7 +92,7 @@ public class ChatPopup : UIBase
             go.transform.SetParent(playerListRoot);
 
             PlayerItem item = go.GetComponent<PlayerItem>();
-            item.Init(pair.Value.isSelf, pair.Value.sessionId);
+            item.Init(pair.Value.isSelf, pair.Value.sessionId, pair.Value.nickName);
 
             playerDic.Add(pair.Value.sessionId, item);
         }
@@ -120,7 +124,7 @@ public class ChatPopup : UIBase
         go.transform.SetParent(playerListRoot);
 
         PlayerItem item = go.GetComponent<PlayerItem>();
-        item.Init(playerData.isSelf, playerData.sessionId);
+        item.Init(playerData.isSelf, playerData.sessionId, playerData.nickName);
 
         playerDic.Add(playerData.sessionId, item);
     }

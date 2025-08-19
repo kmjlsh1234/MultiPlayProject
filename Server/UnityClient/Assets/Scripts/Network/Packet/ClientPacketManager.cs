@@ -30,11 +30,17 @@ public class PacketManager
     public void Register()
     {
         
+        makePacket.Add((ushort) PacketID.S_PongPacket, MakePacket<S_PongPacket>);
+        handler.Add((ushort) PacketID.S_PongPacket, PacketHandler.S_PongPacketHandler);
+
+        makePacket.Add((ushort) PacketID.S_MoveLobbyPacket, MakePacket<S_MoveLobbyPacket>);
+        handler.Add((ushort) PacketID.S_MoveLobbyPacket, PacketHandler.S_MoveLobbyPacketHandler);
+
         makePacket.Add((ushort) PacketID.S_BroadCast_ReadyPacket, MakePacket<S_BroadCast_ReadyPacket>);
         handler.Add((ushort) PacketID.S_BroadCast_ReadyPacket, PacketHandler.S_BroadCast_ReadyPacketHandler);
 
-        makePacket.Add((ushort) PacketID.S_BroadCast_StartPacket, MakePacket<S_BroadCast_StartPacket>);
-        handler.Add((ushort) PacketID.S_BroadCast_StartPacket, PacketHandler.S_BroadCast_StartPacketHandler);
+        makePacket.Add((ushort) PacketID.S_BroadCast_LoadingStartPacket, MakePacket<S_BroadCast_LoadingStartPacket>);
+        handler.Add((ushort) PacketID.S_BroadCast_LoadingStartPacket, PacketHandler.S_BroadCast_LoadingStartPacketHandler);
 
         makePacket.Add((ushort) PacketID.S_BroadCast_MovePacket, MakePacket<S_BroadCast_MovePacket>);
         handler.Add((ushort) PacketID.S_BroadCast_MovePacket, PacketHandler.S_BroadCast_MovePacketHandler);
@@ -59,6 +65,9 @@ public class PacketManager
 
         makePacket.Add((ushort) PacketID.S_ErrorCode, MakePacket<S_ErrorCode>);
         handler.Add((ushort) PacketID.S_ErrorCode, PacketHandler.S_ErrorCodeHandler);
+
+        makePacket.Add((ushort) PacketID.S_InGameStart, MakePacket<S_InGameStart>);
+        handler.Add((ushort) PacketID.S_InGameStart, PacketHandler.S_InGameStartHandler);
 
     }
 

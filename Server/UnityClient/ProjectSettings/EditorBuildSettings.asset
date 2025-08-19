@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/LobbyScene.unity
     guid: 38c99505563d8b949a8e37eb343408e0
   - enabled: 1
+    path: Assets/Scenes/LoadingScene.unity
+    guid: a92f8fac52b331743b68551da09f1c72
+  - enabled: 1
     path: Assets/Scenes/ChatScene.unity
     guid: b69878fa8158d824aa32adf2de329e74
   - enabled: 1

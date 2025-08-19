@@ -25,6 +25,8 @@ namespace Server
         {
             lock (key)
             {
+
+
                 ++this.roomId;
                 Room room = new Room() { roomId = this.roomId, roomName = packet.roomName };
                 room.masterId = session.sessionId;
@@ -53,6 +55,7 @@ namespace Server
                 {
                     return room;
                 }
+
                 return null;
             }
 

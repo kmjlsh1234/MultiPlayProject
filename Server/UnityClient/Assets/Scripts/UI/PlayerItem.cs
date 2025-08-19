@@ -8,10 +8,10 @@ public class PlayerItem : MonoBehaviour
     [SerializeField] private TMP_Text name;
     [SerializeField] private Image readySprite;
     [SerializeField] private TMP_Text readyText;
-    public void Init(bool isSelf, int name)
+    public void Init(bool isSelf, int sessionId, string nickName )
     {
         chatBubble.color = isSelf ? Color.yellow : Color.white;
-        this.name.text = name.ToString();
+        this.name.text = $"Session Id : {sessionId}\nNickName : {nickName}";
         readySprite.color = Color.red;
         readyText.text = "Not Ready";
     }

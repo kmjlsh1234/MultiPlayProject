@@ -9,4 +9,5 @@ public class RoomData
     public int roomId;
     public int masterId;
     public string roomName;
+    public int playerCount;
 }

@@ -30,6 +30,12 @@ public class PacketManager
     public void Register()
     {
         
+        makePacket.Add((ushort) PacketID.C_PingPacket, MakePacket<C_PingPacket>);
+        handler.Add((ushort) PacketID.C_PingPacket, PacketHandler.C_PingPacketHandler);
+
+        makePacket.Add((ushort) PacketID.C_PlayerInfoPacket, MakePacket<C_PlayerInfoPacket>);
+        handler.Add((ushort) PacketID.C_PlayerInfoPacket, PacketHandler.C_PlayerInfoPacketHandler);
+
         makePacket.Add((ushort) PacketID.C_Chat, MakePacket<C_Chat>);
         handler.Add((ushort) PacketID.C_Chat, PacketHandler.C_ChatHandler);
 
@@ -56,6 +62,9 @@ public class PacketManager
 
         makePacket.Add((ushort) PacketID.C_RoomList, MakePacket<C_RoomList>);
         handler.Add((ushort) PacketID.C_RoomList, PacketHandler.C_RoomListHandler);
+
+        makePacket.Add((ushort) PacketID.C_LoadingCompletePacket, MakePacket<C_LoadingCompletePacket>);
+        handler.Add((ushort) PacketID.C_LoadingCompletePacket, PacketHandler.C_LoadingCompletePacketHandler);
 
     }
 

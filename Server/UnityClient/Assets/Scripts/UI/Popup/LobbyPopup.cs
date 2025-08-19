@@ -78,7 +78,7 @@ public class LobbyPopup : UIBase
             go.transform.SetParent(roomListRoot);
 
             RoomItem item = go.GetComponent<RoomItem>();
-            item.Init(pair.Value.roomId, pair.Value.roomName);
+            item.Init(pair.Value.roomId, pair.Value.roomName, pair.Value.playerCount);
 
             roomDic.Add(pair.Value.roomId, item);
         }

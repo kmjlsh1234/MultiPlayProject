@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,15 +8,16 @@ public enum SceneType
     ChatScene,
     Playground,
     LoadingScene,
+    LobbyScene,
 }
 
 public class LoadingSceneManager : SingletonBase<LoadingSceneManager>
 {
     public SceneType sceneType;
-
+    public Action OnLoadingCompleted;
     public void LoadScene(SceneType type)
     {
-        sceneType = type;
-        SceneManager.LoadScene(type.ToString());
+        this.sceneType = type;
+        SceneManager.LoadScene(SceneType.LoadingScene.ToString());
     }
 }

@@ -9,6 +9,23 @@ using System.Threading.Tasks;
 
 public class PacketHandler
 {
+    public static void C_PingPacketHandler(Session s, IPacket pkt)
+    {
+        s.Send(new S_PongPacket().Write());
+    }
+
+    public static void C_PlayerInfoPacketHandler(Session s, IPacket pkt)
+    {
+        ClientSession session = s as ClientSession;
+        C_PlayerInfoPacket packet = pkt as C_PlayerInfoPacket;
+
+        session.nickName = packet.nickName;
+        
+        S_MoveLobbyPacket resPacket = new S_MoveLobbyPacket() { sessionId = session.sessionId };
+        session.Send(resPacket.Write());
+        Console.WriteLine($"Session NickName : {packet.nickName}");
+    }
+
     public static void C_CreateRoomHandler(Session s, IPacket pkt)
     {
         ClientSession session = s as ClientSession;
@@ -19,12 +36,12 @@ public class PacketHandler
 
     public static void C_EnterRoomHandler(Session s, IPacket pkt)
     {
-        //패킷 파싱
         ClientSession session = s as ClientSession;
         C_EnterRoom packet = pkt as C_EnterRoom;
 
         //룸 입장 처리
         session.room = Program.roomManager.FindRoomById(packet.roomId);
+        
         if (session.room != null)
         {
             session.room.Push(() => session.room.EnterRoom(session));
@@ -88,7 +105,12 @@ public class PacketHandler
         Dictionary<int, Room> dic = Program.roomManager.GetRoomDic();
         foreach (KeyValuePair<int, Room> pair in dic)
         {
-            packet.roomList.Add(new S_RoomList.Room() { roomId = pair.Value.roomId, roomName = pair.Value.roomName });
+            packet.roomList.Add(new S_RoomList.Room() 
+            { 
+                roomId = pair.Value.roomId, 
+                roomName = pair.Value.roomName,
+                playerCount = pair.Value.sessionList.Count,
+            });
         }
 
         session.Send(packet.Write());
@@ -117,4 +139,9 @@ public class PacketHandler
 
     }
 
+    public static void C_LoadingCompletePacketHandler(Session s, IPacket pkt)
+    {        ClientSession session = s as ClientSession;
+        session.room.Push(() => session.room.LoadingComplete(session));
+
+    }
 }

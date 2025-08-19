@@ -17,6 +17,9 @@ namespace Server
         public string roomName;
 
         public int readyCount = 0;
+
+        public int loadingCompleteCount = 0;
+
         public Dictionary<int, bool> readyDic = new Dictionary<int, bool>();
         public List<ClientSession> sessionList = new List<ClientSession>();
         public List<ArraySegment<byte>> pendingList = new List<ArraySegment<byte>>();
@@ -66,6 +69,7 @@ namespace Server
                     new S_RoomInfo.Player()
                     {
                         sessionId = s.sessionId,
+                        nickName = s.nickName,
                         isMaster = (s.sessionId == masterId),
                         isSelf = (s.sessionId == session.sessionId),
                         isReady = readyDic[s.sessionId],
@@ -75,7 +79,11 @@ namespace Server
             session.Send(packet.Write());
             
             //기존 입장한 사람에게 알리기
-            S_BroadCast_EnterRoom broadCastPacket = new S_BroadCast_EnterRoom() { sessionId = session.sessionId };
+            S_BroadCast_EnterRoom broadCastPacket = new S_BroadCast_EnterRoom() 
+            { 
+                sessionId = session.sessionId,
+                nickName = session.nickName,
+            };
             BroadCast(broadCastPacket.Write());
 
             Console.WriteLine($"sessionId : [{session.sessionId}] enter room [{session.room.roomName}]");
@@ -153,14 +161,22 @@ namespace Server
                 }
                 else
                 {
-                    S_BroadCast_StartPacket startPacket = new S_BroadCast_StartPacket();
+                    S_BroadCast_LoadingStartPacket startPacket = new S_BroadCast_LoadingStartPacket();
                     BroadCast(startPacket.Write());
                 }
             }
         }
 
-        public void Start()
+        public void LoadingComplete(ClientSession session)
         {
+            Console.WriteLine($"Session Id {session.sessionId} Loading Complete");
+            loadingCompleteCount++;
+            if(sessionList.Count == loadingCompleteCount)
+            {
+                S_InGameStart packet = new S_InGameStart();
+                BroadCast(packet.Write());
+                Console.WriteLine($"All Player Loading Complete");
+            }
             
         }
         #endregion
