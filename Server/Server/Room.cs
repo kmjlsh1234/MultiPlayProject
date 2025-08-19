@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    
     public class Room
     {
         //Room Info

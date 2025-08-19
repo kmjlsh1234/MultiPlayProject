@@ -100,6 +100,7 @@ public class Player : MonoBehaviour
 
     protected virtual void Start()
     {
+        gameObject.tag = "Untagged";
         _hasAnimator = TryGetComponent(out _animator);
         _controller = GetComponent<CharacterController>();
         _input = GetComponent<StarterAssetsInputs>();

@@ -14,22 +14,28 @@ public class MyPlayer : Player
 
     private float sendInterval = 0.1f; // 0.1초 = 10Hz
     private float lastSendTime = 0f;
+    private bool isMove = false;
 
     protected void Awake()
     {
-
+        _playerInput = GetComponent<PlayerInput>();
+        _input = GetComponent<StarterAssetsInputs>();
+        _playerInput.enabled = true;
+        _input.enabled = true;
+        
         if (_mainCamera == null)
         {
             _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            CameraFollow camera = _mainCamera.GetComponent<CameraFollow>();
+            camera.Init(this.transform);
+
         }
     }
 
     protected override void Start()
     {
         base.Start();
-        //_cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-        _mainCamera.transform.position = this.transform.position + Vector3.up * 30f;
-        _mainCamera.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+        gameObject.tag = "Player";
     }
 
     protected void Update()
@@ -39,11 +45,26 @@ public class MyPlayer : Player
 
     private void FixedUpdate()
     {
-        if (Time.time - lastSendTime >= sendInterval)
+        if (_input.move != Vector2.zero)
         {
-            SendPacket();
-            lastSendTime = Time.time;
+            // 일정 주기마다만 전송
+            if (Time.time - lastSendTime >= sendInterval)
+            {
+                SendPacket();
+                lastSendTime = Time.time;
+                isMove = true;
+            }
         }
+        else
+        {
+            if(isMove == true)
+            {
+                SendPacket();
+                lastSendTime = Time.time;
+                isMove = false;
+            }
+        }
+        
     }
 
     private void Move()
