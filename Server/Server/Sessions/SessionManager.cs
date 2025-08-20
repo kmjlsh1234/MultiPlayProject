@@ -19,7 +19,7 @@ namespace Server
             lock (key)
             {
                 ClientSession session = new ClientSession();
-                session.sessionId = sessionId++;
+                session.sessionId = ++sessionId;
                 sessionDic.Add(sessionId, session);
 
                 return session;
@@ -31,6 +31,16 @@ namespace Server
             lock (key)
             {
                 sessionDic.Remove(session.sessionId);
+            }
+        }
+
+        public ClientSession FindBySessionId(int sessionId)
+        {
+            lock (key)
+            {
+                ClientSession session = null;
+                sessionDic.TryGetValue(sessionId, out session);
+                return session;
             }
         }
     }

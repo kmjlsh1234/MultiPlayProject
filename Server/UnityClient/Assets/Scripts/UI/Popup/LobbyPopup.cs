@@ -9,6 +9,7 @@ public class LobbyPopup : UIBase
     [SerializeField] private Transform roomListRoot;
     [SerializeField] private GameObject roomItem;
     [SerializeField] private GameObject createRoomPopup;
+    [SerializeField] private TMP_Text playerInfo;
 
     [Header("Button")]
     [SerializeField] private Button createOrJoinRoomButton;
@@ -39,6 +40,7 @@ public class LobbyPopup : UIBase
 
         DataManager.Instance.RoomListRecvHandler += UpdateRoomList;
 
+        playerInfo.text = $"sessionId : {NetworkManager.Instance.sessionId}";
         RefreshRoomList();
     }
 

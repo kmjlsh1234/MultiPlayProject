@@ -24,7 +24,7 @@ namespace Server
         public List<ArraySegment<byte>> pendingList = new List<ArraySegment<byte>>();
         public JobQueue JobQueue = new JobQueue();
 
-        public object _lock = new object();
+        public GameManager gameManager = new GameManager();
 
         public void Push(Action job)
         {
@@ -174,6 +174,7 @@ namespace Server
             {
                 S_InGameStart packet = new S_InGameStart();
                 BroadCast(packet.Write());
+                gameManager.StartGame(this);
                 Console.WriteLine($"All Player Loading Complete");
             }
             

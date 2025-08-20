@@ -6,7 +6,6 @@ public class PlayerManager : SingletonBase<PlayerManager>
 {
     public Dictionary<int, PlayerData> playerDataList = new Dictionary<int, PlayerData>();
     public Dictionary<int, Player> playerList = new Dictionary<int, Player>();
-    public Action<S_BroadCast_MovePacket> OnPacketRecvCompleted;
 
     public void GeneratePlayer()
     {

@@ -66,6 +66,9 @@ public class PacketManager
         makePacket.Add((ushort) PacketID.C_LoadingCompletePacket, MakePacket<C_LoadingCompletePacket>);
         handler.Add((ushort) PacketID.C_LoadingCompletePacket, PacketHandler.C_LoadingCompletePacketHandler);
 
+        makePacket.Add((ushort) PacketID.C_InvitePacket, MakePacket<C_InvitePacket>);
+        handler.Add((ushort) PacketID.C_InvitePacket, PacketHandler.C_InvitePacketHandler);
+
     }
 
     public void OnRecvPacket(Session session, ArraySegment<byte> buffer, Action<Session, IPacket> onRecvCallBack = null)

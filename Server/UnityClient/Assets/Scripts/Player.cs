@@ -142,6 +142,7 @@ public class Player : MonoBehaviour
     private float moveSpeed = 10f;  // 위치 보간 속도
     private float rotSpeed = 10f;
 
+
     public void RecvPacket(S_BroadCast_MovePacket packet)
     {
         targetPos = new Vector3(packet.posX, packet.posY, packet.posZ);
@@ -150,9 +151,33 @@ public class Player : MonoBehaviour
         Debug.Log($"Client {packet.playerId} TargetPos : [{targetPos.x},{targetPos.y},{targetPos.z}]");
     }
 
+    // 보간 속도
+    private float moveLerpSpeed = 3f;
+    private float rotLerpSpeed = 3f;
+
     private void FixedUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, targetPos, Time.fixedDeltaTime * moveSpeed);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.fixedDeltaTime * rotSpeed);
+        //transform.position = Vector3.Lerp(transform.position, targetPos, Time.fixedDeltaTime * moveSpeed);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.fixedDeltaTime * rotSpeed);
+        // 위치 보간
+        Vector3 newPos = Vector3.Lerp(transform.position, targetPos, Time.fixedDeltaTime * moveLerpSpeed);
+        Vector3 moveDir = newPos - transform.position;
+
+        // CharacterController로 이동
+        _controller.Move(moveDir);
+
+        // 회전 보간
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.fixedDeltaTime * rotLerpSpeed);
+
+        // 애니메이션 반영
+        if (_hasAnimator)
+        {
+            // 속도 계산
+            _speed = moveDir.magnitude / Time.fixedDeltaTime;
+            _animationBlend = Mathf.Lerp(_animationBlend, _speed, Time.fixedDeltaTime * SpeedChangeRate);
+
+            _animator.SetFloat(_animIDSpeed, _animationBlend);
+            _animator.SetFloat(_animIDMotionSpeed, 1f);
+        }
     }
 }

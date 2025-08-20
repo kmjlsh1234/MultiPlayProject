@@ -45,6 +45,7 @@ namespace Server
             }
         }
 
+
         public Room FindRoomById(int id)
         {
             lock (key)
@@ -56,10 +57,9 @@ namespace Server
                     return room;
                 }
 
+
                 return null;
             }
-
-
         }
 
         public Room FindAvailableRoom()

@@ -4,21 +4,20 @@ using UnityEngine.UI;
 
 public class PlayerItem : MonoBehaviour
 {
-    [SerializeField] private Image chatBubble;
-    [SerializeField] private TMP_Text name;
-    [SerializeField] private Image readySprite;
-    [SerializeField] private TMP_Text readyText;
-    public void Init(bool isSelf, int sessionId, string nickName )
+    [SerializeField] private GameObject isSelfObj;  
+    [SerializeField] private Image frame;
+    [SerializeField] private TMP_Text playerInfo;
+
+    public void Init(PlayerData playerData)
     {
-        chatBubble.color = isSelf ? Color.yellow : Color.white;
-        this.name.text = $"Session Id : {sessionId}\nNickName : {nickName}";
-        readySprite.color = Color.red;
-        readyText.text = "Not Ready";
+        isSelfObj.gameObject.SetActive(playerData.isSelf);
+
+        playerInfo.text = $"Session Id : {playerData.sessionId}\nNickName : {playerData.nickName}";
+        frame.color = playerData.isReady ? Color.green : Color.white;
     }
 
     public void ChangeColor(bool isReady)
     {
-        readySprite.color = isReady ? Color.green : Color.red;
-        readyText.text = isReady ? "Ready" : "Not Ready";
+        frame.color = isReady ? Color.green : Color.white;
     }
 }

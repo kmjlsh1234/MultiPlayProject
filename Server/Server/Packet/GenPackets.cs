@@ -56,6 +56,10 @@ public enum PacketID
 
     S_InGameStart = 24,
 
+    C_InvitePacket = 25,
+
+    S_InvitePacket = 26,
+
 }
 
 
@@ -2284,6 +2288,177 @@ public class S_InGameStart : IPacket
         pos += sizeof(ushort);
  
                 
+ 
+        Array.Copy(
+            sourceArray: BitConverter.GetBytes(pos),
+            sourceIndex: 0,
+            destinationArray: buffer.Array,
+            destinationIndex: buffer.Offset,
+            length: sizeof(ushort)
+        );
+
+        return SendBufferHelper.Commit(pos);
+    }
+}
+
+public class C_InvitePacket : IPacket
+{
+    
+    public int sessionId;
+
+    
+    public ushort Protocol
+    {
+        get
+        {
+            return (ushort) PacketID.C_InvitePacket;
+        }
+    }
+    
+    public void Read(ArraySegment<byte> buffer)
+    {
+        ushort pos = 0;
+        ushort pacetSize = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(ushort);
+        ushort packetId = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(ushort);
+
+        
+        this.sessionId = BitConverter.ToInt32(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(int);
+
+
+    }
+
+    public ArraySegment<byte> Write()
+    {
+        ArraySegment<byte> buffer = SendBufferHelper.Reserve(4096);
+
+        ushort pos = 0;
+
+        //패킷 사이즈 공간만큼 더하기
+        pos += sizeof(ushort);
+
+        //버퍼에 패킷 ID 추가
+        Array.Copy(
+            sourceArray: BitConverter.GetBytes(Protocol),
+            sourceIndex: 0,
+            destinationArray: buffer.Array,
+            destinationIndex: buffer.Offset + pos,
+            length: sizeof(ushort)
+            );
+        //패킷 id만큼 사이즈 추가
+        pos += sizeof(ushort);
+ 
+                
+        Array.Copy(
+                    sourceArray: BitConverter.GetBytes(this.sessionId),
+                    sourceIndex: 0,
+                    destinationArray: buffer.Array,
+                    destinationIndex: buffer.Offset + pos,
+                    length: sizeof(int)
+        );
+        pos += sizeof(int);
+
+ 
+        Array.Copy(
+            sourceArray: BitConverter.GetBytes(pos),
+            sourceIndex: 0,
+            destinationArray: buffer.Array,
+            destinationIndex: buffer.Offset,
+            length: sizeof(ushort)
+        );
+
+        return SendBufferHelper.Commit(pos);
+    }
+}
+
+public class S_InvitePacket : IPacket
+{
+    
+    public int roomId;
+
+    public string sendUserNickName;
+
+    
+    public ushort Protocol
+    {
+        get
+        {
+            return (ushort) PacketID.S_InvitePacket;
+        }
+    }
+    
+    public void Read(ArraySegment<byte> buffer)
+    {
+        ushort pos = 0;
+        ushort pacetSize = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(ushort);
+        ushort packetId = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(ushort);
+
+        
+        this.roomId = BitConverter.ToInt32(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(int);
+
+        ushort sendUserNickNameSize = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(ushort);
+        this.sendUserNickName = Encoding.Unicode.GetString(buffer.Array, buffer.Offset + pos, sendUserNickNameSize);
+        pos += sendUserNickNameSize;
+
+
+    }
+
+    public ArraySegment<byte> Write()
+    {
+        ArraySegment<byte> buffer = SendBufferHelper.Reserve(4096);
+
+        ushort pos = 0;
+
+        //패킷 사이즈 공간만큼 더하기
+        pos += sizeof(ushort);
+
+        //버퍼에 패킷 ID 추가
+        Array.Copy(
+            sourceArray: BitConverter.GetBytes(Protocol),
+            sourceIndex: 0,
+            destinationArray: buffer.Array,
+            destinationIndex: buffer.Offset + pos,
+            length: sizeof(ushort)
+            );
+        //패킷 id만큼 사이즈 추가
+        pos += sizeof(ushort);
+ 
+                
+        Array.Copy(
+                    sourceArray: BitConverter.GetBytes(this.roomId),
+                    sourceIndex: 0,
+                    destinationArray: buffer.Array,
+                    destinationIndex: buffer.Offset + pos,
+                    length: sizeof(int)
+        );
+        pos += sizeof(int);
+
+        ushort sendUserNickNameSize = (ushort)Encoding.Unicode.GetByteCount(sendUserNickName);
+
+        Array.Copy(
+            sourceArray: BitConverter.GetBytes(sendUserNickNameSize),
+            sourceIndex: 0,
+            destinationArray: buffer.Array,
+            destinationIndex: buffer.Offset + pos,
+            length: sizeof(ushort)
+        );
+        pos += sizeof(ushort);
+
+        Array.Copy(
+            sourceArray: Encoding.Unicode.GetBytes(this.sendUserNickName),
+            sourceIndex: 0,
+            destinationArray: buffer.Array,
+            destinationIndex: buffer.Offset + pos,
+            length: sendUserNickNameSize
+        );
+        pos += sendUserNickNameSize;
+
  
         Array.Copy(
             sourceArray: BitConverter.GetBytes(pos),

@@ -5,8 +5,10 @@ using UnityEngine;
 public enum UIType
 {
     UIPopup_Lobby,
-    UIPopup_Chat,
+    UIPopup_Match,
     UIPopup_Error,
+    UIPopup_Invite,
+    UIPopup_InGame,
 }
 
 public class UIManager : SingletonBase<UIManager>
@@ -43,6 +45,20 @@ public class UIManager : SingletonBase<UIManager>
                 uiStack.Push(ui);
                 ErrorPopup errorPopup = uiBase as ErrorPopup;
                 errorPopup.Init(packet);
+            }
+        }
+        else if(type == UIType.UIPopup_Invite)
+        {
+            S_InvitePacket packet = pkt as S_InvitePacket;
+            if (uiDic.TryGetValue(type, out go))
+            {
+                go.name = go.name.Replace("(Clone)", "");
+                GameObject ui = Instantiate(go, Vector3.zero, Quaternion.identity, transform);
+                ui.GetComponentInChildren<Canvas>().sortingOrder = canvasOrder++;
+                UIBase uiBase = ui.GetComponent<UIBase>();
+                uiStack.Push(ui);
+                InvitePopup invitePopup = uiBase as InvitePopup;
+                invitePopup.Init(packet);
             }
         }
         else

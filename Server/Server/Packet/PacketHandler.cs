@@ -140,8 +140,32 @@ public class PacketHandler
     }
 
     public static void C_LoadingCompletePacketHandler(Session s, IPacket pkt)
-    {        ClientSession session = s as ClientSession;
+    {        
+        ClientSession session = s as ClientSession;
         session.room.Push(() => session.room.LoadingComplete(session));
 
+    }
+
+    public static void C_InvitePacketHandler(Session s, IPacket pkt)
+    {
+        ClientSession session = s as ClientSession;
+        C_InvitePacket packet = pkt as C_InvitePacket;
+
+        ClientSession targetSession = SessionManager.Instance.FindBySessionId(packet.sessionId);
+        if (targetSession != null)
+        {
+            S_InvitePacket resPacket = new S_InvitePacket()
+            {
+                roomId = session.room.roomId,
+                sendUserNickName = session.nickName
+            };
+
+            targetSession.Send(resPacket.Write());
+            Console.WriteLine($"Client {session.sessionId} Invite Client {targetSession.sessionId}");
+        }
+        else
+        {
+            Console.WriteLine("targetSession is Null");
+        }
     }
 }

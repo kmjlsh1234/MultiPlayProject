@@ -120,5 +120,14 @@
 	
 	<packet name ="S_InGameStart">
 	</packet>
-  
+
+	<packet name ="C_InvitePacket">
+		<int name ="sessionId"/>
+	</packet>
+
+	<packet name ="S_InvitePacket">
+		<int name ="roomId"/>
+		<string name ="sendUserNickName"/>
+	</packet>
+	
 </PDL>

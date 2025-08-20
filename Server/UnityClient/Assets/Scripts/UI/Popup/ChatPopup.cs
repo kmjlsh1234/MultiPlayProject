@@ -17,9 +17,6 @@ public class ChatPopup : UIBase
     [SerializeField] private Button backButton;
     [SerializeField] private Button enterButton;
     [SerializeField] private Button popupOpenButton;
-    [SerializeField] private Button inviteButton;
-
-    [SerializeField] private GameObject invitePopup;
 
     [SerializeField] private GameObject playerItem;
     [SerializeField] private GameObject chatMessage;
@@ -30,11 +27,24 @@ public class ChatPopup : UIBase
 
     private bool isReady = false;
 
+    [Header("InvitePopup")]
+    [SerializeField] private GameObject invitePopup;
+    [SerializeField] private TMP_InputField inviteNickNameField;
+    [SerializeField] private Button inviteButton;
+    [SerializeField] private Button popupCloseButton;
+
     public void Awake()
     {
+
+        invitePopup.SetActive(false);
+
         sendButton.onClick.AddListener(() => SendMessage());
         backButton.onClick.AddListener(() => Back());
         enterButton.onClick.AddListener(() => Enter());
+        popupOpenButton.onClick.AddListener(() => invitePopup.SetActive(true));
+        inviteButton.onClick.AddListener(() => Invite());
+        popupCloseButton.onClick.AddListener(() => invitePopup.SetActive(false));
+
         ChatManager.Instance.OnChatRecved += UpdateChatList;
         ChatManager.Instance.OnPlayerAdd += AddPlayer;
         ChatManager.Instance.OnPlayerRemove += RemovePlayer;
@@ -92,7 +102,7 @@ public class ChatPopup : UIBase
             go.transform.SetParent(playerListRoot);
 
             PlayerItem item = go.GetComponent<PlayerItem>();
-            item.Init(pair.Value.isSelf, pair.Value.sessionId, pair.Value.nickName);
+            item.Init(pair.Value);
 
             playerDic.Add(pair.Value.sessionId, item);
         }
@@ -124,7 +134,7 @@ public class ChatPopup : UIBase
         go.transform.SetParent(playerListRoot);
 
         PlayerItem item = go.GetComponent<PlayerItem>();
-        item.Init(playerData.isSelf, playerData.sessionId, playerData.nickName);
+        item.Init(playerData);
 
         playerDic.Add(playerData.sessionId, item);
     }
@@ -174,6 +184,25 @@ public class ChatPopup : UIBase
         if(sessionId == NetworkManager.Instance.sessionId)
         {
             this.isReady = isReady;
+        }
+    }
+
+    void Invite()
+    {
+        if (string.IsNullOrEmpty(inviteNickNameField.text))
+        {
+            Debug.LogError("Empty");
+        }
+        else
+        {
+            C_InvitePacket packet = new C_InvitePacket()
+            {
+                sessionId = int.Parse(inviteNickNameField.text),
+            };
+
+            NetworkManager.Instance.Send(packet.Write());
+            inviteNickNameField.text = string.Empty;
+            invitePopup.SetActive(false);
         }
     }
 }

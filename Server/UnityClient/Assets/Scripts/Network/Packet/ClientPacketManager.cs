@@ -69,6 +69,9 @@ public class PacketManager
         makePacket.Add((ushort) PacketID.S_InGameStart, MakePacket<S_InGameStart>);
         handler.Add((ushort) PacketID.S_InGameStart, PacketHandler.S_InGameStartHandler);
 
+        makePacket.Add((ushort) PacketID.S_InvitePacket, MakePacket<S_InvitePacket>);
+        handler.Add((ushort) PacketID.S_InvitePacket, PacketHandler.S_InvitePacketHandler);
+
     }
 
     public void OnRecvPacket(Session session, ArraySegment<byte> buffer, Action<Session, IPacket> onRecvCallBack = null)

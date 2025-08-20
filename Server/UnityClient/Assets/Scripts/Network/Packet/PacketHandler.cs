@@ -121,7 +121,7 @@ public class PacketHandler
         }
 
         ChatManager.Instance.OnPlayerListRecv(roomData, playerDic);
-        UIManager.Instance.Push(UIType.UIPopup_Chat);
+        UIManager.Instance.Push(UIType.UIPopup_Match);
     }
 
     
@@ -177,7 +177,7 @@ public class PacketHandler
     //로딩 시작
     public static void S_BroadCast_LoadingStartPacketHandler(Session session, IPacket pkt)
     {
-        Debug.Log(" S_BroadCast_LoadingStartPacketHandler");
+        Debug.Log(" S_BroadCast_LoadingStartPacket");
 
         UIManager.Instance.Clear();
         LoadingSceneManager.Instance.LoadScene(SceneType.Playground);
@@ -186,9 +186,15 @@ public class PacketHandler
     //인게임 전환
     public static void S_InGameStartHandler(Session session, IPacket pkt)
     {
-        Debug.Log(" S_InGameStartHandler");
+        Debug.Log(" S_InGameStart");
         LoadingSceneManager.Instance.OnLoadingCompleted.Invoke();
+    }
 
+    public static void S_InvitePacketHandler(Session session, IPacket pkt)
+    {
+        Debug.Log("S_InvitePacket");
+        S_InvitePacket packet = pkt as S_InvitePacket;
+        UIManager.Instance.Push(UIType.UIPopup_Invite, packet);
         
     }
 }
