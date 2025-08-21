@@ -10,7 +10,9 @@ public class InGamePopup : UIBase
     private bool isRunning = false;
     void Start()
     {
-        StartCoroutine(UpdateTimer());
+        LoadingSceneManager.Instance.OnLoadingCompleted += (() => StartCoroutine(UpdateTimer()));
+        C_LoadingCompletePacket packet = new C_LoadingCompletePacket();
+        NetworkManager.Instance.Send(packet.Write());
     }
 
     private IEnumerator UpdateTimer()

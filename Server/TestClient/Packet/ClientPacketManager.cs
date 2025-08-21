@@ -72,6 +72,9 @@ public class PacketManager
         makePacket.Add((ushort) PacketID.S_InvitePacket, MakePacket<S_InvitePacket>);
         handler.Add((ushort) PacketID.S_InvitePacket, PacketHandler.S_InvitePacketHandler);
 
+        makePacket.Add((ushort) PacketID.S_BroadCast_SpawnEnemy, MakePacket<S_BroadCast_SpawnEnemy>);
+        handler.Add((ushort) PacketID.S_BroadCast_SpawnEnemy, PacketHandler.S_BroadCast_SpawnEnemyHandler);
+
     }
 
     public void OnRecvPacket(Session session, ArraySegment<byte> buffer, Action<Session, IPacket> onRecvCallBack = null)

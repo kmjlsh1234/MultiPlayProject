@@ -129,5 +129,9 @@
 		<int name ="roomId"/>
 		<string name ="sendUserNickName"/>
 	</packet>
-	
+
+	<packet name ="S_BroadCast_SpawnEnemy">
+		<int name ="posX"/>
+		<int name ="posZ"/>
+	</packet>
 </PDL>

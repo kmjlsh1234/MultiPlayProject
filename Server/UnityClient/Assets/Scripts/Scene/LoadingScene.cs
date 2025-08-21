@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using AsyncOperation = UnityEngine.AsyncOperation;
 
 public class LoadingScene : MonoBehaviour
 {
@@ -12,12 +14,6 @@ public class LoadingScene : MonoBehaviour
 
     [SerializeField] private Transform contentTransform;
 
-    public AsyncOperation op;
-
-    private void Awake()
-    {
-        LoadingSceneManager.Instance.OnLoadingCompleted += MoveScene;
-    }
 
     public void Start()
     {
@@ -27,7 +23,7 @@ public class LoadingScene : MonoBehaviour
     IEnumerator LoadScene()
     {
 
-        op = SceneManager.LoadSceneAsync(LoadingSceneManager.Instance.sceneType.ToString());
+        AsyncOperation op = SceneManager.LoadSceneAsync(LoadingSceneManager.Instance.sceneType.ToString());
         op.allowSceneActivation = false;
 
         float timer = 0f;
@@ -50,23 +46,11 @@ public class LoadingScene : MonoBehaviour
 
                 if (slider.value >= 0.99f)
                 {
-                    SendPacket();
+                    op.allowSceneActivation = true;
                     yield break;
                 }
             }
         }
-        yield break;
-    }
-
-    void SendPacket()
-    {
-        C_LoadingCompletePacket packet = new C_LoadingCompletePacket();
-        NetworkManager.Instance.Send(packet.Write());
-    }
-
-    void MoveScene()
-    {
-        op.allowSceneActivation = true;
     }
 }
 

@@ -12,7 +12,7 @@ namespace Server
         private Room room;
         private Timer gameTimer;
         private int timer = 0;
-
+        private Random random = new Random();
         public void StartGame(Room room)
         {
             this.room = room;
@@ -28,7 +28,17 @@ namespace Server
         {
             timer++;
             Console.WriteLine($"Timer : {timer}");
-            
+            if (timer % 10 == 0)
+            {
+                S_BroadCast_SpawnEnemy packet = new S_BroadCast_SpawnEnemy()
+                {
+                    posX = random.Next(0, 2) == 0 ? -50 : 50,
+                    posZ = random.Next(0, 2) == 0 ? -50 : 50,
+                };
+
+                room.BroadCast(packet.Write());
+                Console.WriteLine($"Spawn Enemy at ({packet.posX}, {packet.posZ})");
+            }
         }
     }
 }

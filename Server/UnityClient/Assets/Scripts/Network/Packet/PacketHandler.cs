@@ -180,7 +180,7 @@ public class PacketHandler
         Debug.Log(" S_BroadCast_LoadingStartPacket");
 
         UIManager.Instance.Clear();
-        LoadingSceneManager.Instance.LoadScene(SceneType.Playground);
+        LoadingSceneManager.Instance.LoadScene(SceneType.InGameScene);
     }
 
     //인게임 전환
@@ -195,6 +195,11 @@ public class PacketHandler
         Debug.Log("S_InvitePacket");
         S_InvitePacket packet = pkt as S_InvitePacket;
         UIManager.Instance.Push(UIType.UIPopup_Invite, packet);
-        
+    }
+
+    public static void S_BroadCast_SpawnEnemyHandler(Session session, IPacket pkt)
+    {
+        S_BroadCast_SpawnEnemy packet = pkt as S_BroadCast_SpawnEnemy;
+        GameManager.Instance.SpawnEnemy(packet);
     }
 }

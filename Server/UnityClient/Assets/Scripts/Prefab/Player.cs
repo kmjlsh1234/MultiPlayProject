@@ -147,13 +147,11 @@ public class Player : MonoBehaviour
     {
         targetPos = new Vector3(packet.posX, packet.posY, packet.posZ);
         targetRot = Quaternion.Euler(0f, packet.rotY, 0f);
-
-        Debug.Log($"Client {packet.playerId} TargetPos : [{targetPos.x},{targetPos.y},{targetPos.z}]");
     }
 
     // 보간 속도
-    private float moveLerpSpeed = 3f;
-    private float rotLerpSpeed = 3f;
+    private float moveLerpSpeed = 4f;
+    private float rotLerpSpeed = 4f;
 
     private void FixedUpdate()
     {

@@ -9,6 +9,7 @@ public enum SceneType
     Playground,
     LoadingScene,
     LobbyScene,
+    InGameScene,
 }
 
 public class LoadingSceneManager : SingletonBase<LoadingSceneManager>

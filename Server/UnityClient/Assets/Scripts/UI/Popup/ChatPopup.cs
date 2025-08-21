@@ -17,6 +17,7 @@ public class ChatPopup : UIBase
     [SerializeField] private Button backButton;
     [SerializeField] private Button enterButton;
     [SerializeField] private Button popupOpenButton;
+    [SerializeField] private TMP_Text readyText;
 
     [SerializeField] private GameObject playerItem;
     [SerializeField] private GameObject chatMessage;
@@ -178,6 +179,12 @@ public class ChatPopup : UIBase
         playerDic.TryGetValue(sessionId, out playerItem);
         if (playerItem != null)
         {
+            if(sessionId == NetworkManager.Instance.sessionId)
+            {
+                enterButton.GetComponent<Image>().sprite = isReady ? readySprites[1] : readySprites[0];
+                readyText.text = isReady ? "Ready" : "Not Ready";
+            }
+            
             playerItem.ChangeColor(isReady);
         }
 

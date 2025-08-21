@@ -2758,6 +2758,7 @@ MonoBehaviour:
   backButton: {fileID: 202535855985303348}
   enterButton: {fileID: 2584820522520241765}
   popupOpenButton: {fileID: 8997645168472428562}
+  readyText: {fileID: 5442506738173136375}
   playerItem: {fileID: 0}
   chatMessage: {fileID: 0}
   readySprites:

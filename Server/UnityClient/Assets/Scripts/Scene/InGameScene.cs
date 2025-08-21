@@ -8,7 +8,7 @@ public class InGameScene : MonoBehaviour
     {
         UIManager.Instance.Push(UIType.UIPopup_InGame);
         PlayerManager.Instance.GeneratePlayer();
-    }
 
-    
+        
+    }
 }
