@@ -43,6 +43,12 @@
     <int name ="tick"/>
   </packet>
 
+  <packet name ="C_InputPacket">
+    <int name ="moveX"/>
+    <int name ="moveY"/>
+    <bool name ="sprint"/>
+  </packet>
+  
   <packet name ="S_BroadCast_MovePacket">
     <int name ="playerId"/>
     <float name ="posX"/>

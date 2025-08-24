@@ -134,6 +134,11 @@ namespace Server
             BroadCast(broadcastPacket.Write());
         }
 
+        public void PlayerMove(ClientSession session, C_InputPacket packet)
+        {
+
+        }
+
         public void Ready(ClientSession session, C_ReadyPacket packet)
         {
             readyDic[session.sessionId] = packet.isReady;

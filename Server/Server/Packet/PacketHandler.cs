@@ -124,6 +124,14 @@ public class PacketHandler
         session.room.Push(() => session.room.Move(session, packet));
     }
 
+    public static void C_InputPacketHandler(Session s, IPacket pkt)
+    {
+        ClientSession session = s as ClientSession;
+        C_InputPacket packet = pkt as C_InputPacket;
+
+        session.room.Push(() => session.room.PlayerMove(session, packet));
+    }
+
     public static void C_ReadyPacketHandler(Session s, IPacket pkt)
     {
         ClientSession session = s as ClientSession;

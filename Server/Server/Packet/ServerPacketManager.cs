@@ -48,6 +48,9 @@ public class PacketManager
         makePacket.Add((ushort) PacketID.C_MovePacket, MakePacket<C_MovePacket>);
         handler.Add((ushort) PacketID.C_MovePacket, PacketHandler.C_MovePacketHandler);
 
+        makePacket.Add((ushort) PacketID.C_InputPacket, MakePacket<C_InputPacket>);
+        handler.Add((ushort) PacketID.C_InputPacket, PacketHandler.C_InputPacketHandler);
+
         makePacket.Add((ushort) PacketID.C_ExitRoom, MakePacket<C_ExitRoom>);
         handler.Add((ushort) PacketID.C_ExitRoom, PacketHandler.C_ExitRoomHandler);
 
