@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Server
 {
@@ -19,13 +21,15 @@ namespace Server
 
         public int loadingCompleteCount = 0;
 
+        public Dictionary<int, Player> playerDic = new Dictionary<int, Player>();
+
         public Dictionary<int, bool> readyDic = new Dictionary<int, bool>();
         public List<ClientSession> sessionList = new List<ClientSession>();
         public List<ArraySegment<byte>> pendingList = new List<ArraySegment<byte>>();
         public JobQueue JobQueue = new JobQueue();
 
         public GameManager gameManager = new GameManager();
-
+        float fixedDeltaTime = 1.0f / 30.0f;
         public void Push(Action job)
         {
             JobQueue.Push(job);
@@ -136,7 +140,14 @@ namespace Server
 
         public void PlayerMove(ClientSession session, C_InputPacket packet)
         {
-
+            Player player = null;
+            playerDic.TryGetValue(session.sessionId, out player);
+            if(player != null)
+            {
+                player.currentMoveX = packet.moveX;
+                player.currentMoveY = packet.moveY;
+                player.currentSprint = packet.sprint;
+            }
         }
 
         public void Ready(ClientSession session, C_ReadyPacket packet)

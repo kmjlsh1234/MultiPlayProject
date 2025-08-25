@@ -20,6 +20,7 @@ public class SplashScene : MonoBehaviour
         PlayerManager.Instance.Init();
         LoadingSceneManager.Instance.Init();
         GameManager.Instance.Init();
+        HttpManager.Instance.Init();
         popup.SetActive(false);
     }
 

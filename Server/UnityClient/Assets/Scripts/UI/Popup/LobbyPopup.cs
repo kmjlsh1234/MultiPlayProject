@@ -1,7 +1,10 @@
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TMPro;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class LobbyPopup : UIBase
@@ -42,6 +45,31 @@ public class LobbyPopup : UIBase
 
         playerInfo.text = $"sessionId : {NetworkManager.Instance.sessionId}";
         RefreshRoomList();
+
+        //HttpManager.Instance.SendRequest<UnityWebRequest>("/api/v1/room/list",null, HTTPMethod.GET, ResRoomList);
+
+    }
+
+    void ResRoomList(UnityWebRequest res)
+    {
+        if (res.result == UnityWebRequest.Result.Success)
+        {
+            List<RoomData> list = JsonConvert.DeserializeObject<List<RoomData>>(res.downloadHandler.text);
+            if (list != null && list.Count > 0)
+            {
+                Dictionary<int, RoomData> dic = new Dictionary<int, RoomData>();
+                foreach (RoomData room in list)
+                {
+                    if (!dic.ContainsKey(room.roomId))
+                    {
+                        dic.Add(room.roomId, room);
+                    }
+                }
+
+                // 기존 UI 업데이트 로직 재사용
+                UpdateRoomList(dic);
+            }
+        }
     }
 
     void UpdateRoomList(Dictionary<int, RoomData> dic)
@@ -80,7 +108,7 @@ public class LobbyPopup : UIBase
             go.transform.SetParent(roomListRoot);
 
             RoomItem item = go.GetComponent<RoomItem>();
-            item.Init(pair.Value.roomId, pair.Value.roomName, pair.Value.playerCount);
+            item.Init(pair.Value.roomId, pair.Value.roomName);
 
             roomDic.Add(pair.Value.roomId, item);
         }

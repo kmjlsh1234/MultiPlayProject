@@ -6,7 +6,7 @@ public class RoomItem : MonoBehaviour
 {
     public int roomId;
     public string roomName;
-    public int playerCount;
+
     [SerializeField] private TMP_Text roomText;
     [SerializeField] private Button enterButton;
 
@@ -15,12 +15,11 @@ public class RoomItem : MonoBehaviour
         enterButton.onClick.AddListener(() => EnterRoom());
     }
 
-    public void Init(int roomId, string roomName, int playerCount)
+    public void Init(int roomId, string roomName)
     {
         this.roomId = roomId;
         this.roomName = roomName;
-        this.playerCount = playerCount;
-        roomText.text = $"RoomId : {roomId}\nRoomName : {roomName}\nPlayerCount : {playerCount}";  
+        roomText.text = $"RoomId : {roomId}\nRoomName : {roomName}";  
     }
 
     void EnterRoom()

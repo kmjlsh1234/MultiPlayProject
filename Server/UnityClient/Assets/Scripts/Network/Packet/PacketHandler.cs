@@ -139,7 +139,6 @@ public class PacketHandler
             { 
                 roomId = p.roomId, 
                 roomName = p.roomName,
-                playerCount = p.playerCount,
             });
         }
         

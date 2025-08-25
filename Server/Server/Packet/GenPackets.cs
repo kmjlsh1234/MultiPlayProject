@@ -844,9 +844,9 @@ public class C_MovePacket : IPacket
 public class C_InputPacket : IPacket
 {
     
-    public int moveX;
+    public float moveX;
 
-    public int moveY;
+    public float moveY;
 
     public bool sprint;
 
@@ -868,11 +868,11 @@ public class C_InputPacket : IPacket
         pos += sizeof(ushort);
 
         
-        this.moveX = BitConverter.ToInt32(buffer.Array, buffer.Offset + pos);
-        pos += sizeof(int);
+        this.moveX = BitConverter.ToSingle(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(float);
 
-        this.moveY = BitConverter.ToInt32(buffer.Array, buffer.Offset + pos);
-        pos += sizeof(int);
+        this.moveY = BitConverter.ToSingle(buffer.Array, buffer.Offset + pos);
+        pos += sizeof(float);
 
         this.sprint = BitConverter.ToBoolean(buffer.Array, buffer.Offset + pos);
         pos += sizeof(bool);
@@ -906,18 +906,18 @@ public class C_InputPacket : IPacket
                     sourceIndex: 0,
                     destinationArray: buffer.Array,
                     destinationIndex: buffer.Offset + pos,
-                    length: sizeof(int)
+                    length: sizeof(float)
         );
-        pos += sizeof(int);
+        pos += sizeof(float);
 
         Array.Copy(
                     sourceArray: BitConverter.GetBytes(this.moveY),
                     sourceIndex: 0,
                     destinationArray: buffer.Array,
                     destinationIndex: buffer.Offset + pos,
-                    length: sizeof(int)
+                    length: sizeof(float)
         );
-        pos += sizeof(int);
+        pos += sizeof(float);
 
         Array.Copy(
                     sourceArray: BitConverter.GetBytes(this.sprint),

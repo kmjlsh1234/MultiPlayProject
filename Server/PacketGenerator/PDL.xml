@@ -44,8 +44,8 @@
   </packet>
 
   <packet name ="C_InputPacket">
-    <int name ="moveX"/>
-    <int name ="moveY"/>
+    <float name ="moveX"/>
+    <float name ="moveY"/>
     <bool name ="sprint"/>
   </packet>
   

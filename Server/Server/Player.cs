@@ -10,6 +10,19 @@ namespace Server
     public class Player
     {
         public Vector3 pos;
-        
+        public Quaternion rot;
+        public float sprintSpeed = 5.335f;
+        public float moveSpeed = 2.0f;
+
+        public float currentMoveX;
+        public float currentMoveY;
+        public bool currentSprint;
+
+        public Player(Vector3 spawnPos)
+        {
+            pos = spawnPos;
+            rot = Quaternion.Identity;
+        }
+
     }
 }
