@@ -30,6 +30,7 @@ namespace Server
             Console.WriteLine($"Timer : {timer}");
             if (timer % 10 == 0)
             {
+                /*
                 S_BroadCast_SpawnEnemy packet = new S_BroadCast_SpawnEnemy()
                 {
                     posX = random.Next(0, 2) == 0 ? -50 : 50,
@@ -38,6 +39,7 @@ namespace Server
 
                 room.BroadCast(packet.Write());
                 Console.WriteLine($"Spawn Enemy at ({packet.posX}, {packet.posZ})");
+                */
             }
         }
     }

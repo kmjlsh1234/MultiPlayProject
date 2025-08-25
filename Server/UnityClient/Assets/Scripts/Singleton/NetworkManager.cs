@@ -1,3 +1,4 @@
+using Google.Protobuf;
 using ServerCore;
 using System;
 using System.Collections.Generic;
@@ -29,10 +30,14 @@ public class NetworkManager : SingletonBase<NetworkManager>
 
     void Update()
     {
-        List<IPacket> packets = PacketQueue.Instance.PopAll();
-        foreach (IPacket packet in packets)
+        List<PacketMessage> packets = PacketQueue.Instance.PopAll();
+        foreach (PacketMessage packet in packets)
         {
-            PacketManager.Instance.HandlePacket(session, packet);
+            Action<Session, IMessage> handler = PacketManager.Instance.GetPacketHandler(packet.id);
+            if(handler != null)
+            {
+                handler.Invoke(session, packet.message);
+            }
         }
     }
 }

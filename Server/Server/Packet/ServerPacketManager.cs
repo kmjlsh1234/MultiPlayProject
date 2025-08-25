@@ -1,3 +1,5 @@
+using Google.Protobuf;
+using Google.Protobuf.Protocol;
 using ServerCore;
 using System;
 using System.Collections.Generic;
@@ -24,98 +26,91 @@ public class PacketManager
         Register();
     }
 
-    Dictionary<ushort, Func<ArraySegment<byte>, IPacket>> makePacket = new Dictionary<ushort, Func<ArraySegment<byte>, IPacket>> ();
-    Dictionary<ushort, Action<Session, IPacket>> handler = new Dictionary<ushort, Action<Session, IPacket>>();
+    Dictionary<ushort, Action<Session, ArraySegment<byte>, ushort>> onRecv = new Dictionary<ushort, Action<Session, ArraySegment<byte>, ushort>> ();
+    Dictionary<ushort, Action<Session, IMessage>> handler = new Dictionary<ushort, Action<Session, IMessage>>();
+
 
     public void Register()
     {
+        onRecv.Add((ushort) MsgId.CPing, MakePacket<C_Ping>);
+        handler.Add((ushort)MsgId.CPing, PacketHandler.C_PingHandler);
+
+        onRecv.Add((ushort) MsgId.CPlayerinfo, MakePacket<C_Playerinfo>);
+        handler.Add((ushort)MsgId.CPlayerinfo, PacketHandler.C_PlayerinfoHandler);
+
+        onRecv.Add((ushort) MsgId.CChat, MakePacket<C_Chat>);
+        handler.Add((ushort)MsgId.CChat, PacketHandler.C_ChatHandler);
+
+        onRecv.Add((ushort) MsgId.CReady, MakePacket<C_Ready>);
+        handler.Add((ushort)MsgId.CReady, PacketHandler.C_ReadyHandler);
+
+        onRecv.Add((ushort) MsgId.CStart, MakePacket<C_Start>);
+        handler.Add((ushort)MsgId.CStart, PacketHandler.C_StartHandler);
+
+        onRecv.Add((ushort) MsgId.CMove, MakePacket<C_Move>);
+        handler.Add((ushort)MsgId.CMove, PacketHandler.C_MoveHandler);
+
+        onRecv.Add((ushort) MsgId.CInput, MakePacket<C_Input>);
+        handler.Add((ushort)MsgId.CInput, PacketHandler.C_InputHandler);
+
+        onRecv.Add((ushort) MsgId.CExitroom, MakePacket<C_Exitroom>);
+        handler.Add((ushort)MsgId.CExitroom, PacketHandler.C_ExitroomHandler);
+
+        onRecv.Add((ushort) MsgId.CCreateroom, MakePacket<C_Createroom>);
+        handler.Add((ushort)MsgId.CCreateroom, PacketHandler.C_CreateroomHandler);
+
+        onRecv.Add((ushort) MsgId.CCreateorjoinroom, MakePacket<C_Createorjoinroom>);
+        handler.Add((ushort)MsgId.CCreateorjoinroom, PacketHandler.C_CreateorjoinroomHandler);
+
+        onRecv.Add((ushort) MsgId.CEnterroom, MakePacket<C_Enterroom>);
+        handler.Add((ushort)MsgId.CEnterroom, PacketHandler.C_EnterroomHandler);
+
+        onRecv.Add((ushort) MsgId.CRoomlist, MakePacket<C_Roomlist>);
+        handler.Add((ushort)MsgId.CRoomlist, PacketHandler.C_RoomlistHandler);
+
+        onRecv.Add((ushort) MsgId.CLoadingcomplete, MakePacket<C_Loadingcomplete>);
+        handler.Add((ushort)MsgId.CLoadingcomplete, PacketHandler.C_LoadingcompleteHandler);
+
+        onRecv.Add((ushort) MsgId.CInvite, MakePacket<C_Invite>);
+        handler.Add((ushort)MsgId.CInvite, PacketHandler.C_InviteHandler);
         
-        makePacket.Add((ushort) PacketID.C_PingPacket, MakePacket<C_PingPacket>);
-        handler.Add((ushort) PacketID.C_PingPacket, PacketHandler.C_PingPacketHandler);
-
-        makePacket.Add((ushort) PacketID.C_PlayerInfoPacket, MakePacket<C_PlayerInfoPacket>);
-        handler.Add((ushort) PacketID.C_PlayerInfoPacket, PacketHandler.C_PlayerInfoPacketHandler);
-
-        makePacket.Add((ushort) PacketID.C_Chat, MakePacket<C_Chat>);
-        handler.Add((ushort) PacketID.C_Chat, PacketHandler.C_ChatHandler);
-
-        makePacket.Add((ushort) PacketID.C_ReadyPacket, MakePacket<C_ReadyPacket>);
-        handler.Add((ushort) PacketID.C_ReadyPacket, PacketHandler.C_ReadyPacketHandler);
-
-        makePacket.Add((ushort) PacketID.C_StartPacket, MakePacket<C_StartPacket>);
-        handler.Add((ushort) PacketID.C_StartPacket, PacketHandler.C_StartPacketHandler);
-
-        makePacket.Add((ushort) PacketID.C_MovePacket, MakePacket<C_MovePacket>);
-        handler.Add((ushort) PacketID.C_MovePacket, PacketHandler.C_MovePacketHandler);
-
-        makePacket.Add((ushort) PacketID.C_InputPacket, MakePacket<C_InputPacket>);
-        handler.Add((ushort) PacketID.C_InputPacket, PacketHandler.C_InputPacketHandler);
-
-        makePacket.Add((ushort) PacketID.C_ExitRoom, MakePacket<C_ExitRoom>);
-        handler.Add((ushort) PacketID.C_ExitRoom, PacketHandler.C_ExitRoomHandler);
-
-        makePacket.Add((ushort) PacketID.C_CreateRoom, MakePacket<C_CreateRoom>);
-        handler.Add((ushort) PacketID.C_CreateRoom, PacketHandler.C_CreateRoomHandler);
-
-        makePacket.Add((ushort) PacketID.C_CreateOrJoinRoom, MakePacket<C_CreateOrJoinRoom>);
-        handler.Add((ushort) PacketID.C_CreateOrJoinRoom, PacketHandler.C_CreateOrJoinRoomHandler);
-
-        makePacket.Add((ushort) PacketID.C_EnterRoom, MakePacket<C_EnterRoom>);
-        handler.Add((ushort) PacketID.C_EnterRoom, PacketHandler.C_EnterRoomHandler);
-
-        makePacket.Add((ushort) PacketID.C_RoomList, MakePacket<C_RoomList>);
-        handler.Add((ushort) PacketID.C_RoomList, PacketHandler.C_RoomListHandler);
-
-        makePacket.Add((ushort) PacketID.C_LoadingCompletePacket, MakePacket<C_LoadingCompletePacket>);
-        handler.Add((ushort) PacketID.C_LoadingCompletePacket, PacketHandler.C_LoadingCompletePacketHandler);
-
-        makePacket.Add((ushort) PacketID.C_InvitePacket, MakePacket<C_InvitePacket>);
-        handler.Add((ushort) PacketID.C_InvitePacket, PacketHandler.C_InvitePacketHandler);
-
+    
     }
 
-    public void OnRecvPacket(Session session, ArraySegment<byte> buffer, Action<Session, IPacket> onRecvCallBack = null)
+    public void OnRecvPacket(Session session, ArraySegment<byte> buffer)
     {
         ushort pos = 0;
         ushort dataSize = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
         pos += sizeof(ushort);
-        ushort packetId = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
+        ushort id = BitConverter.ToUInt16(buffer.Array, buffer.Offset + pos);
 
-        Func<ArraySegment<byte>, IPacket> func = null;
+        Action<Session, ArraySegment<byte>, ushort> action = null;
 
-        if(makePacket.TryGetValue(packetId, out func))
+        if(onRecv.TryGetValue(id, out action))
         {
-            IPacket packet = func.Invoke(buffer);
-            if(onRecvCallBack != null)
-            {
-                onRecvCallBack(session, packet);
-            }
-            else
-            {
-                HandlePacket(session, packet);
-            } 
-        }
-    }
-
-        
-    T MakePacket<T>(ArraySegment<byte> buffer) where T : IPacket, new()
-    {
-        T packet = new T();
-        packet.Read(buffer);
-        return packet;
-    }
-
-    public void HandlePacket(Session session, IPacket packet)
-    {
-        Action<Session, IPacket> action = null;
-        if (handler.TryGetValue(packet.Protocol, out action))
-        {
-            action.Invoke(session, packet);
+            action.Invoke(session, buffer, id);
         }
     }
 
 
+    void MakePacket<T>(Session session, ArraySegment<byte> buffer, ushort id) where T : IMessage, new()
+    {
+        T pkt = new T();
+        pkt.MergeFrom(buffer.Array, buffer.Offset + 4, buffer.Count - 4);
+        Action<Session, IMessage> action = null;
+        if(handler.TryGetValue(id, out action))
+        {
+            action.Invoke(session, pkt);
+        }
+    }
 
-
-
+    public Action<Session, IMessage> GetPacketHandler(ushort id)
+    {
+        Action<Session, IMessage> action = null;
+        if(handler.TryGetValue(id, out action))
+        {
+            return action;
+        }
+        return null;
+    }
 }

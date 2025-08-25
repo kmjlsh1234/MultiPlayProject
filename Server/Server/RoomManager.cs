@@ -21,6 +21,7 @@ namespace Server
 
         }
 
+        /*
         public void CreateRoom(ClientSession session, C_CreateRoom packet)
         {
             lock (key)
@@ -35,6 +36,7 @@ namespace Server
                 Console.WriteLine($"CreateRoom / roomName : {room.roomName}, roomId : {room.roomId}");
             }
         }
+        */
 
         public void RemoveRoom(int roomId)
         {

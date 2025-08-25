@@ -1,9 +1,16 @@
-﻿using ServerCore;
+﻿using Google.Protobuf;
+using ServerCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+public class PacketMessage
+{
+    public ushort id { get; set; }
+    public IMessage message { get; set; }
+}
 
 public class PacketQueue
 {
@@ -21,20 +28,20 @@ public class PacketQueue
         }
     }
 
-    Queue<IPacket> packetQueue = new Queue<IPacket> ();
+    Queue<PacketMessage> packetQueue = new Queue<PacketMessage> ();
     object key = new object ();
 
-    public void Push(IPacket packet)
+    public void Push(ushort id, IMessage packet)
     {
         lock (key)
         {
-            packetQueue.Enqueue (packet);
+            packetQueue.Enqueue (new PacketMessage() { id = id, message = packet});
         }
     }
 
-    public List<IPacket> PopAll()
+    public List<PacketMessage> PopAll()
     {
-        List<IPacket> packets = new List<IPacket> ();
+        List<PacketMessage> packets = new List<PacketMessage> ();
         lock (key)
         {
             while(packetQueue.Count > 0)

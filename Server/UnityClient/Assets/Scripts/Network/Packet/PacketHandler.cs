@@ -1,3 +1,4 @@
+using Google.Protobuf;
 using ServerCore;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -6,12 +7,12 @@ using UnityEngine.SceneManagement;
 
 public class PacketHandler
 {
-    public static void S_PongPacketHandler(Session s, IPacket pkt)
+    public static void S_PongHandler(Session s, IMessage pkt)
     {
 
     }
 
-    public static void S_MoveLobbyPacketHandler(Session s, IPacket pkt) 
+    public static void S_MovelobbyHandler(Session s, IMessage pkt) 
     { 
         S_MoveLobbyPacket packet = pkt as S_MoveLobbyPacket;
         NetworkManager.Instance.sessionId = packet.sessionId;
@@ -20,7 +21,7 @@ public class PacketHandler
     }
 
     #region :::: Room
-    public static void S_BroadCast_EnterRoomHandler(Session session, IPacket pkt)
+    public static void S_EnterroomHandler(Session session, IMessage pkt)
     {
         Debug.Log("S_BroadCast_EnterRoom");
         ServerSession serverSession = session as ServerSession;
@@ -39,7 +40,7 @@ public class PacketHandler
         ChatManager.Instance.AddPlayer(playerData);
     }
 
-    public static void S_BroadCast_ExitRoomHandler(Session session, IPacket pkt)
+    public static void S_ExitroomHandler(Session session, IMessage pkt)
     {
         Debug.Log("S_BroadCast_ExitRoom");
         ServerSession serverSession = session as ServerSession;
@@ -56,7 +57,7 @@ public class PacketHandler
         }
     }
 
-    public static void S_BroadCast_ChangeRoomInfoHandler(Session session, IPacket pkt)
+    public static void S_ChangeroominfoHandler(Session session, IMessage pkt)
     {
         Debug.Log("S_BroadCast_ChangeRoomInfo");
 
@@ -72,7 +73,7 @@ public class PacketHandler
     }
 
     #endregion
-    public static void S_BroadCast_ChatHandler(Session session, IPacket pkt)
+    public static void S_ChatHandler(Session session, IMessage pkt)
     {
         Debug.Log("S_BroadCast_Chat");
         ServerSession serverSession = session as ServerSession;
@@ -88,7 +89,7 @@ public class PacketHandler
 
     
 
-    public static void S_RoomInfoHandler(Session session, IPacket pkt)
+    public static void S_RoominfoHandler(Session session, IMessage pkt)
     {
         Debug.Log("S_RoomInfo");
 
@@ -126,7 +127,7 @@ public class PacketHandler
 
     
 
-    public static void S_RoomListHandler(Session session, IPacket pkt)
+    public static void S_RoomlistHandler(Session session, IMessage pkt)
     {
         Debug.Log("S_RoomList");
 
@@ -145,7 +146,7 @@ public class PacketHandler
         DataManager.Instance.OnRoomListRecvCompleted(dic);
     }
 
-    public static void S_ErrorCodeHandler(Session session, IPacket pkt)
+    public static void S_ErrorcodeHandler(Session session, IMessage pkt)
     {
         Debug.Log("S_ErrorCode");
 
@@ -155,7 +156,7 @@ public class PacketHandler
         UIManager.Instance.Push(UIType.UIPopup_Error, packet);
     }
 
-    public static void S_BroadCast_MovePacketHandler(Session session, IPacket pkt)
+    public static void S_MoveHandler(Session session, IMessage pkt)
     {
         ServerSession serverSession = session as ServerSession;
         S_BroadCast_MovePacket packet = pkt as S_BroadCast_MovePacket;
@@ -163,7 +164,7 @@ public class PacketHandler
         PlayerManager.Instance.OnPacketRecv(packet);
     }
 
-    public static void S_BroadCast_ReadyPacketHandler(Session session, IPacket pkt)
+    public static void S_ReadyHandler(Session session, IMessage pkt)
     {
         Debug.Log("S_BroadCast_ReadyPacket");
 
@@ -174,7 +175,7 @@ public class PacketHandler
     }
 
     //로딩 시작
-    public static void S_BroadCast_LoadingStartPacketHandler(Session session, IPacket pkt)
+    public static void S_LoadingstartHandler(Session session, IMessage pkt)
     {
         Debug.Log(" S_BroadCast_LoadingStartPacket");
 
@@ -183,20 +184,20 @@ public class PacketHandler
     }
 
     //인게임 전환
-    public static void S_InGameStartHandler(Session session, IPacket pkt)
+    public static void S_IngamestartHandler(Session session, IMessage pkt)
     {
         Debug.Log(" S_InGameStart");
         LoadingSceneManager.Instance.OnLoadingCompleted.Invoke();
     }
 
-    public static void S_InvitePacketHandler(Session session, IPacket pkt)
+    public static void S_InviteHandler(Session session, IMessage pkt)
     {
         Debug.Log("S_InvitePacket");
         S_InvitePacket packet = pkt as S_InvitePacket;
         UIManager.Instance.Push(UIType.UIPopup_Invite, packet);
     }
 
-    public static void S_BroadCast_SpawnEnemyHandler(Session session, IPacket pkt)
+    public static void S_SpawnenemyHandler(Session session, IMessage pkt)
     {
         S_BroadCast_SpawnEnemy packet = pkt as S_BroadCast_SpawnEnemy;
         GameManager.Instance.SpawnEnemy(packet);

@@ -53,7 +53,7 @@ namespace Server
 
         public void EnterRoom(ClientSession session)
         {
-            
+            /*
             session.room = this;
             sessionList.Add(session);
             readyDic.Add(session.sessionId, false);
@@ -90,10 +90,12 @@ namespace Server
             BroadCast(broadCastPacket.Write());
 
             Console.WriteLine($"sessionId : [{session.sessionId}] enter room [{session.room.roomName}]");
+            */
         }
 
         public void ExitRoom(ClientSession session, int roomId)
         {
+            /*
             sessionList.Remove(session);
 
             //나가는 사람이 Master인지 체크
@@ -121,10 +123,12 @@ namespace Server
             //모두에게 알린다
             S_BroadCast_ExitRoom packet = new S_BroadCast_ExitRoom() { sessionId = session.sessionId };
             BroadCast(packet.Write());
+            */
         }
-
+        /*
         public void Move(ClientSession session, C_MovePacket packet)
         {
+            
             Console.WriteLine($"Client {session.sessionId} :: Pos [{packet.posX},{packet.posY},{packet.posZ}] :: Rotation [{packet.rotY}]");
             //BroadCast
             S_BroadCast_MovePacket broadcastPacket = new S_BroadCast_MovePacket()
@@ -136,8 +140,11 @@ namespace Server
                 rotY = packet.rotY,
             };
             BroadCast(broadcastPacket.Write());
+            
         }
+        */
 
+        /*
         public void PlayerMove(ClientSession session, C_InputPacket packet)
         {
             Player player = null;
@@ -149,9 +156,11 @@ namespace Server
                 player.currentSprint = packet.sprint;
             }
         }
-
+        */
+        /*
         public void Ready(ClientSession session, C_ReadyPacket packet)
         {
+            
             readyDic[session.sessionId] = packet.isReady;
             readyCount = packet.isReady ? ++readyCount : --readyCount;
 
@@ -180,10 +189,13 @@ namespace Server
                     BroadCast(startPacket.Write());
                 }
             }
+            
         }
+        */
 
         public void LoadingComplete(ClientSession session)
         {
+            /*
             Console.WriteLine($"Session Id {session.sessionId} Loading Complete");
             loadingCompleteCount++;
             if(sessionList.Count == loadingCompleteCount)
@@ -193,7 +205,7 @@ namespace Server
                 gameManager.StartGame(this);
                 Console.WriteLine($"All Player Loading Complete");
             }
-            
+            */
         }
         #endregion
         
