@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.Protocol;
+using Server.Game;
 using ServerCore;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,8 @@ namespace Server
     public class ClientSession : Session
     {
         public int sessionId { get; set; }
-        public string nickName { get; set; }
 
-        public Room room { get; set; }
+        public GameRoom room { get; set; }
 
         public void Send(IMessage packet)
         {
@@ -43,8 +43,8 @@ namespace Server
             SessionManager.Instance.Remove(this);
             if(room != null)
             {
-                Room copyRoom = room;
-                copyRoom.Push(() => copyRoom.ExitRoom(this, copyRoom.roomId));
+                GameRoom copyRoom = room;
+                //copyRoom.Push(() => copyRoom.ExitRoom(this, copyRoom.roomId));
                 room = null;
             }
         }

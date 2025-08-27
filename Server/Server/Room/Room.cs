@@ -8,28 +8,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Server
+namespace Server.Room
 {
-    public class Room
+    public abstract class Room
     {
         //Room Info
-        public int roomId;
-        public int masterId;
-        public string roomName;
+        public int roomId { get; set; }
+        public int masterId { get; set; }
 
-        public int readyCount = 0;
+        public Dictionary<int, ClientSession> sessions = new Dictionary<int, ClientSession>();
 
-        public int loadingCompleteCount = 0;
+        //public string roomName;
+        //public int readyCount = 0;
+        //public int loadingCompleteCount = 0;
 
-        public Dictionary<int, Player> playerDic = new Dictionary<int, Player>();
+        //public Dictionary<int, Player> playerDic = new Dictionary<int, Player>();
 
-        public Dictionary<int, bool> readyDic = new Dictionary<int, bool>();
-        public List<ClientSession> sessionList = new List<ClientSession>();
-        public List<ArraySegment<byte>> pendingList = new List<ArraySegment<byte>>();
-        public JobQueue JobQueue = new JobQueue();
+        //public Dictionary<int, bool> readyDic = new Dictionary<int, bool>();
+        //public List<ClientSession> sessionList = new List<ClientSession>();
+        //public List<ArraySegment<byte>> pendingList = new List<ArraySegment<byte>>();
+        //public JobQueue JobQueue = new JobQueue();
 
-        public GameManager gameManager = new GameManager();
-        float fixedDeltaTime = 1.0f / 30.0f;
+        //float fixedDeltaTime = 1.0f / 30.0f;
+
+        /*
         public void Push(Action job)
         {
             JobQueue.Push(job);
@@ -43,17 +45,21 @@ namespace Server
             }
             pendingList.Clear();
         }
+        */
 
         public void BroadCast(ArraySegment<byte> buffer)
         {
-            pendingList.Add(buffer);
+            //pendingList.Add(buffer);
         }
 
-        #region Room Function
+        public abstract void EnterRoom(ClientSession session);
 
+        public abstract void ExitRoom(ClientSession session);
+
+        /*
         public void EnterRoom(ClientSession session)
         {
-            /*
+            
             session.room = this;
             sessionList.Add(session);
             readyDic.Add(session.sessionId, false);
@@ -90,41 +96,45 @@ namespace Server
             BroadCast(broadCastPacket.Write());
 
             Console.WriteLine($"sessionId : [{session.sessionId}] enter room [{session.room.roomName}]");
-            */
-        }
-
-        public void ExitRoom(ClientSession session, int roomId)
-        {
-            /*
-            sessionList.Remove(session);
-
-            //나가는 사람이 Master인지 체크
-            if (session.sessionId == masterId && sessionList.Count > 0)
-            {
-                masterId = sessionList[0].sessionId;
-                S_BroadCast_ChangeRoomInfo broadCastPacket = new S_BroadCast_ChangeRoomInfo()
-                {
-                    roomId = session.room.roomId,
-                    roomName = session.room.roomName,
-                    masterId = masterId
-
-                };
-                BroadCast(broadCastPacket.Write());
-                Console.WriteLine($"Master : {session.sessionId} -> {masterId}");
-            }
             
-            readyDic.Remove(session.sessionId);
-
-            if(sessionList.Count == 0 )
-            {
-                Program.roomManager.RemoveRoom(roomId);
-            }
-
-            //모두에게 알린다
-            S_BroadCast_ExitRoom packet = new S_BroadCast_ExitRoom() { sessionId = session.sessionId };
-            BroadCast(packet.Write());
-            */
         }
+        */
+
+        /*
+       public void ExitRoom(ClientSession session, int roomId)
+       {
+           /*
+           sessionList.Remove(session);
+
+           //나가는 사람이 Master인지 체크
+           if (session.sessionId == masterId && sessionList.Count > 0)
+           {
+               masterId = sessionList[0].sessionId;
+               S_BroadCast_ChangeRoomInfo broadCastPacket = new S_BroadCast_ChangeRoomInfo()
+               {
+                   roomId = session.room.roomId,
+                   roomName = session.room.roomName,
+                   masterId = masterId
+
+               };
+               BroadCast(broadCastPacket.Write());
+               Console.WriteLine($"Master : {session.sessionId} -> {masterId}");
+           }
+
+           readyDic.Remove(session.sessionId);
+
+           if(sessionList.Count == 0 )
+           {
+               Program.roomManager.RemoveRoom(roomId);
+           }
+
+           //모두에게 알린다
+           S_BroadCast_ExitRoom packet = new S_BroadCast_ExitRoom() { sessionId = session.sessionId };
+           BroadCast(packet.Write());
+
+       }
+        */
+
         /*
         public void Move(ClientSession session, C_MovePacket packet)
         {
@@ -192,10 +202,10 @@ namespace Server
             
         }
         */
-
+        /*
         public void LoadingComplete(ClientSession session)
         {
-            /*
+            
             Console.WriteLine($"Session Id {session.sessionId} Loading Complete");
             loadingCompleteCount++;
             if(sessionList.Count == loadingCompleteCount)
@@ -205,9 +215,8 @@ namespace Server
                 gameManager.StartGame(this);
                 Console.WriteLine($"All Player Loading Complete");
             }
-            */
-        }
-        #endregion
-        
+            
+    }
+        */
     }
 }

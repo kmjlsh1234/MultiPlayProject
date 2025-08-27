@@ -19,20 +19,8 @@ using System.Collections.Generic;
 
 public class PacketManager
 {{
-    #region
-    private static PacketManager instance;
-    public static PacketManager Instance
-    {{
-        get
-        {{
-            if(instance == null)
-            {{
-                instance = new PacketManager();
-            }}
-            return instance;
-        }}
-    }}
-    #endregion
+    static PacketManager _instance = new PacketManager();
+	public static PacketManager Instance {{ get {{ return _instance; }} }}
 
     public PacketManager()
     {{
@@ -42,6 +30,7 @@ public class PacketManager
     Dictionary<ushort, Action<Session, ArraySegment<byte>, ushort>> onRecv = new Dictionary<ushort, Action<Session, ArraySegment<byte>, ushort>> ();
     Dictionary<ushort, Action<Session, IMessage>> handler = new Dictionary<ushort, Action<Session, IMessage>>();
 
+    public Action<Session, IMessage, ushort> CustomHandler {{ get; set; }}
 
     public void Register()
     {{{0}        
@@ -68,10 +57,18 @@ public class PacketManager
     {{
         T pkt = new T();
         pkt.MergeFrom(buffer.Array, buffer.Offset + 4, buffer.Count - 4);
-        Action<Session, IMessage> action = null;
-        if(handler.TryGetValue(id, out action))
+
+        if(CustomHandler != null)
         {{
-            action.Invoke(session, pkt);
+            CustomHandler.Invoke(session, pkt, id);
+        }}
+        else
+        {{
+            Action<Session, IMessage> action = null;
+            if (handler.TryGetValue(id, out action))
+            {{
+                action.Invoke(session, pkt);
+            }}
         }}
     }}
 

@@ -1,5 +1,7 @@
 ﻿using Google.Protobuf;
+using Google.Protobuf.Protocol;
 using Server;
+using Server.Game;
 using ServerCore;
 using System;
 using System.Collections.Generic;
@@ -17,26 +19,28 @@ public class PacketHandler
 
     public static void C_PlayerinfoHandler(Session s, IMessage pkt)
     {
-        /*
-        ClientSession session = s as ClientSession;
-        C_PlayerInfoPacket packet = pkt as C_PlayerInfoPacket;
-
-        session.nickName = packet.nickName;
         
-        S_MoveLobbyPacket resPacket = new S_MoveLobbyPacket() { sessionId = session.sessionId };
-        session.Send(resPacket.Write());
-        Console.WriteLine($"Session NickName : {packet.nickName}");
-        */
+        ClientSession session = s as ClientSession;
+        C_Playerinfo packet = pkt as C_Playerinfo;
+
+        S_Connect connectPacket = new S_Connect()
+        {
+            SessionId = session.sessionId,
+        };
+        
+        session.Send(connectPacket);
     }
 
     public static void C_CreateroomHandler(Session s, IMessage pkt)
     {
-        /*
-        ClientSession session = s as ClientSession;
-        C_CreateRoom packet = pkt as C_CreateRoom;
 
-        Program.roomManager.CreateRoom(session, packet);
-        */
+        ClientSession session = s as ClientSession;
+        C_Createroom packet = pkt as C_Createroom;
+
+        GameRoom gameRoom = RoomManager.Instance.CreateRoom(session);
+
+        session.room = gameRoom;
+        gameRoom.EnterGame(session);
     }
 
     public static void C_EnterroomHandler(Session s, IMessage pkt)
@@ -62,21 +66,11 @@ public class PacketHandler
 
     public static void C_CreateorjoinroomHandler(Session s, IMessage pkt)
     {
-        /*
         ClientSession session = s as ClientSession;
 
-        Room room = Program.roomManager.FindAvailableRoom();
-        if(room != null)
-        {
-            session.room = room;
-            session.room.Push(() => session.room.EnterRoom(session));
-        }
-        else
-        {
-            C_CreateRoom packet = new C_CreateRoom() { roomName = "Random Room"};
-            Program.roomManager.CreateRoom(session, packet);
-        }
-        */
+        GameRoom gameRoom = RoomManager.Instance.CreateOrJoinRoom(session);
+        session.room = gameRoom;
+        gameRoom.EnterGame(session);
     }
     
     public static void C_ChatHandler(Session s, IMessage pkt)
@@ -160,7 +154,7 @@ public class PacketHandler
     public static void C_LoadingcompleteHandler(Session s, IMessage pkt)
     {        
         ClientSession session = s as ClientSession;
-        session.room.Push(() => session.room.LoadingComplete(session));
+        //session.room.Push(() => session.room.LoadingComplete(session));
 
     }
 

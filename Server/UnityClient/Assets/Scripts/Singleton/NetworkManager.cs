@@ -23,9 +23,9 @@ public class NetworkManager : SingletonBase<NetworkManager>
         connector.Init(endPoint, session);
     }
 
-    public void Send(ArraySegment<byte> buff)
+    public void Send(IMessage packet)
     {
-        session.Send(buff);
+        session.Send(packet);
     }
 
     void Update()

@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using ServerCore;
 using TMPro;
 using UnityEngine;
@@ -14,10 +15,10 @@ public class ErrorPopup : UIBase
         closeButton.onClick.AddListener(() => UIManager.Instance.Pop());
     }
 
-    public void Init(S_ErrorCode errorCode)
+    public void Init(S_Errorcode errorCode)
     {
-        errorCodeText.text = $"ErrorCode : {errorCode.code.ToString()}";
-        errorMessageText.text = $"ErrorMessage : {errorCode.message}";
+        errorCodeText.text = $"ErrorCode : {errorCode.Code.ToString()}";
+        errorMessageText.text = $"ErrorMessage : {errorCode.Message}";
     }
 
    

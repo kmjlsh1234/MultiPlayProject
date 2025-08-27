@@ -4,13 +4,13 @@ using System.Net.Sockets;
 using ServerCore;
 using Google.Protobuf.Protocol;
 using Google.Protobuf;
+using Server.Game;
 
 namespace Server
 {
     public class Program
     {
         static Listener listener = new Listener();
-        public static RoomManager roomManager = new RoomManager();
 
         
         
@@ -30,12 +30,13 @@ namespace Server
 
         static void FlushRoom()
         {
-
-            foreach (KeyValuePair<int, Room> pair in roomManager.GetRoomDic())
+            /*
+            foreach (KeyValuePair<int, GameRoom> pair in RoomManager.Instance.GetRooms())
             {
                 pair.Value.Push(() => pair.Value.Flush());
             }
             JobTimer.Instance.Push(FlushRoom, 250);
+            */
         }
     }
 }

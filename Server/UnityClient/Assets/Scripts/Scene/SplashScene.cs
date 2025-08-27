@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -39,11 +40,11 @@ public class SplashScene : MonoBehaviour
         }
         else
         {
-            C_PlayerInfoPacket packet = new C_PlayerInfoPacket()
+            C_Playerinfo packet = new C_Playerinfo()
             {
-                nickName = nickNameField.text,
+                NickName = nickNameField.text,
             };
-            NetworkManager.Instance.Send(packet.Write());
+            NetworkManager.Instance.Send(packet);
         }
     }
 }

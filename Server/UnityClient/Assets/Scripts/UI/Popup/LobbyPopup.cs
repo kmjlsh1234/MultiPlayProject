@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -122,20 +123,20 @@ public class LobbyPopup : UIBase
 
     void CreateRoom()
     {
-        C_CreateRoom packet = new C_CreateRoom() { roomName = roomNameField.text};
-        NetworkManager.Instance.Send(packet.Write());
+        C_Createroom packet = new C_Createroom();
+        NetworkManager.Instance.Send(packet);
         roomNameField.text = string.Empty;
     }
 
     void CreateOrJoinRoom()
     {
-        C_CreateOrJoinRoom packet = new C_CreateOrJoinRoom();
-        NetworkManager.Instance.Send(packet.Write());
+        C_Createorjoinroom packet = new C_Createorjoinroom();
+        NetworkManager.Instance.Send(packet);
     }
 
     void RefreshRoomList()
     {
-        C_RoomList packet = new C_RoomList();
-        NetworkManager.Instance.Send(packet.Write());
+        C_Roomlist packet = new C_Roomlist();
+        NetworkManager.Instance.Send(packet);
     }
 }

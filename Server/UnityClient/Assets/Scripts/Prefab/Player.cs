@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using StarterAssets;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -143,10 +144,10 @@ public class Player : MonoBehaviour
     private float rotSpeed = 10f;
 
 
-    public void RecvPacket(S_BroadCast_MovePacket packet)
+    public void RecvPacket(S_Move packet)
     {
-        targetPos = new Vector3(packet.posX, packet.posY, packet.posZ);
-        targetRot = Quaternion.Euler(0f, packet.rotY, 0f);
+        targetPos = new Vector3(packet.PosX, packet.PosY, packet.PosZ);
+        targetRot = Quaternion.Euler(0f, packet.RotY, 0f);
     }
 
     // 보간 속도

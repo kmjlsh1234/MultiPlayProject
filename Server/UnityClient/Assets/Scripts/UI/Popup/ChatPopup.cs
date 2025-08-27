@@ -5,6 +5,8 @@ using UniRx;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
+using Google.Protobuf.Protocol;
+using Google.Protobuf;
 
 public class ChatPopup : UIBase
 {
@@ -63,26 +65,26 @@ public class ChatPopup : UIBase
     void SendMessage()
     {
         C_Chat packet = new C_Chat();
-        packet.message = inputField.text;
-        NetworkManager.Instance.Send(packet.Write());
+        packet.Message = inputField.text;
+        NetworkManager.Instance.Send(packet);
 
         inputField.text = string.Empty;
     }
 
     void Enter()
     {
-        C_ReadyPacket packet = new C_ReadyPacket()
+        C_Ready packet = new C_Ready()
         {
-            isReady = !isReady,
+            IsReady = !isReady,
         };
 
-        NetworkManager.Instance.Send(packet.Write());
+        NetworkManager.Instance.Send(packet);
     }
 
     void Back()
     {
-        C_ExitRoom packet = new C_ExitRoom();
-        NetworkManager.Instance.Send(packet.Write());
+        C_Exitroom packet = new C_Exitroom();
+        NetworkManager.Instance.Send(packet);
         UIManager.Instance.Pop();
     }
 
@@ -202,12 +204,12 @@ public class ChatPopup : UIBase
         }
         else
         {
-            C_InvitePacket packet = new C_InvitePacket()
+            C_Invite packet = new C_Invite()
             {
-                sessionId = int.Parse(inviteNickNameField.text),
+                SessionId = int.Parse(inviteNickNameField.text),
             };
 
-            NetworkManager.Instance.Send(packet.Write());
+            NetworkManager.Instance.Send(packet);
             inviteNickNameField.text = string.Empty;
             invitePopup.SetActive(false);
         }

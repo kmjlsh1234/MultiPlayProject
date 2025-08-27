@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,10 +25,10 @@ public class RoomItem : MonoBehaviour
 
     void EnterRoom()
     {
-        C_EnterRoom packet = new C_EnterRoom()
+        C_Enterroom packet = new C_Enterroom()
         {
-            roomId = roomId,
+            RoomId = roomId,
         };
-        NetworkManager.Instance.Send(packet.Write());
+        NetworkManager.Instance.Send(packet);
     }
 }

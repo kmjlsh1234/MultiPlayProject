@@ -1,4 +1,5 @@
-﻿ using UnityEngine;
+﻿using Google.Protobuf.Protocol;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -295,15 +296,15 @@ namespace StarterAssets
         }
         private void SendPacket()
         {
-            C_MovePacket packet = new C_MovePacket()
+            C_Move packet = new C_Move()
             {
-                posX = transform.position.x,
-                posY = transform.position.y,
-                posZ = transform.position.z,
-                rotY = transform.rotation.y,
+                PosX = transform.position.x,
+                PosY = transform.position.y,
+                PosZ = transform.position.z,
+                RotY = transform.rotation.y,
             };
 
-            NetworkManager.Instance.Send(packet.Write());
+            NetworkManager.Instance.Send(packet);
         }
 
         private void JumpAndGravity()

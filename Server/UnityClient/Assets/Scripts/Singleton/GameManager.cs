@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,11 +22,11 @@ public class GameManager : SingletonBase<GameManager>
 
     }
 
-    public void SpawnEnemy(S_BroadCast_SpawnEnemy packet)
+    public void SpawnEnemy(S_Spawnenemy packet)
     {
         GameObject go = Instantiate(enemy);
         Enemy target= go.GetComponent<Enemy>();
-        target.transform.position = new Vector3(packet.posX, 0, packet.posZ);
+        //target.transform.position = new Vector3(packet.posX, 0, packet.posZ);
         enemyDic.Add(target);
     }
 }

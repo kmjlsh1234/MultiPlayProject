@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,13 +41,13 @@ public class PlayerManager : SingletonBase<PlayerManager>
         }
     }
 
-    public void OnPacketRecv(S_BroadCast_MovePacket packet)
+    public void OnPacketRecv(S_Move packet)
     {
         Player player= null;
-        playerList.TryGetValue(packet.playerId, out player);
+        playerList.TryGetValue(packet.PlayerId, out player);
         if(player != null)
         {
-            if (packet.playerId == NetworkManager.Instance.sessionId) return;
+            if (packet.PlayerId == NetworkManager.Instance.sessionId) return;
             player.RecvPacket(packet);
         }
     }

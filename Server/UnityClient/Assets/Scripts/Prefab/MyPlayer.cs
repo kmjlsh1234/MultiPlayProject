@@ -139,12 +139,7 @@ public class MyPlayer : Player
 
     private void SendPacket()
     {
-        C_InputPacket packet = new C_InputPacket()
-        {
-            moveX = _input.move.x,
-            moveY = _input.move.y,
-            sprint = _input.sprint,
-        };
+
         /*
         C_MovePacket packet = new C_MovePacket()
         {
@@ -154,8 +149,9 @@ public class MyPlayer : Player
             posZ = transform.position.z,
             rotY = transform.rotation.eulerAngles.y,
         };
+        
+        NetworkManager.Instance.Send(packet);
         */
-        NetworkManager.Instance.Send(packet.Write());
     }
 
 }

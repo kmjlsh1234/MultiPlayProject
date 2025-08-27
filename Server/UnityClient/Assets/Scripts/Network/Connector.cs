@@ -42,6 +42,7 @@ namespace ServerCore
             if(args.SocketError == SocketError.Success)
             {
                 session.Init(args.ConnectSocket);
+                session.OnConnected(args.RemoteEndPoint);
             }
         }
     }

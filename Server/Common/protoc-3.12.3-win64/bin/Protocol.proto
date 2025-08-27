@@ -1,0 +1,190 @@
+syntax = "proto3";
+package Protocol;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Protobuf.Protocol";
+
+enum MsgId {
+    C_PING = 0;
+    S_PONG = 1;
+
+    S_CONNECT = 2;
+    C_PLAYERINFO = 3;
+    
+    C_CHAT = 4;
+    S_CHAT = 5;
+    
+    C_READY = 6;
+    S_READY = 7;
+    
+    C_START = 8;
+    S_LOADINGSTART = 9;
+    
+    C_MOVE = 10;
+    S_MOVE = 11;
+    
+    C_INPUT = 12;
+
+    C_EXITROOM = 13;
+    S_EXITROOM = 14;
+
+    S_CHANGEROOMINFO = 15;
+
+    C_CREATEROOM = 16;
+    C_CREATEORJOINROOM = 17;
+    
+    C_ENTERROOM = 18;
+    S_ENTERROOM = 19;
+
+    C_ROOMLIST = 20;
+    S_ROOMLIST = 21;
+    S_ROOMINFO = 22;
+
+    C_LOADINGCOMPLETE = 23;
+    S_INGAMESTART = 24;
+   
+    C_INVITE = 25;
+    S_INVITE = 26;
+
+    S_SPAWNENEMY = 27;
+    S_ERRORCODE = 28;
+}
+
+message C_Ping{
+
+}
+
+message S_Pong{
+
+}
+
+message S_Connect{
+    int32 sessionId = 1;
+}
+
+message C_Playerinfo{
+}
+
+message C_Chat{
+    string message = 1;
+}
+
+message S_Chat{
+    int32 sessionId = 1;
+    string message = 2;
+}
+
+message C_Ready{
+    bool isReady = 1;
+}
+
+message S_Ready{
+    int32 sessionId = 1;
+    bool isReady = 2;
+}
+
+message C_Start{
+
+}
+
+message S_Loadingstart{
+
+}
+
+message C_Move{
+    float posX = 1;
+    float posY = 2;
+    float posZ = 3;
+    float rotY = 4;
+}
+
+message S_Move{
+    int32 sessionId =1;
+    float posX = 2;
+    float posY = 3;
+    float posZ = 4;
+    float rotY = 5;
+}
+
+message C_Input{
+
+}
+
+message C_Exitroom{
+
+}
+
+message S_Exitroom{
+    int32 sessionId = 1;
+}
+
+message C_Createroom{
+}
+
+message S_Changeroominfo{
+    int32 roomId = 1;
+    int32 masterId = 2;
+    string roomName = 3;
+}
+
+message C_Createorjoinroom{
+
+}
+
+message C_Enterroom{
+    int32 roomId = 1;
+}
+
+message S_Enterroom{
+    int32 sessionId = 1;
+    bool isReady = 2;
+}
+
+message C_Roomlist{
+
+}
+
+message S_Roomlist{
+    repeated S_Roominfo roomList = 1;
+}
+
+message S_Roominfo{
+    int32 roomId = 1;
+    int32 masterId = 2;
+    string roomName = 3;
+    repeated PlayerInfo players = 4;
+}
+
+
+
+message C_Loadingcomplete{
+
+}
+
+message S_Ingamestart{
+    
+}
+
+message C_Invite{
+    int32 sessionId = 1;
+}
+
+message S_Invite{
+    int32 roomId = 1;
+    int32 sessionId = 2;
+}
+
+message S_Spawnenemy{
+    
+}
+
+message PlayerInfo {
+    int32 sessionId = 1;
+    bool isReady = 2;
+}
+
+message S_Errorcode{
+    int32 code = 1;
+    string message = 2;
+}
