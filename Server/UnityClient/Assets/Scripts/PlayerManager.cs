@@ -5,22 +5,20 @@ using UnityEngine;
 
 public class PlayerManager : SingletonBase<PlayerManager>
 {
-    public Dictionary<int, PlayerData> playerDataList = new Dictionary<int, PlayerData>();
+    public Dictionary<int, PlayerInfo> playerDataList = new Dictionary<int, PlayerInfo>();
     public Dictionary<int, Player> playerList = new Dictionary<int, Player>();
-
+    public List<PlayerInfo> list = new List<PlayerInfo>();
     public void GeneratePlayer()
     {
-        playerDataList = ChatManager.Instance.playerDic;
-        foreach (KeyValuePair<int, PlayerData> pair in playerDataList)
+        foreach (PlayerInfo playerInfo in ChatManager.Instance.roomInfo.Players)
         {
             GameObject go = ResourcesManager.Instance.getPrefabObj("Player");
             if (go != null)
             {
                 GameObject player = Instantiate(go, Vector3.zero, Quaternion.identity);
-                
+                /*
                 if(pair.Key == NetworkManager.Instance.sessionId)
                 {
-                    Debug.Log($"My id : {pair.Key}");
                     Player p = player.AddComponent<MyPlayer>();
                     p.playerId = pair.Key;
                     playerList.Add(pair.Key, p);
@@ -31,7 +29,7 @@ public class PlayerManager : SingletonBase<PlayerManager>
                     p.playerId = pair.Key;
                     playerList.Add(pair.Key, p);
                 }
-                
+                */
                
             }
             else
@@ -43,6 +41,7 @@ public class PlayerManager : SingletonBase<PlayerManager>
 
     public void OnPacketRecv(S_Move packet)
     {
+        /*
         Player player= null;
         playerList.TryGetValue(packet.PlayerId, out player);
         if(player != null)
@@ -50,5 +49,6 @@ public class PlayerManager : SingletonBase<PlayerManager>
             if (packet.PlayerId == NetworkManager.Instance.sessionId) return;
             player.RecvPacket(packet);
         }
+        */
     }
 }

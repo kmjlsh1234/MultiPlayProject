@@ -23,6 +23,8 @@ public class PacketHandler
         ClientSession session = s as ClientSession;
         C_Playerinfo packet = pkt as C_Playerinfo;
 
+        session.nickName = packet.NickName;
+
         S_Connect connectPacket = new S_Connect()
         {
             SessionId = session.sessionId,
@@ -45,23 +47,21 @@ public class PacketHandler
 
     public static void C_EnterroomHandler(Session s, IMessage pkt)
     {
-        /*
         ClientSession session = s as ClientSession;
-        C_EnterRoom packet = pkt as C_EnterRoom;
+        C_Enterroom packet = pkt as C_Enterroom;
 
         //룸 입장 처리
-        session.room = Program.roomManager.FindRoomById(packet.roomId);
-        
-        if (session.room != null)
+        GameRoom gameRoom = RoomManager.Instance.Find(packet.RoomId);
+        if(gameRoom != null)
         {
-            session.room.Push(() => session.room.EnterRoom(session));
+            session.room = gameRoom;
+            gameRoom.EnterGame(session);
         }
         else
         {
-            S_ErrorCode errorPacket = new S_ErrorCode() { code = ErrorCode.FAIL_ROOM_FIND.Code, message = ErrorCode.FAIL_ROOM_FIND.Message };
-            session.Send(errorPacket.Write());
+            S_Errorcode errorPacket = new S_Errorcode() { Code = ErrorCode.FAIL_ROOM_FIND.Code, Message = ErrorCode.FAIL_ROOM_FIND.Message };
+            session.Send(errorPacket);
         }
-        */
     }
 
     public static void C_CreateorjoinroomHandler(Session s, IMessage pkt)
@@ -93,9 +93,9 @@ public class PacketHandler
 
     public static void C_ExitroomHandler(Session s, IMessage pkt)
     {
-        //ClientSession session = s as ClientSession;
+        ClientSession session = s as ClientSession;
+        session.room.LeaveGame(session);
         //C_ExitRoom packet = pkt as C_ExitRoom;
-
         //session.room.Push(() => session.room.ExitRoom(session, session.room.roomId));
     }
 
@@ -103,21 +103,19 @@ public class PacketHandler
 
     public static void C_RoomlistHandler(Session s, IMessage pkt)
     {
-        //ClientSession session = s as ClientSession;
-        //S_RoomList packet = new S_RoomList();
+        ClientSession session = s as ClientSession;
+        Dictionary<int, GameRoom> rooms = RoomManager.Instance.GetRooms();
 
-        //Dictionary<int, Room> dic = Program.roomManager.GetRoomDic();
-        //foreach (KeyValuePair<int, Room> pair in dic)
-        //{
-        //    packet.roomList.Add(new S_RoomList.Room() 
-        //    { 
-        //        roomId = pair.Value.roomId, 
-        //        roomName = pair.Value.roomName,
-        //        playerCount = pair.Value.sessionList.Count,
-        //    });
-        //}
-
-        //session.Send(packet.Write());
+        S_Roomlist packet = new S_Roomlist();
+        foreach(GameRoom room in rooms.Values)
+        {
+            packet.RoomList.Add(new S_Roominfo()
+            {
+                RoomId = room.roomId,
+                MasterId = room.masterId,
+            });
+        }
+        session.Send(packet);
     }
 
     public static void C_MoveHandler(Session s, IMessage pkt)

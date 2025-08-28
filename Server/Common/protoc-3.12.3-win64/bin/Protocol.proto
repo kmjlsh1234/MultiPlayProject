@@ -59,11 +59,12 @@ message S_Pong{
 
 }
 
-message S_Connect{
-    int32 sessionId = 1;
+message C_Playerinfo{
+    string nickName = 1;
 }
 
-message C_Playerinfo{
+message S_Connect{
+    int32 sessionId = 1;
 }
 
 message C_Chat{
@@ -72,7 +73,8 @@ message C_Chat{
 
 message S_Chat{
     int32 sessionId = 1;
-    string message = 2;
+    string nickName = 2;
+    string message = 3;
 }
 
 message C_Ready{
@@ -125,7 +127,6 @@ message C_Createroom{
 message S_Changeroominfo{
     int32 roomId = 1;
     int32 masterId = 2;
-    string roomName = 3;
 }
 
 message C_Createorjoinroom{
@@ -137,8 +138,7 @@ message C_Enterroom{
 }
 
 message S_Enterroom{
-    int32 sessionId = 1;
-    bool isReady = 2;
+    PlayerInfo playerInfo = 1;
 }
 
 message C_Roomlist{
@@ -152,7 +152,6 @@ message S_Roomlist{
 message S_Roominfo{
     int32 roomId = 1;
     int32 masterId = 2;
-    string roomName = 3;
     repeated PlayerInfo players = 4;
 }
 
@@ -173,6 +172,7 @@ message C_Invite{
 message S_Invite{
     int32 roomId = 1;
     int32 sessionId = 2;
+    string nickName = 3;
 }
 
 message S_Spawnenemy{
@@ -181,7 +181,8 @@ message S_Spawnenemy{
 
 message PlayerInfo {
     int32 sessionId = 1;
-    bool isReady = 2;
+    string nickName = 2;
+    bool isReady = 3;
 }
 
 message S_Errorcode{

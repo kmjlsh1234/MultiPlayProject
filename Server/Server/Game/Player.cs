@@ -9,9 +9,6 @@ namespace Server.Game
 {
     public class Player
     {
-        public GameRoom room {  get; set; }
-        public ClientSession session { get; set; }
-
         public PlayerInfo playerInfo { get; set; } = new PlayerInfo();
     }
 }

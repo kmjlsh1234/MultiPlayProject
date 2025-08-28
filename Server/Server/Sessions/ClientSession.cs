@@ -14,9 +14,8 @@ namespace Server
     public class ClientSession : Session
     {
         public int sessionId { get; set; }
-
+        public string nickName { get; set; }
         public GameRoom room { get; set; }
-
         public void Send(IMessage packet)
         {
             string msgName = packet.Descriptor.Name.Replace("_", string.Empty);
@@ -44,6 +43,7 @@ namespace Server
             if(room != null)
             {
                 GameRoom copyRoom = room;
+                copyRoom.LeaveGame(this);
                 //copyRoom.Push(() => copyRoom.ExitRoom(this, copyRoom.roomId));
                 room = null;
             }

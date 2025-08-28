@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class RoomItem : MonoBehaviour
 {
     public int roomId;
-    public string roomName;
 
     [SerializeField] private TMP_Text roomText;
     [SerializeField] private Button enterButton;
@@ -16,11 +15,10 @@ public class RoomItem : MonoBehaviour
         enterButton.onClick.AddListener(() => EnterRoom());
     }
 
-    public void Init(int roomId, string roomName)
+    public void Init(int roomId)
     {
         this.roomId = roomId;
-        this.roomName = roomName;
-        roomText.text = $"RoomId : {roomId}\nRoomName : {roomName}";  
+        roomText.text = $"RoomId : {roomId}";  
     }
 
     void EnterRoom()

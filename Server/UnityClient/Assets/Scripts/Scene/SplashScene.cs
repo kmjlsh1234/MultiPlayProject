@@ -1,4 +1,5 @@
 using Google.Protobuf.Protocol;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,7 +9,6 @@ public class SplashScene : MonoBehaviour
 {
     [SerializeField] private Button button;
     [SerializeField] private GameObject popup;
-    [SerializeField] private TMP_InputField nickNameField;
     [SerializeField] private Button enterButton;
 
     public void Awake()
@@ -33,18 +33,11 @@ public class SplashScene : MonoBehaviour
 
     void Enter()
     {
-        if(string.IsNullOrEmpty(nickNameField.text))
+        string uuid = Guid.NewGuid().ToString();
+        C_Playerinfo packet = new C_Playerinfo()
         {
-            nickNameField.text = string.Empty;
-            Debug.Log("NickName Empty!");
-        }
-        else
-        {
-            C_Playerinfo packet = new C_Playerinfo()
-            {
-                NickName = nickNameField.text,
-            };
-            NetworkManager.Instance.Send(packet);
-        }
+            NickName = uuid,
+        };
+        NetworkManager.Instance.Send(packet);
     }
 }

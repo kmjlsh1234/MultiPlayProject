@@ -12,10 +12,29 @@ namespace Server.Game
         object key = new object();
 
         Dictionary<int, Player> players = new Dictionary<int, Player>();
-
         int playerId = 1;   //TODO
 
+        public Player Add()
+        {
+            Player player = new Player();
+
+            lock (key)
+            {
+               
+                players.Add(playerId, player);
+                playerId++;
+            }
+            return player;
+        }
        
+        public bool Remove(int playerId)
+        {
+            lock (key)
+            {
+                return players.Remove(playerId);
+            }
+        }
+
         public Player Find(int playerId)
         {
             lock (key)

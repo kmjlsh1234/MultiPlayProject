@@ -84,7 +84,6 @@ public class PacketManager
 }}
 ";
 
-
         // {0} : MsgId
         // {1} : 패킷이름
         public static string managerRegisterFormat =

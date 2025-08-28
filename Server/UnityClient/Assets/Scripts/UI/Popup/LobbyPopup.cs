@@ -31,16 +31,13 @@ public class LobbyPopup : UIBase
     private void Awake()
     {
         createRoomPopup.gameObject.SetActive(false);
-        ChatManager.Instance.S_RoomInfo_Handler += (() => createRoomPopup.SetActive(false));
+        ChatManager.Instance.S_RoomInfo_Handler += ((info) => createRoomPopup.SetActive(false));
     }
 
     void Start()
     {
-        popupOpenButton.onClick.AddListener(() => createRoomPopup.gameObject.SetActive(true));
-        createOrJoinRoomButton.onClick.AddListener(() => CreateOrJoinRoom());
-        popupCloseButton.onClick.AddListener(() => ResetPopup());
-        createRoomButton.onClick.AddListener(() => CreateRoom());
-        refreshButton.onClick.AddListener(() => RefreshRoomList());
+        RegisterButton();
+        
 
         DataManager.Instance.RoomListRecvHandler += UpdateRoomList;
 
@@ -51,8 +48,18 @@ public class LobbyPopup : UIBase
 
     }
 
+    void RegisterButton()
+    {
+        popupOpenButton.onClick.AddListener(() => createRoomPopup.gameObject.SetActive(true));
+        createOrJoinRoomButton.onClick.AddListener(() => CreateOrJoinRoom());
+        popupCloseButton.onClick.AddListener(() => ResetPopup());
+        createRoomButton.onClick.AddListener(() => CreateRoom());
+        refreshButton.onClick.AddListener(() => RefreshRoomList());
+    }
+
     void ResRoomList(UnityWebRequest res)
     {
+        /*
         if (res.result == UnityWebRequest.Result.Success)
         {
             List<RoomData> list = JsonConvert.DeserializeObject<List<RoomData>>(res.downloadHandler.text);
@@ -71,14 +78,17 @@ public class LobbyPopup : UIBase
                 UpdateRoomList(dic);
             }
         }
+        */
     }
 
-    void UpdateRoomList(Dictionary<int, RoomData> dic)
+    void UpdateRoomList(Dictionary<int, S_Roominfo> dic)
     {
+        Debug.Log("RoomCount : " +dic.Values.Count);
         if (roomItem == null)
         {
             roomItem = ResourcesManager.Instance.getUIObj("RoomItem");
         }
+
         List<int> removeKeys = new List<int>();
 
         foreach (KeyValuePair<int, RoomItem> pair in roomDic)
@@ -97,7 +107,7 @@ public class LobbyPopup : UIBase
             roomDic.Remove(key);
         }
 
-        foreach (KeyValuePair<int, RoomData> pair in dic)
+        foreach (KeyValuePair<int, S_Roominfo> pair in dic)
         {
             if (roomDic.ContainsKey(pair.Key))
             {
@@ -109,9 +119,9 @@ public class LobbyPopup : UIBase
             go.transform.SetParent(roomListRoot);
 
             RoomItem item = go.GetComponent<RoomItem>();
-            item.Init(pair.Value.roomId, pair.Value.roomName);
+            item.Init(pair.Value.RoomId);
 
-            roomDic.Add(pair.Value.roomId, item);
+            roomDic.Add(pair.Value.RoomId, item);
         }
     }
 

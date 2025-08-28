@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using System;
 using System.Collections.Generic;
 using UniRx;
@@ -5,20 +6,23 @@ using UnityEngine;
 
 public class DataManager : SingletonBase<DataManager>
 {
-    private Dictionary<int, RoomData> roomDic = new Dictionary<int, RoomData>();
+    public Action<Dictionary<int, S_Roominfo>> RoomListRecvHandler;
 
-    public Action<Dictionary<int, RoomData>> RoomListRecvHandler;
+    public Dictionary<int, S_Roominfo> rooms = new Dictionary<int, S_Roominfo>();
 
     public override void Init()
     {
         
     }
 
-    public void OnRoomListRecvCompleted(Dictionary<int, RoomData> dic)
+    public void OnRoomListRecvCompleted(S_Roomlist list)
     {
-        roomDic.Clear();
-        roomDic = dic;
+        rooms.Clear();
+        foreach(S_Roominfo roomInfo in list.RoomList)
+        {
+            rooms.Add(roomInfo.RoomId, roomInfo);
+        }
 
-        RoomListRecvHandler.Invoke(roomDic);
+        RoomListRecvHandler.Invoke(rooms);
     }
 }

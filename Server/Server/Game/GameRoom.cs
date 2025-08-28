@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.Protocol;
+using ServerCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,6 @@ namespace Server.Game
                 {
                     RoomId = roomId,
                     MasterId = masterId,
-                    RoomName = roomName,
                 };
                 
                 foreach(ClientSession s in sessions.Values)
@@ -41,6 +41,7 @@ namespace Server.Game
                     PlayerInfo playerInfo = new PlayerInfo()
                     {
                         SessionId = s.sessionId,
+                        NickName = s.nickName,
                         IsReady = false
                     };
                     roomInfoPacket.Players.Add(playerInfo);
@@ -50,8 +51,12 @@ namespace Server.Game
                 //타인에게 정보 전송
                 S_Enterroom enterRoomPacket = new S_Enterroom()
                 {
-                    SessionId = session.sessionId,
-                    IsReady = false,
+                    PlayerInfo = new PlayerInfo()
+                    {
+                        SessionId= session.sessionId,
+                        NickName= session.nickName,
+                        IsReady = false
+                    }
                 };
 
                 BroadCast(enterRoomPacket);
@@ -60,24 +65,40 @@ namespace Server.Game
             
         }
 
-        public void LeaveGame(int sessionId)
+        public void LeaveGame(ClientSession session)
         {
             lock (key)
             {
-                ClientSession session = null;
-                if(sessions.TryGetValue(sessionId, out session))
-                {
-                    sessions.Remove(sessionId);
-                    session.room = null;
+                sessions.Remove(session.sessionId);
+                session.room = null;
 
-                    //Room에 BroadCast
-                    S_Exitroom leavePacket = new S_Exitroom()
-                    {
-                        SessionId = session.sessionId,
-                    };
-                    BroadCast(leavePacket);
+                if(sessions.Count == 0)
+                {
+                    RoomManager.Instance.RemoveRoom(roomId);
                 }
+                else
+                {
+                    if (masterId == session.sessionId)
+                    {
+                        masterId = sessions.First().Value.sessionId;
+                        S_Changeroominfo changeRoomInfoPacket = new S_Changeroominfo()
+                        {
+                            RoomId = roomId,
+                            MasterId = masterId,
+                        };
+                        BroadCast(changeRoomInfoPacket);
+                        Console.WriteLine($"Master Change {masterId} -> {}");
+                    }
+                }
+
+                //Room에 BroadCast
+                S_Exitroom leavePacket = new S_Exitroom()
+                {
+                    SessionId = session.sessionId,
+                };
+                BroadCast(leavePacket);
             }
+            Console.WriteLine($"Session {session.sessionId} leave Room");
         }
 
         public void BroadCast(IMessage packet)
@@ -91,6 +112,5 @@ namespace Server.Game
             }
             
         }
-
     }
 }

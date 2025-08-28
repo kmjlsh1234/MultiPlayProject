@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -7,53 +8,44 @@ using UnityEngine;
 
 public class ChatManager : SingletonBase<ChatManager>
 {
-    public Dictionary<int, PlayerData> playerDic = new Dictionary<int, PlayerData>();
     public bool isMaster = false;
 
     public Action<Chat> OnChatRecved;
-    public Action<PlayerData> OnPlayerAdd;
+    public Action<PlayerInfo> OnPlayerAdd;
     public Action<int> OnPlayerRemove;
-    public Action S_RoomInfo_Handler;
-    public Action<RoomData> S_ChangeRoomInfo_Handler;
+    public Action<S_Roominfo> S_RoomInfo_Handler;
+    public Action<S_Roominfo> S_ChangeRoomInfo_Handler;
     public Action<int, bool> S_BroadCast_ReadyPacketHandler;
-    public RoomData roomData;
+    public S_Roominfo roomInfo;
 
     public override void Init()
     {
 
     }
 
-    public void OnPlayerListRecv(RoomData roomData, Dictionary<int, PlayerData> dic)
+    public void OnPlayerListRecv(S_Roominfo packet)
     {
-        this.roomData = roomData;
-
-        playerDic = dic;
-        foreach(KeyValuePair<int, PlayerData> pair in dic)
-        {
-            if (pair.Value.isMaster)
-            {
-                isMaster = true;
-            }
-        }
-        S_RoomInfo_Handler.Invoke();
+        this.roomInfo = roomInfo;
+        S_RoomInfo_Handler.Invoke(packet);
     }
 
-    public void AddPlayer(PlayerData playerData)
+    public void AddPlayer(PlayerInfo playerInfo)
     {
         Debug.Log("ChatManager.AddPlayer");
-        playerDic.Add(playerData.sessionId, playerData);
-        OnPlayerAdd.Invoke(playerData);
+        roomInfo.Players.Add(playerInfo);
+        OnPlayerAdd.Invoke(playerInfo);
     }
 
-    public void ChangeRoomInfo(RoomData roomData)
+    public void ChangeRoomInfo(S_Changeroominfo changeInfo)
     {
-        this.roomData = roomData;
-        S_ChangeRoomInfo_Handler.Invoke(roomData);
+        roomInfo.MasterId = changeInfo.MasterId;
+        S_ChangeRoomInfo_Handler.Invoke(roomInfo);
     }
 
     public void RemovePlayer(int playerId)
     {
-        playerDic.Remove(playerId);
+        PlayerInfo playerInfo = roomInfo.Players[playerId];
+        roomInfo.Players.Remove(playerInfo);
         OnPlayerRemove.Invoke(playerId);
     }
 

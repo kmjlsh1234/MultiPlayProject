@@ -27,16 +27,13 @@ public class PacketHandler
         ServerSession serverSession = session as ServerSession;
         S_Enterroom packet = pkt as S_Enterroom;
 
-        if (packet.SessionId == NetworkManager.Instance.sessionId)
+        if (packet.PlayerInfo.SessionId == NetworkManager.Instance.sessionId)
         {
             return;
         }
 
-        PlayerData playerData = new PlayerData() 
-        { 
-            sessionId = packet.SessionId,
-        };
-        ChatManager.Instance.AddPlayer(playerData);
+        
+        ChatManager.Instance.AddPlayer(packet.PlayerInfo);
     }
 
     public static void S_ExitroomHandler(Session session, IMessage pkt)
@@ -61,14 +58,8 @@ public class PacketHandler
         Debug.Log("S_BroadCast_ChangeRoomInfo");
 
         S_Changeroominfo packet = pkt as S_Changeroominfo;
-        RoomData roomData = new RoomData()
-        {
-            roomId = packet.RoomId,
-            roomName = packet.RoomName,
-            masterId = packet.MasterId,
-
-        };
-        ChatManager.Instance.ChangeRoomInfo(roomData);
+        
+        ChatManager.Instance.ChangeRoomInfo(packet);
     }
 
     #endregion
@@ -93,35 +84,8 @@ public class PacketHandler
         Debug.Log("S_RoomInfo");
 
         S_Roominfo packet = pkt as S_Roominfo;
-        Dictionary<int, PlayerData> playerDic = new Dictionary<int, PlayerData>();
-
-        RoomData roomData = new RoomData()
-        {
-            roomId = packet.RoomId,
-            roomName = packet.RoomName,
-            masterId = packet.MasterId,
-
-        };
-
-        foreach (var p in packet.Players)
-        {
-            PlayerData playerData = new PlayerData()
-            {
-                sessionId = p.SessionId,
-                nickName = p.NickName,
-                isSelf = p.IsSelf,
-                isMaster = p.IsMaster,
-                isReady = p.IsReady,
-            };
-
-            if (p.IsSelf)
-            {
-                NetworkManager.Instance.sessionId = p.SessionId;
-            }
-            playerDic.Add(playerData.sessionId, playerData);
-        }
-
-        ChatManager.Instance.OnPlayerListRecv(roomData, playerDic);
+        
+        ChatManager.Instance.OnPlayerListRecv(packet);
         UIManager.Instance.Push(UIType.UIPopup_Match);
     }
 
@@ -132,18 +96,7 @@ public class PacketHandler
         Debug.Log("S_RoomList");
 
         S_Roomlist packet = pkt as S_Roomlist;
-        
-        Dictionary<int, RoomData> dic = new Dictionary<int, RoomData>();
-        foreach(var p in packet.RoomList)
-        {
-            dic.Add(p.RoomId, new RoomData() 
-            { 
-                roomId = p.RoomId, 
-                roomName = p.RoomName,
-            });
-        }
-        
-        DataManager.Instance.OnRoomListRecvCompleted(dic);
+        DataManager.Instance.OnRoomListRecvCompleted(packet);
     }
 
     public static void S_ErrorcodeHandler(Session session, IMessage pkt)

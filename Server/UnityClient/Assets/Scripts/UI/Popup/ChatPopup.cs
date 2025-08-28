@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 using Google.Protobuf.Protocol;
 using Google.Protobuf;
+using Google.Protobuf.Collections;
 
 public class ChatPopup : UIBase
 {
@@ -51,15 +52,14 @@ public class ChatPopup : UIBase
         ChatManager.Instance.OnChatRecved += UpdateChatList;
         ChatManager.Instance.OnPlayerAdd += AddPlayer;
         ChatManager.Instance.OnPlayerRemove += RemovePlayer;
+        ChatManager.Instance.S_RoomInfo_Handler += UpdateRoomInfo;
         ChatManager.Instance.S_ChangeRoomInfo_Handler += UpdateRoomInfo;
         ChatManager.Instance.S_BroadCast_ReadyPacketHandler += UpdateReadyState;
     }
 
     private void Start()
     {
-        PlayerListInitialize();
-
-        UpdateRoomInfo(ChatManager.Instance.roomData);
+        ChatManager.Instance.S_ChangeRoomInfo_Handler += PlayerListInitialize;
     }
 
     void SendMessage()
@@ -88,16 +88,21 @@ public class ChatPopup : UIBase
         UIManager.Instance.Pop();
     }
 
-    void PlayerListInitialize()
+    void PlayerListInitialize(S_Roominfo roomInfo)
     {
-        Dictionary<int, PlayerData> dic= ChatManager.Instance.playerDic;
+        RepeatedField<PlayerInfo> list = ChatManager.Instance.roomInfo.Players;
 
-        if(playerItem == null)
+        if (playerItem == null)
         {
             playerItem = ResourcesManager.Instance.getUIObj("PlayerItem");
         }
 
-        foreach (KeyValuePair<int, PlayerData> pair in dic)
+        if(list == null)
+        {
+            return;
+        }
+
+        foreach (PlayerInfo playerInfo in list)
         {
             GameObject go = Instantiate(playerItem);
             go.transform.position = Vector3.zero;
@@ -105,31 +110,31 @@ public class ChatPopup : UIBase
             go.transform.SetParent(playerListRoot);
 
             PlayerItem item = go.GetComponent<PlayerItem>();
-            item.Init(pair.Value);
+            item.Init(playerInfo);
 
-            playerDic.Add(pair.Value.sessionId, item);
+            playerDic.Add(playerInfo.SessionId, item);
         }
     }
 
-    void UpdateRoomInfo(RoomData roomData)
+    void UpdateRoomInfo(S_Roominfo roomInfo)
     {
-        roomInfoText.text = $"RoomId : {roomData.roomId} / RoomName : {roomData.roomName} / MasterId : {roomData.masterId}";
+        roomInfoText.text = $"RoomId : {roomInfo.RoomId} / MasterId : {roomInfo.MasterId}";
     }
 
-    void AddPlayer(PlayerData playerData)
+    void AddPlayer(PlayerInfo playerInfo)
     {
-        if(playerData.sessionId == NetworkManager.Instance.sessionId)
+        if(playerInfo.SessionId == NetworkManager.Instance.sessionId)
         {
             return;
         }
 
-        if (playerDic.ContainsKey(playerData.sessionId))
+        if (playerDic.ContainsKey(playerInfo.SessionId))
         {
-            Debug.Log($"Already Enter Room : {playerData.sessionId}");
+            Debug.Log($"Already Enter Room : {playerInfo.SessionId}");
             return;
         }
 
-        Debug.Log($"ChatPopup.AddPlayer : {playerData.sessionId}");
+        Debug.Log($"ChatPopup.AddPlayer : {playerInfo.SessionId}");
 
         GameObject go = Instantiate(playerItem);
         go.transform.position = Vector3.zero;
@@ -137,9 +142,9 @@ public class ChatPopup : UIBase
         go.transform.SetParent(playerListRoot);
 
         PlayerItem item = go.GetComponent<PlayerItem>();
-        item.Init(playerData);
+        item.Init(playerInfo);
 
-        playerDic.Add(playerData.sessionId, item);
+        playerDic.Add(playerInfo.SessionId, item);
     }
 
     void RemovePlayer(int playerId)
