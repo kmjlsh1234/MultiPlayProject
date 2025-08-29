@@ -15,10 +15,10 @@ public partial class PacketHandler
         UIManager.Instance.Push(UIType.UIPopup_Match);
     }
 
-    public static void S_EnterroomHandler(Session session, IMessage pkt)
+    public static void S_EntermatchroomHandler(Session session, IMessage pkt)
     {
         Debug.Log("S_BroadCast_EnterRoom");
-        S_Enterroom packet = pkt as S_Enterroom;
+        S_Entermatchroom packet = pkt as S_Entermatchroom;
 
         if (packet.PlayerInfo.SessionId == NetworkManager.Instance.sessionId)
         {

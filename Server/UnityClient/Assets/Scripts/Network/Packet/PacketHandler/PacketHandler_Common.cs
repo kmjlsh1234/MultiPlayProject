@@ -5,7 +5,7 @@ using UnityEngine;
 
 public partial class PacketHandler
 {
-    public static void S_PongHandler(Session s, IMessage pkt)
+    public static void S_PongcheckHandler(Session s, IMessage pkt)
     {
 
     }

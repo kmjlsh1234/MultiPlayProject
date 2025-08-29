@@ -14,7 +14,7 @@ public partial class PacketHandler
     public static void C_EntermatchroomHandler(Session s, IMessage pkt)
     {
         ClientSession session = s as ClientSession;
-        C_Enterroom packet = pkt as C_Enterroom;
+        C_Entermatchroom packet = pkt as C_Entermatchroom;
 
         //룸 입장 처리
         MatchRoom room = RoomManager.Instance.FindMatchRoom(packet.RoomId);

@@ -1,0 +1,29 @@
+syntax = "proto3";
+package Protocol;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Protobuf.Protocol";
+
+message C_Pingcheck{
+
+}
+
+message S_Pongcheck{
+
+}
+
+message C_Chat{
+    string message = 1;
+}
+
+message S_Chat{
+    int32 sessionId = 1;
+    string nickName = 2;
+    string message = 3;
+}
+
+message S_Errorcode{
+    int32 code = 1;
+    string message = 2;
+}

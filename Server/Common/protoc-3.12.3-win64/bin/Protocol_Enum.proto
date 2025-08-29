@@ -1,0 +1,52 @@
+syntax = "proto3";
+package Protocol;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Protobuf.Protocol";
+
+enum MsgId {
+    C_PINGCHECK = 0;
+    S_PONGCHECK = 1;
+
+    S_CONNECT = 2;
+    C_PLAYERINFO = 3;
+    
+    C_CHAT = 4;
+    S_CHAT = 5;
+    
+    C_READY = 6;
+    S_READY = 7;
+    
+    C_START = 8;
+    S_LOADINGSTART = 9;
+    
+    C_MOVE = 10;
+    S_MOVE = 11;
+    
+    C_INPUT = 12;
+
+    C_EXITROOM = 13;
+    S_EXITROOM = 14;
+
+    S_CHANGEROOMINFO = 15;
+
+    C_CREATEROOM = 16;
+    C_CREATEORJOINROOM = 17;
+    
+    C_ENTERMATCHROOM = 18;
+    S_ENTERMATCHROOM = 19;
+
+    C_ROOMLIST = 20;
+    S_ROOMLIST = 21;
+    S_ROOMINFO = 22;
+
+    C_LOADINGCOMPLETE = 23;
+    S_INGAMESTART = 24;
+   
+    C_INVITE = 25;
+    S_INVITE = 26;
+
+    S_SPAWNENEMY = 27;
+    S_ERRORCODE = 28;
+}

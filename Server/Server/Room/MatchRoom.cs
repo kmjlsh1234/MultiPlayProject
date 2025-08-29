@@ -26,7 +26,7 @@ namespace Server
 
                 foreach (Player p in players.Values)
                 {
-                    PlayerInfo playerInfo = new PlayerInfo()
+                    Playerinfo playerInfo = new Playerinfo()
                     {
                         SessionId = p.session.sessionId,
                         NickName = p.session.nickName,
@@ -37,9 +37,9 @@ namespace Server
                 session.Send(roomInfoPacket);
 
                 //타인에게 정보 전송
-                S_Enterroom enterRoomPacket = new S_Enterroom()
+                S_Entermatchroom enterRoomPacket = new S_Entermatchroom()
                 {
-                    PlayerInfo = new PlayerInfo()
+                    PlayerInfo = new Playerinfo()
                     {
                         SessionId = session.sessionId,
                         NickName = session.nickName,

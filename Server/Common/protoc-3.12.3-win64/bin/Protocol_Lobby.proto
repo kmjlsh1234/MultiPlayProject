@@ -1,0 +1,36 @@
+syntax = "proto3";
+package Protocol;
+import "Protocol_Data.proto"; 
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Protobuf.Protocol";
+
+message C_Playerinfo{
+    string nickName = 1;
+}
+
+message S_Connect{
+    int32 sessionId = 1;
+}
+
+message C_Createroom{
+
+}
+
+message C_Createorjoinroom{
+
+}
+
+message C_Roomlist{
+
+}
+
+message S_Roomlist{
+    repeated S_Roominfo roomList = 1;
+}
+
+message S_Invite{
+    int32 roomId = 1;
+    int32 sessionId = 2;
+    string nickName = 3;
+}

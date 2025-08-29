@@ -21,8 +21,8 @@ public class PacketManager
 
     public void Register()
     {
-        onRecv.Add((ushort) MsgId.SPong, MakePacket<S_Pong>);
-        handler.Add((ushort)MsgId.SPong, PacketHandler.S_PongHandler);
+        onRecv.Add((ushort) MsgId.SPongcheck, MakePacket<S_Pongcheck>);
+        handler.Add((ushort)MsgId.SPongcheck, PacketHandler.S_PongcheckHandler);
 
         onRecv.Add((ushort) MsgId.SConnect, MakePacket<S_Connect>);
         handler.Add((ushort)MsgId.SConnect, PacketHandler.S_ConnectHandler);

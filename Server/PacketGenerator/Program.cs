@@ -12,62 +12,61 @@ namespace PacketGenerator
         public static string filePathPrefix = "../../../Common/protoc-3.12.3-win64/bin/";
         static void Main(string[] args)
         {
-            string file = "../../../Common/protoc - 3.12.3 - win64/bin/Protocol.proto";
-            if (args.Length >= 1)
+            List<string> files = new List<string>(args);
+
+            foreach(string file in files)
             {
-                file = args[0];
-            }
-
-
-            bool startParsing = false;
-            foreach (string line in File.ReadAllLines(file))
-            {
-                if (!startParsing && line.Contains("enum MsgId"))
+                bool startParsing = false;
+                foreach (string line in File.ReadAllLines(file))
                 {
-                    startParsing = true;
-                    continue;
-                }
-
-                if (!startParsing)
-                {
-                    continue;
-                }
-
-                string[] names = line.Trim().Split(" =");
-                if (names.Length == 0)
-                {
-                    continue;
-                }
-
-                string name = names[0];
-
-                if (name.StartsWith("S_"))
-                {
-                    string[] words = name.Split("_");
-
-                    string msgName = "";
-                    foreach (string word in words)
+                    if (!startParsing && line.Contains("enum MsgId"))
                     {
-                        msgName += FirstCharToUpper(word);
+                        startParsing = true;
+                        continue;
                     }
 
-                    string packetName = $"S_{msgName.Substring(1)}";
-                    clientRegister += string.Format(PacketFormat.managerRegisterFormat, msgName, packetName);
-                }
-                else if (name.StartsWith("C_"))
-                {
-                    string[] words = name.Split("_");
-
-                    string msgName = "";
-                    foreach (string word in words)
+                    if (!startParsing)
                     {
-                        msgName += FirstCharToUpper(word);
+                        continue;
                     }
 
-                    string packetName = $"C_{msgName.Substring(1)}";
-                    serverRegister += string.Format(PacketFormat.managerRegisterFormat, msgName, packetName);
+                    string[] names = line.Trim().Split(" =");
+                    if (names.Length == 0)
+                    {
+                        continue;
+                    }
+
+                    string name = names[0];
+
+                    if (name.StartsWith("S_"))
+                    {
+                        string[] words = name.Split("_");
+
+                        string msgName = "";
+                        foreach (string word in words)
+                        {
+                            msgName += FirstCharToUpper(word);
+                        }
+
+                        string packetName = $"S_{msgName.Substring(1)}";
+                        clientRegister += string.Format(PacketFormat.managerRegisterFormat, msgName, packetName);
+                    }
+                    else if (name.StartsWith("C_"))
+                    {
+                        string[] words = name.Split("_");
+
+                        string msgName = "";
+                        foreach (string word in words)
+                        {
+                            msgName += FirstCharToUpper(word);
+                        }
+
+                        string packetName = $"C_{msgName.Substring(1)}";
+                        serverRegister += string.Format(PacketFormat.managerRegisterFormat, msgName, packetName);
+                    }
                 }
             }
+            
 
 
             string clientManagerText = string.Format(PacketFormat.managerFormat, clientRegister);

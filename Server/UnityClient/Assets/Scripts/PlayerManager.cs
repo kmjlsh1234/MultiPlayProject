@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class PlayerManager : SingletonBase<PlayerManager>
 {
-    public Dictionary<int, PlayerInfo> playerDataList = new Dictionary<int, PlayerInfo>();
+    public Dictionary<int, Playerinfo> playerDataList = new Dictionary<int, Playerinfo>();
     public Dictionary<int, Player> playerList = new Dictionary<int, Player>();
-    public List<PlayerInfo> list = new List<PlayerInfo>();
+    public List<Playerinfo> list = new List<Playerinfo>();
     public void GeneratePlayer()
     {
-        foreach (PlayerInfo playerInfo in ChatManager.Instance.players.Values)
+        foreach (Playerinfo playerInfo in ChatManager.Instance.players.Values)
         {
             GameObject go = ResourcesManager.Instance.getPrefabObj("Player");
             if (go != null)

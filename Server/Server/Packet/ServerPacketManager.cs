@@ -21,8 +21,8 @@ public class PacketManager
 
     public void Register()
     {
-        onRecv.Add((ushort) MsgId.CPing, MakePacket<C_Ping>);
-        handler.Add((ushort)MsgId.CPing, PacketHandler.C_PingHandler);
+        onRecv.Add((ushort) MsgId.CPingcheck, MakePacket<C_Pingcheck>);
+        handler.Add((ushort)MsgId.CPingcheck, PacketHandler.C_PingcheckHandler);
 
         onRecv.Add((ushort) MsgId.CPlayerinfo, MakePacket<C_Playerinfo>);
         handler.Add((ushort)MsgId.CPlayerinfo, PacketHandler.C_PlayerinfoHandler);

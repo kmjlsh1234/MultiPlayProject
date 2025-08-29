@@ -9,7 +9,7 @@ public class PlayerItem : MonoBehaviour
     [SerializeField] private Image frame;
     [SerializeField] private TMP_Text playerInfoText;
 
-    public void Init(PlayerInfo playerInfo)
+    public void Init(Playerinfo playerInfo)
     {
         isSelfObj.gameObject.SetActive(playerInfo.SessionId.Equals(NetworkManager.Instance.sessionId));
 

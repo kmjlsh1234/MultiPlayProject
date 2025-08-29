@@ -29,7 +29,7 @@ public class InvitePopup : UIBase
         
         if (!isSend)
         {
-            C_Enterroom packet = new C_Enterroom()
+            C_Entermatchroom packet = new C_Entermatchroom()
             {
                 RoomId = roomId,
             };

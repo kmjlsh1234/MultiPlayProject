@@ -61,7 +61,7 @@ public class ChatPopup : UIBase
         UpdateRoomId(ChatManager.Instance.roomId);
         UpdateMaster(ChatManager.Instance.masterId);
 
-        Dictionary<int, PlayerInfo> players = ChatManager.Instance.players;
+        Dictionary<int, Playerinfo> players = ChatManager.Instance.players;
         InitPlayerInfo(players);
     }
 
@@ -109,9 +109,9 @@ public class ChatPopup : UIBase
         UIManager.Instance.Pop();
     }
 
-    void InitPlayerInfo(Dictionary<int, PlayerInfo> players)
+    void InitPlayerInfo(Dictionary<int, Playerinfo> players)
     {
-        foreach (PlayerInfo playerInfo in players.Values)
+        foreach (Playerinfo playerInfo in players.Values)
         {
             GameObject go = Instantiate(playerItem);
             go.transform.position = Vector3.zero;
@@ -125,7 +125,7 @@ public class ChatPopup : UIBase
         }
     }
 
-    void AddPlayer(PlayerInfo playerInfo)
+    void AddPlayer(Playerinfo playerInfo)
     {
         if(playerInfo.SessionId == NetworkManager.Instance.sessionId)
         {
