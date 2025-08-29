@@ -9,20 +9,20 @@ namespace PacketGenerator
     {
         public static string serverRegister = string.Empty;
         public static string clientRegister = string.Empty;
-
+        public static string filePathPrefix = "../../../Common/protoc-3.12.3-win64/bin/";
         static void Main(string[] args)
         {
             string file = "../../../Common/protoc - 3.12.3 - win64/bin/Protocol.proto";
-            if(args.Length >= 1)
+            if (args.Length >= 1)
             {
                 file = args[0];
             }
 
-            bool startParsing = false;
 
-            foreach(string line in File.ReadAllLines(file))
+            bool startParsing = false;
+            foreach (string line in File.ReadAllLines(file))
             {
-                if(!startParsing && line.Contains("enum MsgId"))
+                if (!startParsing && line.Contains("enum MsgId"))
                 {
                     startParsing = true;
                     continue;
@@ -34,7 +34,7 @@ namespace PacketGenerator
                 }
 
                 string[] names = line.Trim().Split(" =");
-                if(names.Length == 0)
+                if (names.Length == 0)
                 {
                     continue;
                 }
@@ -46,7 +46,7 @@ namespace PacketGenerator
                     string[] words = name.Split("_");
 
                     string msgName = "";
-                    foreach(string word in words)
+                    foreach (string word in words)
                     {
                         msgName += FirstCharToUpper(word);
                     }
@@ -68,6 +68,7 @@ namespace PacketGenerator
                     serverRegister += string.Format(PacketFormat.managerRegisterFormat, msgName, packetName);
                 }
             }
+
 
             string clientManagerText = string.Format(PacketFormat.managerFormat, clientRegister);
             File.WriteAllText("ClientPacketManager.cs", clientManagerText);

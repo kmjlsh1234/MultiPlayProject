@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf.Protocol;
+using ServerCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,70 +14,94 @@ namespace Server.Game
 
         object key = new object();
 
-        Dictionary<int, GameRoom> rooms = new Dictionary<int, GameRoom>();
-        int roomId = 1;
+        Dictionary<int, MatchRoom> matchRooms = new Dictionary<int, MatchRoom>();
+        Dictionary<int, GameRoom> gameRooms = new Dictionary<int, GameRoom>();
 
-        public GameRoom CreateRoom(ClientSession session)
+        int matchRoomId = 1;
+        int gameRoomId = 1;
+
+        #region ::::MatchRoom
+        public MatchRoom CreateMatchRoom(ClientSession session)
         {
-            GameRoom gameRoom = new GameRoom();
+            MatchRoom room = new MatchRoom();
 
             lock (key)
             {
-                gameRoom.roomId = roomId;
-                gameRoom.masterId = session.sessionId;
-                rooms.Add(roomId, gameRoom);
-                roomId++;
-                Console.WriteLine($"CreateRoom / roomId : {gameRoom.roomId}");
+                room.roomId = matchRoomId;
+                room.masterId = session.sessionId;
+                matchRooms.Add(matchRoomId, room);
+                matchRoomId++;
+                Console.WriteLine($"Create Match Room / roomId : {room.roomId}");
             }
 
-            return gameRoom;
+            return room;
         }
 
-        public GameRoom CreateOrJoinRoom(ClientSession session)
+        public MatchRoom CreateOrJoinMatchRoom(ClientSession session)
         {
             lock (key)
             {
-                foreach(GameRoom room in rooms.Values)
+                foreach(MatchRoom room in matchRooms.Values)
                 {
-                    if(room.isPublic && room.playerCount < 4)
+                    if(room.GetPlayerCount() < 4)
                     {
                         return room;
                     }
                 }
             }
 
-            GameRoom gameRoom = CreateRoom(session);
-            return gameRoom;
+            MatchRoom matchRoom = CreateMatchRoom(session);
+            return matchRoom;
         }
 
-        public bool RemoveRoom(int roomId)
+        public bool RemoveMatchRoom(int roomId)
         {
             lock (key)
             {
-                Console.WriteLine($"Room {roomId} Removed");
-                return rooms.Remove(roomId);
+                Console.WriteLine($"Match Room {roomId} Removed");
+                return matchRooms.Remove(roomId);
             }
         }
 
-        public GameRoom Find(int roomId)
+        public MatchRoom FindMatchRoom(int roomId)
         {
             lock(key)
             {
-                GameRoom gameRoom = null;
-                if(rooms.TryGetValue(roomId, out gameRoom))
+                MatchRoom room = null;
+                if(matchRooms.TryGetValue(roomId, out room))
                 {
-                    return gameRoom;
+                    return room;
                 }
                 return null;
             }
         }
 
-        public Dictionary<int, GameRoom> GetRooms()
+        public Dictionary<int, MatchRoom> GetMatchRooms()
         {
             lock( key)
             {
-                return rooms;
+                return matchRooms;
             }
         }
+        #endregion
+
+        #region ::::GameRoom
+        public GameRoom CreateGameRoom(int masterId)
+        {
+            GameRoom room = new GameRoom();
+
+            lock (key)
+            {
+                room.roomId = gameRoomId;
+                room.masterId = masterId;
+                gameRooms.Add(gameRoomId, room);
+                gameRoomId++;
+                Console.WriteLine($"Create Game Room / roomId : {room.roomId}");
+            }
+
+            return room;
+        }
+
+        #endregion
     }
 }

@@ -10,43 +10,58 @@ public class ChatManager : SingletonBase<ChatManager>
 {
     public bool isMaster = false;
 
+    //RoomInfo
+    public int roomId;
+    public int masterId;
+    public Dictionary<int, PlayerInfo> players = new Dictionary<int, PlayerInfo>();
+
+    //EventHandler
+    public Action<Dictionary<int, PlayerInfo>> InitRoomHandler;
+    public Action<PlayerInfo> AddPlayerHandler;
+    public Action<int> RemovePlayerHandler;
+    public Action<int> UpdateMasterHandler;
+    public Action<int, bool> UpdateReadyHandler;
+
     public Action<Chat> OnChatRecved;
-    public Action<PlayerInfo> OnPlayerAdd;
-    public Action<int> OnPlayerRemove;
-    public Action<S_Roominfo> S_RoomInfo_Handler;
-    public Action<S_Roominfo> S_ChangeRoomInfo_Handler;
-    public Action<int, bool> S_BroadCast_ReadyPacketHandler;
-    public S_Roominfo roomInfo;
 
     public override void Init()
     {
 
     }
 
-    public void OnPlayerListRecv(S_Roominfo packet)
+    public void InitRoom(S_Roominfo packet)
     {
-        this.roomInfo = roomInfo;
-        S_RoomInfo_Handler.Invoke(packet);
+        roomId = packet.RoomId;
+        masterId = packet.MasterId;
+
+        players.Clear();
+        foreach(PlayerInfo playerInfo in packet.Players)
+        {
+            players.Add(playerInfo.SessionId, playerInfo);
+        }
     }
 
     public void AddPlayer(PlayerInfo playerInfo)
     {
-        Debug.Log("ChatManager.AddPlayer");
-        roomInfo.Players.Add(playerInfo);
-        OnPlayerAdd.Invoke(playerInfo);
-    }
-
-    public void ChangeRoomInfo(S_Changeroominfo changeInfo)
-    {
-        roomInfo.MasterId = changeInfo.MasterId;
-        S_ChangeRoomInfo_Handler.Invoke(roomInfo);
+        players.Add(playerInfo.SessionId, playerInfo);
+        AddPlayerHandler.Invoke(playerInfo);
     }
 
     public void RemovePlayer(int playerId)
     {
-        PlayerInfo playerInfo = roomInfo.Players[playerId];
-        roomInfo.Players.Remove(playerInfo);
-        OnPlayerRemove.Invoke(playerId);
+        PlayerInfo playerInfo = null;
+        if(players.TryGetValue(playerId, out playerInfo))
+        {
+            players.Remove(playerInfo.SessionId);
+
+        }
+        RemovePlayerHandler.Invoke(playerId);
+    }
+
+    public void UpdateMaster(int masterId)
+    {
+        this.masterId = masterId;
+        UpdateMasterHandler.Invoke(masterId);
     }
 
     public void RecevMessage(Chat chat)
@@ -54,8 +69,8 @@ public class ChatManager : SingletonBase<ChatManager>
         OnChatRecved.Invoke(chat);
     }
 
-    public void OnBroadCastReadyPacketRecv(int sessionId, bool isReady)
+    public void UpdateReady(int sessionId, bool isReady)
     {
-        S_BroadCast_ReadyPacketHandler.Invoke(sessionId, isReady);
+        UpdateReadyHandler.Invoke(sessionId, isReady);
     }
 }

@@ -34,8 +34,8 @@ enum MsgId {
     C_CREATEROOM = 16;
     C_CREATEORJOINROOM = 17;
     
-    C_ENTERROOM = 18;
-    S_ENTERROOM = 19;
+    C_ENTERMATCHROOM = 18;
+    S_ENTERMATCHROOM = 19;
 
     C_ROOMLIST = 20;
     S_ROOMLIST = 21;
@@ -55,7 +55,7 @@ message C_Ping{
 
 }
 
-message S_Pong{
+message C_Pong{
 
 }
 
@@ -133,11 +133,11 @@ message C_Createorjoinroom{
 
 }
 
-message C_Enterroom{
+message C_Entermatchroom{
     int32 roomId = 1;
 }
 
-message S_Enterroom{
+message S_Entermatchroom{
     PlayerInfo playerInfo = 1;
 }
 

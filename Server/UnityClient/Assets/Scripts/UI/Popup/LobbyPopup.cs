@@ -31,7 +31,6 @@ public class LobbyPopup : UIBase
     private void Awake()
     {
         createRoomPopup.gameObject.SetActive(false);
-        ChatManager.Instance.S_RoomInfo_Handler += ((info) => createRoomPopup.SetActive(false));
     }
 
     void Start()
@@ -83,7 +82,6 @@ public class LobbyPopup : UIBase
 
     void UpdateRoomList(Dictionary<int, S_Roominfo> dic)
     {
-        Debug.Log("RoomCount : " +dic.Values.Count);
         if (roomItem == null)
         {
             roomItem = ResourcesManager.Instance.getUIObj("RoomItem");

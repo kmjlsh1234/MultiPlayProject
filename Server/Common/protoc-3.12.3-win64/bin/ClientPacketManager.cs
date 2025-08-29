@@ -45,8 +45,8 @@ public class PacketManager
         onRecv.Add((ushort) MsgId.SChangeroominfo, MakePacket<S_Changeroominfo>);
         handler.Add((ushort)MsgId.SChangeroominfo, PacketHandler.S_ChangeroominfoHandler);
 
-        onRecv.Add((ushort) MsgId.SEnterroom, MakePacket<S_Enterroom>);
-        handler.Add((ushort)MsgId.SEnterroom, PacketHandler.S_EnterroomHandler);
+        onRecv.Add((ushort) MsgId.SEntermatchroom, MakePacket<S_Entermatchroom>);
+        handler.Add((ushort)MsgId.SEntermatchroom, PacketHandler.S_EntermatchroomHandler);
 
         onRecv.Add((ushort) MsgId.SRoomlist, MakePacket<S_Roomlist>);
         handler.Add((ushort)MsgId.SRoomlist, PacketHandler.S_RoomlistHandler);

@@ -14,17 +14,17 @@ namespace Server.Game
         Dictionary<int, Player> players = new Dictionary<int, Player>();
         int playerId = 1;   //TODO
 
-        public Player Add()
+        public Player Add(ClientSession session)
         {
-            Player player = new Player();
-
+            
             lock (key)
             {
-               
+                Player player = new Player();
+                player.session = session;
                 players.Add(playerId, player);
                 playerId++;
+                return player;
             }
-            return player;
         }
        
         public bool Remove(int playerId)

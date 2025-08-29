@@ -1,19 +1,21 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using UniRx;
-using System.Collections.Generic;
-using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
-using Google.Protobuf.Protocol;
 using Google.Protobuf;
 using Google.Protobuf.Collections;
+using Google.Protobuf.Protocol;
+using NUnit.Framework;
+using System.Collections.Generic;
+using TMPro;
+using UniRx;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ChatPopup : UIBase
 {
     [SerializeField] private Transform playerListRoot;
     [SerializeField] private Transform chatListRoot;
-    [SerializeField] private TMP_Text roomInfoText;
+    [SerializeField] private TMP_Text roomIdText;
+    [SerializeField] private TMP_Text masterIdText;
 
     [SerializeField] private TMP_InputField inputField;
     [SerializeField] private Button sendButton;
@@ -42,24 +44,43 @@ public class ChatPopup : UIBase
 
         invitePopup.SetActive(false);
 
+        RegisterButton();
+        RegisterEventHandler();
+
+        ChatManager.Instance.OnChatRecved += UpdateChatList;
+        
+    }
+
+    private void Start()
+    {
+        if (playerItem == null)
+        {
+            playerItem = ResourcesManager.Instance.getUIObj("PlayerItem");
+        }
+
+        UpdateRoomId(ChatManager.Instance.roomId);
+        UpdateMaster(ChatManager.Instance.masterId);
+
+        Dictionary<int, PlayerInfo> players = ChatManager.Instance.players;
+        InitPlayerInfo(players);
+    }
+
+    void RegisterButton()
+    {
         sendButton.onClick.AddListener(() => SendMessage());
         backButton.onClick.AddListener(() => Back());
         enterButton.onClick.AddListener(() => Enter());
         popupOpenButton.onClick.AddListener(() => invitePopup.SetActive(true));
         inviteButton.onClick.AddListener(() => Invite());
         popupCloseButton.onClick.AddListener(() => invitePopup.SetActive(false));
-
-        ChatManager.Instance.OnChatRecved += UpdateChatList;
-        ChatManager.Instance.OnPlayerAdd += AddPlayer;
-        ChatManager.Instance.OnPlayerRemove += RemovePlayer;
-        ChatManager.Instance.S_RoomInfo_Handler += UpdateRoomInfo;
-        ChatManager.Instance.S_ChangeRoomInfo_Handler += UpdateRoomInfo;
-        ChatManager.Instance.S_BroadCast_ReadyPacketHandler += UpdateReadyState;
     }
 
-    private void Start()
+    void RegisterEventHandler()
     {
-        ChatManager.Instance.S_ChangeRoomInfo_Handler += PlayerListInitialize;
+        ChatManager.Instance.AddPlayerHandler += AddPlayer;
+        ChatManager.Instance.RemovePlayerHandler += RemovePlayer;
+        ChatManager.Instance.UpdateMasterHandler += UpdateMaster;
+        ChatManager.Instance.UpdateReadyHandler += UpdateReady;
     }
 
     void SendMessage()
@@ -88,21 +109,9 @@ public class ChatPopup : UIBase
         UIManager.Instance.Pop();
     }
 
-    void PlayerListInitialize(S_Roominfo roomInfo)
+    void InitPlayerInfo(Dictionary<int, PlayerInfo> players)
     {
-        RepeatedField<PlayerInfo> list = ChatManager.Instance.roomInfo.Players;
-
-        if (playerItem == null)
-        {
-            playerItem = ResourcesManager.Instance.getUIObj("PlayerItem");
-        }
-
-        if(list == null)
-        {
-            return;
-        }
-
-        foreach (PlayerInfo playerInfo in list)
+        foreach (PlayerInfo playerInfo in players.Values)
         {
             GameObject go = Instantiate(playerItem);
             go.transform.position = Vector3.zero;
@@ -114,11 +123,6 @@ public class ChatPopup : UIBase
 
             playerDic.Add(playerInfo.SessionId, item);
         }
-    }
-
-    void UpdateRoomInfo(S_Roominfo roomInfo)
-    {
-        roomInfoText.text = $"RoomId : {roomInfo.RoomId} / MasterId : {roomInfo.MasterId}";
     }
 
     void AddPlayer(PlayerInfo playerInfo)
@@ -154,16 +158,24 @@ public class ChatPopup : UIBase
         {
             Debug.Log("Player Remove");
 
-            if (item != null) // Unity 오브젝트 null 체크
+            if (item != null) 
             {
                 Destroy(item.gameObject);
             }
             playerDic.Remove(playerId);
-            
         }
-
     }
-     
+    
+    void UpdateRoomId(int roomId)
+    {
+        roomIdText.text = $"Room Id : {roomId}";
+    }
+
+    void UpdateMaster(int masterId)
+    {
+        masterIdText.text = $"Master Id : {masterId}";
+    }
+
     void UpdateChatList(Chat chat)
     {
         Debug.Log("UpdateChatList");
@@ -180,7 +192,7 @@ public class ChatPopup : UIBase
         message.Init(chat);
     }
 
-    void UpdateReadyState(int sessionId, bool isReady)
+    void UpdateReady(int sessionId, bool isReady)
     {
         PlayerItem playerItem = null;
         playerDic.TryGetValue(sessionId, out playerItem);

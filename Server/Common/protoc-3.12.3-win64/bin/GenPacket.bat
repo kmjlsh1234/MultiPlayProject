@@ -1,5 +1,5 @@
 protoc.exe -I=./ --csharp_out=./ Protocol.proto
-IF ERRORLEVEL 1 PAUSE
+
 
 START ../../../PacketGenerator/bin/Debug/net8.0/PacketGenerator.exe ./Protocol.proto
 

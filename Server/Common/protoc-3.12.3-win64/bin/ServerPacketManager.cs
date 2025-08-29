@@ -51,8 +51,8 @@ public class PacketManager
         onRecv.Add((ushort) MsgId.CCreateorjoinroom, MakePacket<C_Createorjoinroom>);
         handler.Add((ushort)MsgId.CCreateorjoinroom, PacketHandler.C_CreateorjoinroomHandler);
 
-        onRecv.Add((ushort) MsgId.CEnterroom, MakePacket<C_Enterroom>);
-        handler.Add((ushort)MsgId.CEnterroom, PacketHandler.C_EnterroomHandler);
+        onRecv.Add((ushort) MsgId.CEntermatchroom, MakePacket<C_Entermatchroom>);
+        handler.Add((ushort)MsgId.CEntermatchroom, PacketHandler.C_EntermatchroomHandler);
 
         onRecv.Add((ushort) MsgId.CRoomlist, MakePacket<C_Roomlist>);
         handler.Add((ushort)MsgId.CRoomlist, PacketHandler.C_RoomlistHandler);

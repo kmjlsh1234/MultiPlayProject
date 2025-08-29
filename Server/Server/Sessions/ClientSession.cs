@@ -15,7 +15,9 @@ namespace Server
     {
         public int sessionId { get; set; }
         public string nickName { get; set; }
-        public GameRoom room { get; set; }
+        public MatchRoom matchRoom { get; set; }
+        public GameRoom gameRoom { get; set; }
+
         public void Send(IMessage packet)
         {
             string msgName = packet.Descriptor.Name.Replace("_", string.Empty);
@@ -40,12 +42,12 @@ namespace Server
         {
             Console.WriteLine($"Client [{endPoint}] DisConnected!");
             SessionManager.Instance.Remove(this);
-            if(room != null)
+            if(matchRoom != null)
             {
-                GameRoom copyRoom = room;
-                copyRoom.LeaveGame(this);
+                MatchRoom copyRoom = matchRoom;
+                copyRoom.ExitRoom(this);
                 //copyRoom.Push(() => copyRoom.ExitRoom(this, copyRoom.roomId));
-                room = null;
+                matchRoom = null;
             }
         }
 

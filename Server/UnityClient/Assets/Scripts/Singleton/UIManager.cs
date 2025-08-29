@@ -43,9 +43,8 @@ public class UIManager : SingletonBase<UIManager>
                 go.name = go.name.Replace("(Clone)", "");
                 GameObject ui = Instantiate(go, Vector3.zero, Quaternion.identity, transform);
                 ui.GetComponentInChildren<Canvas>().sortingOrder = canvasOrder++;
-                UIBase uiBase = ui.GetComponent<UIBase>();
+                ErrorPopup errorPopup = ui.GetComponent<ErrorPopup>();
                 uiStack.Push(ui);
-                ErrorPopup errorPopup = uiBase as ErrorPopup;
                 errorPopup.Init(packet);
             }
         }
@@ -57,9 +56,8 @@ public class UIManager : SingletonBase<UIManager>
                 go.name = go.name.Replace("(Clone)", "");
                 GameObject ui = Instantiate(go, Vector3.zero, Quaternion.identity, transform);
                 ui.GetComponentInChildren<Canvas>().sortingOrder = canvasOrder++;
-                UIBase uiBase = ui.GetComponent<UIBase>();
+                InvitePopup invitePopup = ui.GetComponent<InvitePopup>();
                 uiStack.Push(ui);
-                InvitePopup invitePopup = uiBase as InvitePopup;
                 invitePopup.Init(packet);
             }
         }

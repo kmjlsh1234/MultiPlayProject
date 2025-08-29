@@ -52,7 +52,6 @@ namespace ServerCore
             }
 
             RegistAccept(args);
-            Console.WriteLine("다시 Accept 등록");
         }
     }
 }
