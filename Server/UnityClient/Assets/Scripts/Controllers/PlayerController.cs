@@ -4,9 +4,9 @@ public class PlayerController : MonoBehaviour
 {
     public int playerId;
 
-    public float MoveSpeed = 2.0f;
-    public float SprintSpeed = 5.335f;
-    public float RotationSmoothTime = 0.12f;
+    public float moveSpeed = 5f;
+    public float rotateSpeed = 10f;
+    public CharacterController controller;
 
-    
+
 }
