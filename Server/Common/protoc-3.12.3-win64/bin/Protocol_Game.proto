@@ -5,6 +5,24 @@ import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Protobuf.Protocol";
 
+message C_Joinroom{
+    int32 roomId = 1;
+}
+
+message S_Inviteroom{
+    int32 roomId = 1;
+}
+
+message S_Entergameroom{
+}
+
+message C_Exitgameroom {
+}
+
+message S_Exitgameroom {
+    int32 sessionId = 1;
+}
+
 message C_Move{
     float posX = 1;
     float posY = 2;
@@ -21,7 +39,16 @@ message S_Move{
 }
 
 message C_Input{
+    float dirX = 1;
+    float dirY = 2;
+}
 
+message S_Input{
+    int32 sessionId = 1;
+    float posX = 2;
+    float posY = 3;
+    float posZ = 4;
+    float rotY = 5;
 }
 
 message S_Ingamestart{

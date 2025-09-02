@@ -144,15 +144,12 @@ namespace Server
             if (players.Count == readyCount)
             {
                 GameRoom gameRoom = RoomManager.Instance.CreateGameRoom(masterId);
+                gameRoom.Init(players.Count);
                 foreach(Player player in players.Values)
                 {
-                    GamePlayer gp = new GamePlayer() { session = player.session };
-                    gameRoom.EnterRoom(gp);
+                    gameRoom.EnterRoom(player.session);
                     player.session.gameRoom = gameRoom;
-                }
-
-                S_Loadingstart packet = new S_Loadingstart();
-                BroadCast(packet);
+                }           
             }
         }
     }

@@ -6,8 +6,8 @@ using UnityEngine;
 public class PlayerManager : SingletonBase<PlayerManager>
 {
     public Dictionary<int, Playerinfo> playerDataList = new Dictionary<int, Playerinfo>();
-    public Dictionary<int, Player> playerList = new Dictionary<int, Player>();
-    public List<Playerinfo> list = new List<Playerinfo>();
+    public Dictionary<int, PlayerController> playerList = new Dictionary<int, PlayerController>();
+
     public void GeneratePlayer()
     {
         foreach (Playerinfo playerInfo in ChatManager.Instance.players.Values)
@@ -16,20 +16,21 @@ public class PlayerManager : SingletonBase<PlayerManager>
             if (go != null)
             {
                 GameObject player = Instantiate(go, Vector3.zero, Quaternion.identity);
-                /*
-                if(pair.Key == NetworkManager.Instance.sessionId)
+
+                if(playerInfo.SessionId == NetworkManager.Instance.sessionId)
                 {
-                    Player p = player.AddComponent<MyPlayer>();
-                    p.playerId = pair.Key;
-                    playerList.Add(pair.Key, p);
+                    PlayerController p = player.AddComponent<MyPlayerController>();
+                    p.gameObject.tag = "Player";
+                    p.playerId = playerInfo.SessionId;
+                    playerList.Add(p.playerId, p);
                 }
                 else
                 {
-                    Player p = player.AddComponent<Player>();
-                    p.playerId = pair.Key;
-                    playerList.Add(pair.Key, p);
+                    PlayerController p = player.AddComponent<PlayerController>();
+                    p.playerId = playerInfo.SessionId;
+                    playerList.Add(p.playerId, p);
                 }
-                */
+
                
             }
             else
@@ -39,16 +40,29 @@ public class PlayerManager : SingletonBase<PlayerManager>
         }
     }
 
+    public void RemovePlayer(int sessionId)
+    {
+        Playerinfo playerInfo = null;
+        if(playerDataList.TryGetValue(sessionId, out playerInfo))
+        {
+            playerDataList.Remove(sessionId);
+        }
+
+        PlayerController controller = null;
+        if(playerList.TryGetValue(sessionId, out controller))
+        {
+            playerList.Remove(sessionId);
+            Destroy(controller.gameObject);
+        }
+    }
+
     public void OnPacketRecv(S_Move packet)
     {
-        /*
-        Player player= null;
-        playerList.TryGetValue(packet.PlayerId, out player);
-        if(player != null)
+        PlayerController player= null;
+        playerList.TryGetValue(packet.SessionId, out player);
+        if(player != null && !NetworkManager.Instance.sessionId.Equals(packet.SessionId))
         {
-            if (packet.PlayerId == NetworkManager.Instance.sessionId) return;
-            player.RecvPacket(packet);
+            player.OnMovePacket(packet);
         }
-        */
     }
 }

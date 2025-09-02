@@ -62,6 +62,9 @@ public class PacketManager
 
         onRecv.Add((ushort) MsgId.CInvite, MakePacket<C_Invite>);
         handler.Add((ushort)MsgId.CInvite, PacketHandler.C_InviteHandler);
+
+        onRecv.Add((ushort) MsgId.CExitgameroom, MakePacket<C_Exitgameroom>);
+        handler.Add((ushort)MsgId.CExitgameroom, PacketHandler.C_ExitgameroomHandler);
         
     
     }

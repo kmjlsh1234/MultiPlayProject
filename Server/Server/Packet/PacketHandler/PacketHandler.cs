@@ -28,24 +28,6 @@ public partial class PacketHandler
         */
     }
 
-    public static void C_MoveHandler(Session s, IMessage pkt)
-    {
-        //ClientSession session = s as ClientSession;
-        //C_MovePacket packet = pkt as C_MovePacket;
-        
-        //session.room.Push(() => session.room.Move(session, packet));
-    }
-
-    public static void C_InputHandler(Session s, IMessage pkt)
-    {
-        //ClientSession session = s as ClientSession;
-        //C_InputPacket packet = pkt as C_InputPacket;
-
-        //session.room.Push(() => session.room.PlayerMove(session, packet));
-    }
-
-    
-
     public static void C_StartHandler(Session s, IMessage pkt)
     {
         ClientSession session = s as ClientSession;

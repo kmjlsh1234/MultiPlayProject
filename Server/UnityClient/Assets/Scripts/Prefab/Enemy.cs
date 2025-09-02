@@ -6,9 +6,9 @@ public class Enemy : MonoBehaviour
     public float moveSpeed = 2f;      // 이동 속도
     public float searchInterval = 0.5f; // 몇 초마다 타겟 갱신할지
     private float lastSearchTime = 0f;
-    Dictionary<int, Player> playerDic;
+    Dictionary<int, PlayerController> playerDic;
 
-    private Player targetPlayer; // 현재 따라가는 대상
+    private PlayerController targetPlayer; // 현재 따라가는 대상
     private Rigidbody rb;
 
     public void Awake()
@@ -47,14 +47,14 @@ public class Enemy : MonoBehaviour
 
     private void FindClosestPlayer()
     {
-        Dictionary<int, Player> dic = PlayerManager.Instance.playerList;
+        Dictionary<int, PlayerController> dic = PlayerManager.Instance.playerList;
 
         float minDist = float.MaxValue;
-        Player closest = null;
+        PlayerController closest = null;
 
         foreach (var kv in dic)
         {
-            Player p = kv.Value;
+            PlayerController p = kv.Value;
             if (p == null) continue;
 
             float dist = Vector3.Distance(transform.position, p.transform.position);

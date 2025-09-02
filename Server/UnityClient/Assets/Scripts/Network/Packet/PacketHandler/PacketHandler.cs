@@ -21,22 +21,8 @@ public partial class PacketHandler
         ChatManager.Instance.RecevMessage(chat);
     }
 
-    public static void S_MoveHandler(Session session, IMessage pkt)
-    {
-        ServerSession serverSession = session as ServerSession;
-        S_Move packet = pkt as S_Move;
-
-        PlayerManager.Instance.OnPacketRecv(packet);
-    }
-
     //로딩 시작
-    public static void S_LoadingstartHandler(Session session, IMessage pkt)
-    {
-        Debug.Log(" S_BroadCast_LoadingStartPacket");
-
-        UIManager.Instance.Clear();
-        LoadingSceneManager.Instance.LoadScene(SceneType.InGameScene);
-    }
+    
 
     //인게임 전환
     public static void S_IngamestartHandler(Session session, IMessage pkt)

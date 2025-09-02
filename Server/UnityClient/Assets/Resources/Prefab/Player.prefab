@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6076608557461101096}
   - component: {fileID: 5964221776623105024}
   - component: {fileID: 5979942316001809847}
-  - component: {fileID: 3552245733998774239}
   - component: {fileID: 2637096547566598450}
   m_Layer: 0
   m_Name: Player
@@ -110,24 +109,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3552245733998774239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8041334101669089379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7367763124645d64a836f0020c298a5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerId: 0
-  MoveSpeed: 2
-  SprintSpeed: 5.335
-  RotationSmoothTime: 0.12
-  moveSpeed: 5
-  rotateSpeed: 10
 --- !u!143 &2637096547566598450
 CharacterController:
   m_ObjectHideFlags: 0

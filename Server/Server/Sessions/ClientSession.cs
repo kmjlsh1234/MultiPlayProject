@@ -49,6 +49,13 @@ namespace Server
                 //copyRoom.Push(() => copyRoom.ExitRoom(this, copyRoom.roomId));
                 matchRoom = null;
             }
+
+            if(gameRoom != null)
+            {
+                GameRoom copyRoom = gameRoom;
+                copyRoom.ExitRoom(this);
+                gameRoom = null;
+            }
         }
 
         public override void OnRecvPacket(ArraySegment<byte> buffer)

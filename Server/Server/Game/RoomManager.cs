@@ -102,6 +102,14 @@ namespace Server.Game
             return room;
         }
 
+        public bool RemoveGameRoom(int roomId)
+        {
+            lock (key)
+            {
+                Console.WriteLine($"Game Room {roomId} Removed");
+                return gameRooms.Remove(roomId);
+            }
+        }
         #endregion
     }
 }

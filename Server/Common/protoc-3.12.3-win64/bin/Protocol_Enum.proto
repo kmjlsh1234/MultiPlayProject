@@ -49,4 +49,7 @@ enum MsgId {
 
     S_SPAWNENEMY = 27;
     S_ERRORCODE = 28;
+
+    C_EXITGAMEROOM = 29;
+    S_EXITGAMEROOM = 30;
 }

@@ -25,7 +25,7 @@ namespace Google.Protobuf.Protocol {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChNQcm90b2NvbF9FbnVtLnByb3RvEghQcm90b2NvbBofZ29vZ2xlL3Byb3Rv",
-            "YnVmL3RpbWVzdGFtcC5wcm90byrnAwoFTXNnSWQSDwoLQ19QSU5HQ0hFQ0sQ",
+            "YnVmL3RpbWVzdGFtcC5wcm90byqPBAoFTXNnSWQSDwoLQ19QSU5HQ0hFQ0sQ",
             "ABIPCgtTX1BPTkdDSEVDSxABEg0KCVNfQ09OTkVDVBACEhAKDENfUExBWUVS",
             "SU5GTxADEgoKBkNfQ0hBVBAEEgoKBlNfQ0hBVBAFEgsKB0NfUkVBRFkQBhIL",
             "CgdTX1JFQURZEAcSCwoHQ19TVEFSVBAIEhIKDlNfTE9BRElOR1NUQVJUEAkS",
@@ -36,8 +36,9 @@ namespace Google.Protobuf.Protocol {
             "Q19ST09NTElTVBAUEg4KClNfUk9PTUxJU1QQFRIOCgpTX1JPT01JTkZPEBYS",
             "FQoRQ19MT0FESU5HQ09NUExFVEUQFxIRCg1TX0lOR0FNRVNUQVJUEBgSDAoI",
             "Q19JTlZJVEUQGRIMCghTX0lOVklURRAaEhAKDFNfU1BBV05FTkVNWRAbEg8K",
-            "C1NfRVJST1JDT0RFEBxCG6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIG",
-            "cHJvdG8z"));
+            "C1NfRVJST1JDT0RFEBwSEgoOQ19FWElUR0FNRVJPT00QHRISCg5TX0VYSVRH",
+            "QU1FUk9PTRAeQhuqAhhHb29nbGUuUHJvdG9idWYuUHJvdG9jb2xiBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), }, null, null));
@@ -76,6 +77,8 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("S_INVITE")] SInvite = 26,
     [pbr::OriginalName("S_SPAWNENEMY")] SSpawnenemy = 27,
     [pbr::OriginalName("S_ERRORCODE")] SErrorcode = 28,
+    [pbr::OriginalName("C_EXITGAMEROOM")] CExitgameroom = 29,
+    [pbr::OriginalName("S_EXITGAMEROOM")] SExitgameroom = 30,
   }
 
   #endregion

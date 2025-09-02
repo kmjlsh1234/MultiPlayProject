@@ -17,7 +17,7 @@ namespace Server
         public int masterId { get; set; }
         protected object key { get; set; } = new object();
 
-        public abstract void BroadCast(IMessage message);
+        public abstract void BroadCast(IMessage packet);
 
         public abstract void EnterRoom(T t);
 

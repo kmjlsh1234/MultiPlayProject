@@ -65,6 +65,9 @@ public class PacketManager
 
         onRecv.Add((ushort) MsgId.SErrorcode, MakePacket<S_Errorcode>);
         handler.Add((ushort)MsgId.SErrorcode, PacketHandler.S_ErrorcodeHandler);
+
+        onRecv.Add((ushort) MsgId.SExitgameroom, MakePacket<S_Exitgameroom>);
+        handler.Add((ushort)MsgId.SExitgameroom, PacketHandler.S_ExitgameroomHandler);
         
     
     }
