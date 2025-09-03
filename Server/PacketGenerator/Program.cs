@@ -24,17 +24,16 @@ namespace PacketGenerator
                         startParsing = true;
                         continue;
                     }
-
+                    
                     if (!startParsing)
-                    {
                         continue;
-                    }
+
+                    if (line.Contains("}"))
+                        break;
 
                     string[] names = line.Trim().Split(" =");
                     if (names.Length == 0)
-                    {
                         continue;
-                    }
 
                     string name = names[0];
 

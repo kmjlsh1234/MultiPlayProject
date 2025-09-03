@@ -13,11 +13,11 @@ public class ChatManager : SingletonBase<ChatManager>
     //RoomInfo
     public int roomId;
     public int masterId;
-    public Dictionary<int, Playerinfo> players = new Dictionary<int, Playerinfo>();
+    public Dictionary<int, Matchplayerinfo> players = new Dictionary<int, Matchplayerinfo>();
 
     //EventHandler
-    public Action<Dictionary<int, Playerinfo>> InitRoomHandler;
-    public Action<Playerinfo> AddPlayerHandler;
+    public Action<Dictionary<int, Matchplayerinfo>> InitRoomHandler;
+    public Action<Matchplayerinfo> AddPlayerHandler;
     public Action<int> RemovePlayerHandler;
     public Action<int> UpdateMasterHandler;
     public Action<int, bool> UpdateReadyHandler;
@@ -35,13 +35,13 @@ public class ChatManager : SingletonBase<ChatManager>
         masterId = packet.MasterId;
 
         players.Clear();
-        foreach(Playerinfo playerInfo in packet.Players)
+        foreach(Matchplayerinfo playerInfo in packet.Players)
         {
             players.Add(playerInfo.SessionId, playerInfo);
         }
     }
 
-    public void AddPlayer(Playerinfo playerInfo)
+    public void AddPlayer(Matchplayerinfo playerInfo)
     {
         players.Add(playerInfo.SessionId, playerInfo);
         AddPlayerHandler.Invoke(playerInfo);
@@ -49,7 +49,7 @@ public class ChatManager : SingletonBase<ChatManager>
 
     public void RemovePlayer(int playerId)
     {
-        Playerinfo playerInfo = null;
+        Matchplayerinfo playerInfo = null;
         if(players.TryGetValue(playerId, out playerInfo))
         {
             players.Remove(playerInfo.SessionId);

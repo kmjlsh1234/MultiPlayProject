@@ -19,8 +19,23 @@ public class PlayerController : MonoBehaviour
     public float tickInterval = 0.2f; // 서버 패킷 주기
     private float elapsed = 0f;
 
+    protected Rigidbody rigid;
+    protected Animator anim;
+    protected Vector3 moveDir = Vector3.zero;
+
+    protected virtual void Start()
+    {
+        anim = GetComponent<Animator>();
+        anim.SetBool("IsIdle", true);
+        rigid = GetComponent<Rigidbody>();
+        rigid.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+    }
+
     private void Update()
     {
+        bool isIdle = moveDir.sqrMagnitude <= 0.001f;
+        anim.SetBool("IsIdle", isIdle);
+
         // 보간 이동
         //transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * moveSpeed);
         //transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotateSpeed);

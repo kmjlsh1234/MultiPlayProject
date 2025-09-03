@@ -31,10 +31,10 @@ namespace Google.Protobuf.Protocol {
             "DAoKQ19FeGl0cm9vbSIfCgpTX0V4aXRyb29tEhEKCXNlc3Npb25JZBgBIAEo",
             "BSI0ChBTX0NoYW5nZXJvb21pbmZvEg4KBnJvb21JZBgBIAEoBRIQCghtYXN0",
             "ZXJJZBgCIAEoBSIiChBDX0VudGVybWF0Y2hyb29tEg4KBnJvb21JZBgBIAEo",
-            "BSI8ChBTX0VudGVybWF0Y2hyb29tEigKCnBsYXllckluZm8YASABKAsyFC5Q",
-            "cm90b2NvbC5QbGF5ZXJpbmZvIh0KCENfSW52aXRlEhEKCXNlc3Npb25JZBgB",
-            "IAEoBSIJCgdDX1N0YXJ0IhMKEUNfTG9hZGluZ2NvbXBsZXRlQhuqAhhHb29n",
-            "bGUuUHJvdG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
+            "BSJBChBTX0VudGVybWF0Y2hyb29tEi0KCnBsYXllckluZm8YASABKAsyGS5Q",
+            "cm90b2NvbC5NYXRjaHBsYXllcmluZm8iHQoIQ19JbnZpdGUSEQoJc2Vzc2lv",
+            "bklkGAEgASgFIgkKB0NfU3RhcnQiEwoRQ19Mb2FkaW5nY29tcGxldGVCG6oC",
+            "GEdvb2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Google.Protobuf.Protocol.ProtocolDataReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -994,9 +994,9 @@ namespace Google.Protobuf.Protocol {
 
     /// <summary>Field number for the "playerInfo" field.</summary>
     public const int PlayerInfoFieldNumber = 1;
-    private global::Google.Protobuf.Protocol.Playerinfo playerInfo_;
+    private global::Google.Protobuf.Protocol.Matchplayerinfo playerInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Google.Protobuf.Protocol.Playerinfo PlayerInfo {
+    public global::Google.Protobuf.Protocol.Matchplayerinfo PlayerInfo {
       get { return playerInfo_; }
       set {
         playerInfo_ = value;
@@ -1065,7 +1065,7 @@ namespace Google.Protobuf.Protocol {
       }
       if (other.playerInfo_ != null) {
         if (playerInfo_ == null) {
-          PlayerInfo = new global::Google.Protobuf.Protocol.Playerinfo();
+          PlayerInfo = new global::Google.Protobuf.Protocol.Matchplayerinfo();
         }
         PlayerInfo.MergeFrom(other.PlayerInfo);
       }
@@ -1082,7 +1082,7 @@ namespace Google.Protobuf.Protocol {
             break;
           case 10: {
             if (playerInfo_ == null) {
-              PlayerInfo = new global::Google.Protobuf.Protocol.Playerinfo();
+              PlayerInfo = new global::Google.Protobuf.Protocol.Matchplayerinfo();
             }
             input.ReadMessage(PlayerInfo);
             break;

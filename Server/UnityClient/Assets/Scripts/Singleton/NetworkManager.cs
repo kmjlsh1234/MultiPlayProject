@@ -19,7 +19,8 @@ public class NetworkManager : SingletonBase<NetworkManager>
 
     public override void Init()
     {
-        IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("10.153.33.245"), 8888);
+        //IPAddress.Parse("10.153.33.245")
+        IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, 8888);
         connector.Init(endPoint, session);
     }
 

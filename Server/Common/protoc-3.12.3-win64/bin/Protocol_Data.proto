@@ -2,17 +2,36 @@ syntax = "proto3";
 package Protocol;
 
 import "google/protobuf/timestamp.proto";
-
+import "Protocol_Enum.proto";
 option csharp_namespace = "Google.Protobuf.Protocol";
 
-message Playerinfo {
-    int32 sessionId = 1;
-    string nickName = 2;
-    bool isReady = 3;
+message Objectinfo {
+    int32 objectId = 1;
+    PositionInfo posInfo = 2;
+    RotationInfo rotInfo = 3;
+    CreatureState stateInfo = 4;
 }
 
 message S_Roominfo{
     int32 roomId = 1;
     int32 masterId = 2;
-    repeated Playerinfo players = 4;
+    repeated Matchplayerinfo players = 3;
+}
+
+message Matchplayerinfo {
+    int32 sessionId = 1;
+    string nickName = 2;
+    bool isReady = 3;
+}
+
+message PositionInfo{
+    float posX = 1;
+    float posY = 2;
+    float posZ = 3;
+}
+
+message RotationInfo{
+    float rotX = 1;
+    float rotY = 2;
+    float rotZ = 3;
 }

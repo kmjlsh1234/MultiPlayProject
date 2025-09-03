@@ -37,11 +37,13 @@ namespace Google.Protobuf.Protocol {
             "FQoRQ19MT0FESU5HQ09NUExFVEUQFxIRCg1TX0lOR0FNRVNUQVJUEBgSDAoI",
             "Q19JTlZJVEUQGRIMCghTX0lOVklURRAaEhAKDFNfU1BBV05FTkVNWRAbEg8K",
             "C1NfRVJST1JDT0RFEBwSEgoOQ19FWElUR0FNRVJPT00QHRISCg5TX0VYSVRH",
-            "QU1FUk9PTRAeQhuqAhhHb29nbGUuUHJvdG9idWYuUHJvdG9jb2xiBnByb3Rv",
-            "Mw=="));
+            "QU1FUk9PTRAeKkMKDkdhbWVPYmplY3RUeXBlEggKBE5PTkUQABIKCgZQTEFZ",
+            "RVIQARILCgdNT05TVEVSEAISDgoKUFJPSkVDVElMRRADKjgKDUNyZWF0dXJl",
+            "U3RhdGUSCAoESURMRRAAEggKBE1PVkUQARIJCgVTS0lMTBACEggKBERFQUQQ",
+            "A0IbqgIYR29vZ2xlLlByb3RvYnVmLlByb3RvY29sYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), }, null, null));
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.CreatureState), }, null, null));
     }
     #endregion
 
@@ -79,6 +81,20 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("S_ERRORCODE")] SErrorcode = 28,
     [pbr::OriginalName("C_EXITGAMEROOM")] CExitgameroom = 29,
     [pbr::OriginalName("S_EXITGAMEROOM")] SExitgameroom = 30,
+  }
+
+  public enum GameObjectType {
+    [pbr::OriginalName("NONE")] None = 0,
+    [pbr::OriginalName("PLAYER")] Player = 1,
+    [pbr::OriginalName("MONSTER")] Monster = 2,
+    [pbr::OriginalName("PROJECTILE")] Projectile = 3,
+  }
+
+  public enum CreatureState {
+    [pbr::OriginalName("IDLE")] Idle = 0,
+    [pbr::OriginalName("MOVE")] Move = 1,
+    [pbr::OriginalName("SKILL")] Skill = 2,
+    [pbr::OriginalName("DEAD")] Dead = 3,
   }
 
   #endregion

@@ -13,7 +13,7 @@ public class ObjectManager : SingletonBase<ObjectManager>
 
     }
 
-    public void Add(Playerinfo info, bool myPlayer)
+    public void Add(Matchplayerinfo info, bool myPlayer)
     {
         if (myPlayer)
         {

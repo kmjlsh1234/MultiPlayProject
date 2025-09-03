@@ -36,7 +36,7 @@ message C_Entermatchroom{
 }
 
 message S_Entermatchroom{
-    Playerinfo playerInfo = 1;
+    Matchplayerinfo playerInfo = 1;
 }
 
 message C_Invite{

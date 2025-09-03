@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class PlayerManager : SingletonBase<PlayerManager>
 {
-    public Dictionary<int, Playerinfo> playerDataList = new Dictionary<int, Playerinfo>();
+    public Dictionary<int, Matchplayerinfo> playerDataList = new Dictionary<int, Matchplayerinfo>();
     public Dictionary<int, PlayerController> playerList = new Dictionary<int, PlayerController>();
 
     public void GeneratePlayer()
     {
-        foreach (Playerinfo playerInfo in ChatManager.Instance.players.Values)
+        foreach (Matchplayerinfo playerInfo in ChatManager.Instance.players.Values)
         {
             GameObject go = ResourcesManager.Instance.getPrefabObj("Player");
             if (go != null)
@@ -42,7 +42,7 @@ public class PlayerManager : SingletonBase<PlayerManager>
 
     public void RemovePlayer(int sessionId)
     {
-        Playerinfo playerInfo = null;
+        Matchplayerinfo playerInfo = null;
         if(playerDataList.TryGetValue(sessionId, out playerInfo))
         {
             playerDataList.Remove(sessionId);

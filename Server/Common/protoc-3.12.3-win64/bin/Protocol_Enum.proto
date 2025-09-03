@@ -53,3 +53,17 @@ enum MsgId {
     C_EXITGAMEROOM = 29;
     S_EXITGAMEROOM = 30;
 }
+
+enum GameObjectType {
+    NONE = 0;
+    PLAYER = 1;
+    MONSTER = 2;
+    PROJECTILE = 3;
+}
+
+enum CreatureState{
+    IDLE = 0;
+    MOVE = 1;
+    SKILL = 2;
+    DEAD = 3;
+}
