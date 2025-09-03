@@ -9,10 +9,15 @@ namespace Server.Game
 {
     public class GameObject
     {
-        GameObjectType objectType { get; set; } = GameObjectType.None;
+        public GameObjectType objectType { get; set; } = GameObjectType.None;
 
         public GameRoom gameRoom { get; set; }
+        public Objectinfo objectinfo { get; set; }
 
+        public virtual void Update() { }
+
+        public virtual void OnDamaged(GameObject attacker, int damage) { }
+        public virtual void OnDead(GameObject attacker) { }
 
     }
 }

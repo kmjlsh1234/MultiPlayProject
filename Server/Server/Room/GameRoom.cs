@@ -13,6 +13,7 @@ namespace Server
     public class GameRoom : Room<ClientSession>
     {
         public Dictionary<int, GamePlayer> players = new Dictionary<int, GamePlayer>();
+        
         public int count = 0;
         #region :::: Abstract Function
         public override void BroadCast(IMessage packet)
@@ -30,12 +31,7 @@ namespace Server
         {
             lock (key)
             {
-                GamePlayer player = new GamePlayer()
-                {
-                    session = session,
-                    position = new Vector3(0f, 1f, 0f),
-                    rotY = 0,
-                };
+                GamePlayer player = new GamePlayer(session, session.sessionId);
                 players.Add(player.session.sessionId, player);
 
                 //나에게 정보 전송
@@ -93,7 +89,7 @@ namespace Server
             this.count = count;
             return true;
         }
-
+        
         public void HandleMove(ClientSession session, C_Move packet)
         {
             lock(key)
@@ -102,9 +98,11 @@ namespace Server
                 players.TryGetValue(session.sessionId, out player);
                 if (player != null)
                 {
-                    player.position = new Vector3(packet.PosX, packet.PosY, packet.PosZ);
-                    player.rotY = packet.RotY;
-
+                    player.objectinfo.Pos.PosX = packet.PosX;
+                    player.objectinfo.Pos.PosY = packet.PosY;
+                    player.objectinfo.Pos.PosZ = packet.PosZ;
+                    player.objectinfo.RotY = packet.RotY;
+                    player.objectinfo.State = packet.State;
                     S_Move movePacket = new S_Move()
                     {
                         SessionId = session.sessionId,
@@ -112,6 +110,7 @@ namespace Server
                         PosY = packet.PosY,
                         PosZ = packet.PosZ,
                         RotY = packet.RotY,
+                        State = packet.State,
                     };
                     BroadCast(movePacket);
                     Console.WriteLine($"{session.sessionId} : [ {movePacket.PosX}, {movePacket.PosY}, {movePacket.PosZ}]");
@@ -121,33 +120,7 @@ namespace Server
 
         public void HandleInput(ClientSession session, C_Input packet)
         {
-            lock (key)
-            {
-                GamePlayer player = null;
-                players.TryGetValue(session.sessionId, out player);
-                if (player != null)
-                {
-                    float deltaTime = 0.02f; // 클라이언트 sendInterval과 맞춤
-                    Vector3 dir = new Vector3(packet.DirX, 0, packet.DirY);
-                    if (dir.LengthSquared() > 0.001f)
-                    {
-                        dir = Vector3.Normalize(dir);
-                        player.position += dir * player.moveSpeed * deltaTime;
-                        player.rotY = (float)(Math.Atan2(dir.X, dir.Z) * (180 / Math.PI));
-                    }
-
-                    S_Move resPacket = new S_Move()
-                    {
-                        SessionId = session.sessionId,
-                        PosX = player.position.X,
-                        PosY = player.position.Y,
-                        PosZ = player.position.Z,
-                        RotY = player.rotY,
-                    };
-                    BroadCast(resPacket);
-                    Console.WriteLine($"{session.sessionId} : [ {resPacket.PosX}, {resPacket.PosY}, {resPacket.PosZ}]");
-                }
-            }
+            
             
         }
 

@@ -25,28 +25,30 @@ namespace Google.Protobuf.Protocol {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChNQcm90b2NvbF9HYW1lLnByb3RvEghQcm90b2NvbBofZ29vZ2xlL3Byb3Rv",
-            "YnVmL3RpbWVzdGFtcC5wcm90byIcCgpDX0pvaW5yb29tEg4KBnJvb21JZBgB",
-            "IAEoBSIeCgxTX0ludml0ZXJvb20SDgoGcm9vbUlkGAEgASgFIhEKD1NfRW50",
-            "ZXJnYW1lcm9vbSIQCg5DX0V4aXRnYW1lcm9vbSIjCg5TX0V4aXRnYW1lcm9v",
-            "bRIRCglzZXNzaW9uSWQYASABKAUiQAoGQ19Nb3ZlEgwKBHBvc1gYASABKAIS",
-            "DAoEcG9zWRgCIAEoAhIMCgRwb3NaGAMgASgCEgwKBHJvdFkYBCABKAIiUwoG",
-            "U19Nb3ZlEhEKCXNlc3Npb25JZBgBIAEoBRIMCgRwb3NYGAIgASgCEgwKBHBv",
-            "c1kYAyABKAISDAoEcG9zWhgEIAEoAhIMCgRyb3RZGAUgASgCIiUKB0NfSW5w",
-            "dXQSDAoEZGlyWBgBIAEoAhIMCgRkaXJZGAIgASgCIlQKB1NfSW5wdXQSEQoJ",
-            "c2Vzc2lvbklkGAEgASgFEgwKBHBvc1gYAiABKAISDAoEcG9zWRgDIAEoAhIM",
-            "CgRwb3NaGAQgASgCEgwKBHJvdFkYBSABKAIiDwoNU19JbmdhbWVzdGFydCIO",
-            "CgxTX1NwYXduZW5lbXlCG6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIG",
-            "cHJvdG8z"));
+            "YnVmL3RpbWVzdGFtcC5wcm90bxoTUHJvdG9jb2xfRW51bS5wcm90byIcCgpD",
+            "X0pvaW5yb29tEg4KBnJvb21JZBgBIAEoBSIeCgxTX0ludml0ZXJvb20SDgoG",
+            "cm9vbUlkGAEgASgFIhEKD1NfRW50ZXJnYW1lcm9vbSIQCg5DX0V4aXRnYW1l",
+            "cm9vbSIjCg5TX0V4aXRnYW1lcm9vbRIRCglzZXNzaW9uSWQYASABKAUiaAoG",
+            "Q19Nb3ZlEgwKBHBvc1gYASABKAISDAoEcG9zWRgCIAEoAhIMCgRwb3NaGAMg",
+            "ASgCEgwKBHJvdFkYBCABKAISJgoFc3RhdGUYBSABKA4yFy5Qcm90b2NvbC5D",
+            "cmVhdHVyZVN0YXRlInsKBlNfTW92ZRIRCglzZXNzaW9uSWQYASABKAUSDAoE",
+            "cG9zWBgCIAEoAhIMCgRwb3NZGAMgASgCEgwKBHBvc1oYBCABKAISDAoEcm90",
+            "WRgFIAEoAhImCgVzdGF0ZRgGIAEoDjIXLlByb3RvY29sLkNyZWF0dXJlU3Rh",
+            "dGUiJQoHQ19JbnB1dBIMCgRkaXJYGAEgASgCEgwKBGRpclkYAiABKAIiVAoH",
+            "U19JbnB1dBIRCglzZXNzaW9uSWQYASABKAUSDAoEcG9zWBgCIAEoAhIMCgRw",
+            "b3NZGAMgASgCEgwKBHBvc1oYBCABKAISDAoEcm90WRgFIAEoAiIPCg1TX0lu",
+            "Z2FtZXN0YXJ0Ig4KDFNfU3Bhd25lbmVteUIbqgIYR29vZ2xlLlByb3RvYnVm",
+            "LlByb3RvY29sYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Google.Protobuf.Protocol.ProtocolEnumReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_Joinroom), global::Google.Protobuf.Protocol.C_Joinroom.Parser, new[]{ "RoomId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_Inviteroom), global::Google.Protobuf.Protocol.S_Inviteroom.Parser, new[]{ "RoomId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_Entergameroom), global::Google.Protobuf.Protocol.S_Entergameroom.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_Exitgameroom), global::Google.Protobuf.Protocol.C_Exitgameroom.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_Exitgameroom), global::Google.Protobuf.Protocol.S_Exitgameroom.Parser, new[]{ "SessionId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_Move), global::Google.Protobuf.Protocol.C_Move.Parser, new[]{ "PosX", "PosY", "PosZ", "RotY" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_Move), global::Google.Protobuf.Protocol.S_Move.Parser, new[]{ "SessionId", "PosX", "PosY", "PosZ", "RotY" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_Move), global::Google.Protobuf.Protocol.C_Move.Parser, new[]{ "PosX", "PosY", "PosZ", "RotY", "State" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_Move), global::Google.Protobuf.Protocol.S_Move.Parser, new[]{ "SessionId", "PosX", "PosY", "PosZ", "RotY", "State" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_Input), global::Google.Protobuf.Protocol.C_Input.Parser, new[]{ "DirX", "DirY" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_Input), global::Google.Protobuf.Protocol.S_Input.Parser, new[]{ "SessionId", "PosX", "PosY", "PosZ", "RotY" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_Ingamestart), global::Google.Protobuf.Protocol.S_Ingamestart.Parser, null, null, null, null, null),
@@ -675,6 +677,7 @@ namespace Google.Protobuf.Protocol {
       posY_ = other.posY_;
       posZ_ = other.posZ_;
       rotY_ = other.rotY_;
+      state_ = other.state_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -727,6 +730,17 @@ namespace Google.Protobuf.Protocol {
       }
     }
 
+    /// <summary>Field number for the "state" field.</summary>
+    public const int StateFieldNumber = 5;
+    private global::Google.Protobuf.Protocol.CreatureState state_ = global::Google.Protobuf.Protocol.CreatureState.Idle;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Google.Protobuf.Protocol.CreatureState State {
+      get { return state_; }
+      set {
+        state_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as C_Move);
@@ -744,6 +758,7 @@ namespace Google.Protobuf.Protocol {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosY, other.PosY)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosZ, other.PosZ)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(RotY, other.RotY)) return false;
+      if (State != other.State) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -754,6 +769,7 @@ namespace Google.Protobuf.Protocol {
       if (PosY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosY);
       if (PosZ != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosZ);
       if (RotY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(RotY);
+      if (State != global::Google.Protobuf.Protocol.CreatureState.Idle) hash ^= State.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -783,6 +799,10 @@ namespace Google.Protobuf.Protocol {
         output.WriteRawTag(37);
         output.WriteFloat(RotY);
       }
+      if (State != global::Google.Protobuf.Protocol.CreatureState.Idle) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) State);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -802,6 +822,9 @@ namespace Google.Protobuf.Protocol {
       }
       if (RotY != 0F) {
         size += 1 + 4;
+      }
+      if (State != global::Google.Protobuf.Protocol.CreatureState.Idle) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) State);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -825,6 +848,9 @@ namespace Google.Protobuf.Protocol {
       }
       if (other.RotY != 0F) {
         RotY = other.RotY;
+      }
+      if (other.State != global::Google.Protobuf.Protocol.CreatureState.Idle) {
+        State = other.State;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -851,6 +877,10 @@ namespace Google.Protobuf.Protocol {
           }
           case 37: {
             RotY = input.ReadFloat();
+            break;
+          }
+          case 40: {
+            State = (global::Google.Protobuf.Protocol.CreatureState) input.ReadEnum();
             break;
           }
         }
@@ -889,6 +919,7 @@ namespace Google.Protobuf.Protocol {
       posY_ = other.posY_;
       posZ_ = other.posZ_;
       rotY_ = other.rotY_;
+      state_ = other.state_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -952,6 +983,17 @@ namespace Google.Protobuf.Protocol {
       }
     }
 
+    /// <summary>Field number for the "state" field.</summary>
+    public const int StateFieldNumber = 6;
+    private global::Google.Protobuf.Protocol.CreatureState state_ = global::Google.Protobuf.Protocol.CreatureState.Idle;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Google.Protobuf.Protocol.CreatureState State {
+      get { return state_; }
+      set {
+        state_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as S_Move);
@@ -970,6 +1012,7 @@ namespace Google.Protobuf.Protocol {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosY, other.PosY)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosZ, other.PosZ)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(RotY, other.RotY)) return false;
+      if (State != other.State) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -981,6 +1024,7 @@ namespace Google.Protobuf.Protocol {
       if (PosY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosY);
       if (PosZ != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosZ);
       if (RotY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(RotY);
+      if (State != global::Google.Protobuf.Protocol.CreatureState.Idle) hash ^= State.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1014,6 +1058,10 @@ namespace Google.Protobuf.Protocol {
         output.WriteRawTag(45);
         output.WriteFloat(RotY);
       }
+      if (State != global::Google.Protobuf.Protocol.CreatureState.Idle) {
+        output.WriteRawTag(48);
+        output.WriteEnum((int) State);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1036,6 +1084,9 @@ namespace Google.Protobuf.Protocol {
       }
       if (RotY != 0F) {
         size += 1 + 4;
+      }
+      if (State != global::Google.Protobuf.Protocol.CreatureState.Idle) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) State);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1062,6 +1113,9 @@ namespace Google.Protobuf.Protocol {
       }
       if (other.RotY != 0F) {
         RotY = other.RotY;
+      }
+      if (other.State != global::Google.Protobuf.Protocol.CreatureState.Idle) {
+        State = other.State;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1092,6 +1146,10 @@ namespace Google.Protobuf.Protocol {
           }
           case 45: {
             RotY = input.ReadFloat();
+            break;
+          }
+          case 48: {
+            State = (global::Google.Protobuf.Protocol.CreatureState) input.ReadEnum();
             break;
           }
         }

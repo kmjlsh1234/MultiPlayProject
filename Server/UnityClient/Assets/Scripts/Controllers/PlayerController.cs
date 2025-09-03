@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     protected Animator anim;
     protected Vector3 moveDir = Vector3.zero;
 
+    private bool isIdle = true;
     protected virtual void Start()
     {
         anim = GetComponent<Animator>();
@@ -33,7 +34,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        bool isIdle = moveDir.sqrMagnitude <= 0.001f;
         anim.SetBool("IsIdle", isIdle);
 
         // 보간 이동
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
 
     public virtual void OnMovePacket(S_Move packet)
     {
+        isIdle = (packet.State == CreatureState.Idle); 
         //targetPos = new Vector3(packet.PosX, packet.PosY, packet.PosZ);
         //targetRot = Quaternion.Euler(0, packet.RotY, 0);
         startPos = transform.position;

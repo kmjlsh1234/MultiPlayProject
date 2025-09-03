@@ -54,7 +54,7 @@ public class MyPlayerController : PlayerController
         // 입력이 있을 때만 주기적으로 패킷 전송
         if (tickTimer >= tickInterval && moveDir.sqrMagnitude > 0.001f)
         {
-            SendMovePacket();
+            SendMovePacket(CreatureState.Move);
             lastMoveDir = moveDir;
             tickTimer = 0f;
         }
@@ -62,13 +62,13 @@ public class MyPlayerController : PlayerController
         // 이동이 끝났다면 마지막 패킷 전송
         if (lastMoveDir.sqrMagnitude > 0 && moveDir.sqrMagnitude <= 0.001f)
         {
-            SendMovePacket();
+            SendMovePacket(CreatureState.Idle);
             lastMoveDir = Vector3.zero; // 마지막 패킷 보낸 후 초기화
             tickTimer = 0f;
         }
     }
 
-    void SendMovePacket()
+    void SendMovePacket(CreatureState state)
     {
         C_Move packet = new C_Move()
         {
@@ -76,6 +76,7 @@ public class MyPlayerController : PlayerController
             PosY = transform.position.y,
             PosZ = transform.position.z,
             RotY = transform.eulerAngles.y,
+            State = state
         };
         NetworkManager.Instance.Send(packet);
     }

@@ -2,7 +2,7 @@ syntax = "proto3";
 package Protocol;
 
 import "google/protobuf/timestamp.proto";
-
+import "Protocol_Enum.proto";
 option csharp_namespace = "Google.Protobuf.Protocol";
 
 message C_Joinroom{
@@ -28,6 +28,7 @@ message C_Move{
     float posY = 2;
     float posZ = 3;
     float rotY = 4;
+    CreatureState state = 5;
 }
 
 message S_Move{
@@ -36,6 +37,7 @@ message S_Move{
     float posY = 3;
     float posZ = 4;
     float rotY = 5;
+    CreatureState state = 6;
 }
 
 message C_Input{
