@@ -12,12 +12,16 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    public class GameRoom : Room<ClientSession>
+    public class GameRoom : Room
     {
         public Dictionary<int, GamePlayer> players = new Dictionary<int, GamePlayer>();
         public Map map { get; set; } = new Map();
         public int count = 0;
         
+        public GameRoom()
+        {
+            roomType = RoomType.Game;
+        }
 
         #region :::: Abstract Function
         public override void BroadCast(IMessage packet)
@@ -77,6 +81,12 @@ namespace Server
             BroadCast(exitRoomPacket);
             Console.WriteLine($"Session {session.sessionId} leave Game Room");
         }
+
+        public override void Update()
+        {
+            Flush();
+            //Console.WriteLine("GameRoom Update");
+        }
         #endregion
 
         public bool Init(int count)
@@ -85,13 +95,6 @@ namespace Server
             map.LoadMap("MapData");
             return true;
         }
-
-        public void Update()
-        {
-            Flush();
-            Console.WriteLine("GameRoom Update");
-        }
-
 
         public void HandleMove(ClientSession session, C_Move packet)
         {

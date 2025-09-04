@@ -11,19 +11,6 @@ namespace Server
     public class Program
     {
         static Listener listener = new Listener();
-        static List<System.Timers.Timer> timers = new List<System.Timers.Timer>();
-
-        public static void TickRoom(GameRoom room, int tick = 100)
-        {
-            var timer = new System.Timers.Timer();
-            timer.Interval = tick;
-            timer.Elapsed += ((s,e) => { room.Update(); });
-            timer.AutoReset = true;
-            timer.Enabled = true;
-
-            timers.Add(timer);
-        }
-
 
         static void Main(string[] args)
         {

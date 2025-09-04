@@ -39,9 +39,6 @@ public class PacketManager
         onRecv.Add((ushort) MsgId.CMove, MakePacket<C_Move>);
         handler.Add((ushort)MsgId.CMove, PacketHandler.C_MoveHandler);
 
-        onRecv.Add((ushort) MsgId.CInput, MakePacket<C_Input>);
-        handler.Add((ushort)MsgId.CInput, PacketHandler.C_InputHandler);
-
         onRecv.Add((ushort) MsgId.CExitroom, MakePacket<C_Exitroom>);
         handler.Add((ushort)MsgId.CExitroom, PacketHandler.C_ExitroomHandler);
 

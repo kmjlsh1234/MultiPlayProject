@@ -17,12 +17,4 @@ public partial class PacketHandler
         C_Move packet = pkt as C_Move;
         session.gameRoom.HandleMove(session, packet);
     }
-
-    public static void C_InputHandler(Session s, IMessage pkt)
-    {
-        ClientSession session = s as ClientSession;
-        C_Input packet = pkt as C_Input;
-
-        session.gameRoom.HandleInput(session, packet);
-    }
 }

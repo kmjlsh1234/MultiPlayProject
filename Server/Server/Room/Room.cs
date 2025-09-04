@@ -12,16 +12,27 @@ using System.Windows;
 
 namespace Server
 {
-    public abstract class Room<T> : JobSerializer
+    public enum RoomType
+    {
+        None = 0,
+        Match = 1,
+        Game = 2,
+    }
+
+    public abstract class Room : JobSerializer
     {
         public int roomId { get; set; }
         public int masterId { get; set; }
 
+        public RoomType roomType { get; set; } = RoomType.None;
+
         public abstract void BroadCast(IMessage packet);
 
-        public abstract void EnterRoom(T t);
+        public abstract void EnterRoom(ClientSession session);
 
-        public abstract void ExitRoom(T t);
+        public abstract void ExitRoom(ClientSession session);
+
+        public abstract void Update();
 
     }
 }

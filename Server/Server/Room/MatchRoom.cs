@@ -5,9 +5,14 @@ using Server.Game;
 
 namespace Server
 {
-    public class MatchRoom : Room<ClientSession>
+    public class MatchRoom : Room
     {
         Dictionary<int, MatchPlayer> players = new Dictionary<int, MatchPlayer>();
+
+        public MatchRoom()
+        {
+            roomType = RoomType.Match;
+        }
 
         #region :::: Abstract Function
         public override void EnterRoom(ClientSession session)
@@ -92,18 +97,12 @@ namespace Server
             }
         }
 
-        #endregion
-
-        public void Update()
+        public override void Update()
         {
             Flush();
             Console.WriteLine("MatchRoom Update");
         }
-
-        public int GetPlayerCount()
-        {
-            return players.Count;
-        }
+        #endregion
 
         public void UpdateReadyState(ClientSession session, C_Ready packet)
         {
@@ -141,9 +140,9 @@ namespace Server
                 {
                     gameRoom.EnterRoom(player.session);
                     player.session.gameRoom = gameRoom;
-                }     
-                
-                RoomManager.Instance.StopUpdateMatchRoom(roomId);
+                }
+
+                RoomManager.Instance.StopTickRoom(roomId, roomType);
             }
         }
     }

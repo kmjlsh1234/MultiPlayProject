@@ -2,26 +2,29 @@
 using ServerCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Server.Game
 {
-    public class RoomManager
+    public class RoomManager : SingletonBase<RoomManager>
     {
-        public static RoomManager Instance { get; } = new RoomManager();
 
         object key = new object();
-        Dictionary<int, System.Timers.Timer> gameRoomTimers = new Dictionary<int, System.Timers.Timer>();
-        Dictionary<int, System.Timers.Timer> matchRoomTimers = new Dictionary<int, System.Timers.Timer>();
+
+        Dictionary<int, System.Timers.Timer> gameTimers = new Dictionary<int, System.Timers.Timer>();
+        Dictionary<int, System.Timers.Timer> matchTimers = new Dictionary<int, System.Timers.Timer>();
+
+        //Room Collections
         Dictionary<int, MatchRoom> matchRooms = new Dictionary<int, MatchRoom>();
         Dictionary<int, GameRoom> gameRooms = new Dictionary<int, GameRoom>();
 
         int matchRoomId = 1;
         int gameRoomId = 1;
 
-        public void StartUpdateGameRoom(GameRoom room, int tick = 100)
+        public void StartTickRoom<R>(R room, int tick = 100) where R : Room
         {
             var timer = new System.Timers.Timer();
             timer.Interval = tick;
@@ -31,35 +34,46 @@ namespace Server.Game
 
             lock (key)
             {
-                gameRoomTimers.Add(room.roomId, timer);
-            }
-            
-        }
-
-        public void StopUpdateMatchRoom(int roomId)
-        {
-            lock (key)
-            {
-                System.Timers.Timer timer = null;
-                matchRoomTimers.TryGetValue(roomId, out timer);
-                if (timer != null)
+                switch (room.roomType)
                 {
-                    timer.Enabled = false;
-                    matchRoomTimers.Remove(roomId);
+                    case RoomType.Match:
+                        matchTimers.Add(room.roomId, timer);
+                        break;
+                    case RoomType.Game:
+                        gameTimers.Add(room.roomId, timer);
+                        break;
+                    default:
+                        return;
                 }
             }
         }
 
-        public void StartUpdateMatchRoom(MatchRoom room, int tick = 100)
+        public void StopTickRoom(int roomId, RoomType roomType) 
         {
-            var timer = new System.Timers.Timer();
-            timer.Interval = tick;
-            timer.Elapsed += ((s, e) => { room.Update(); });
-            timer.AutoReset = true;
-            timer.Enabled = true;
             lock (key)
             {
-                matchRoomTimers.Add(room.roomId, timer);
+                System.Timers.Timer timer = null;
+                switch (roomType)
+                {
+                    case RoomType.Match:
+                        matchTimers.TryGetValue(roomId, out timer);
+                        if(timer != null)
+                        {
+                            timer.Enabled = false;
+                            matchTimers.Remove(roomId);
+                        }
+                        break;
+                    case RoomType.Game:
+                        gameTimers.TryGetValue(roomId, out timer);
+                        if (timer != null)
+                        {
+                            timer.Enabled = false;
+                            gameTimers.Remove(roomId);
+                        }
+                        break;
+                    default:
+                        return;
+                }
             }
         }
 
@@ -74,7 +88,7 @@ namespace Server.Game
                 room.masterId = session.sessionId;
                 matchRooms.Add(matchRoomId, room);
                 matchRoomId++;
-                StartUpdateMatchRoom(room, 500);
+                StartTickRoom(room, 500);
                 Console.WriteLine($"Create Match Room / roomId : {room.roomId}");
             }
 
@@ -87,7 +101,7 @@ namespace Server.Game
             {
                 foreach(MatchRoom room in matchRooms.Values)
                 {
-                    if(room.GetPlayerCount() < 4)
+                    if(room != null)
                     {
                         return room;
                     }
@@ -103,13 +117,7 @@ namespace Server.Game
             lock (key)
             {
                 Console.WriteLine($"Match Room {roomId} Removed");
-                System.Timers.Timer timer = null;
-                matchRoomTimers.TryGetValue(roomId, out timer);
-                if (timer != null)
-                {
-                    timer.Enabled = false;
-                    matchRoomTimers.Remove(roomId);
-                }
+                StopTickRoom(roomId, RoomType.Match);
                 return matchRooms.Remove(roomId);
             }
         }
@@ -148,7 +156,7 @@ namespace Server.Game
                 gameRooms.Add(gameRoomId, room);
                 gameRoomId++;
                 Console.WriteLine($"Create Game Room / roomId : {room.roomId}");
-                StartUpdateGameRoom(room, 50);
+                StartTickRoom(room, 50);
             }
             return room;
         }
@@ -158,13 +166,7 @@ namespace Server.Game
             lock (key)
             {
                 Console.WriteLine($"Game Room {roomId} Removed");
-                System.Timers.Timer timer = null;
-                gameRoomTimers.TryGetValue(roomId, out timer);
-                if (timer != null)
-                {
-                    timer.Enabled = false;
-                    gameRoomTimers.Remove(roomId);
-                }
+                StopTickRoom(roomId, RoomType.Game);
                 return gameRooms.Remove(roomId);
             }
         }

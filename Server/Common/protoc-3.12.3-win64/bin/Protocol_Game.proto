@@ -40,19 +40,6 @@ message S_Move{
     CreatureState state = 6;
 }
 
-message C_Input{
-    float dirX = 1;
-    float dirY = 2;
-}
-
-message S_Input{
-    int32 sessionId = 1;
-    float posX = 2;
-    float posY = 3;
-    float posZ = 4;
-    float rotY = 5;
-}
-
 message S_Ingamestart{
     
 }
