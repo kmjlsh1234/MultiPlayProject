@@ -11,32 +11,30 @@ namespace Server
     public class Program
     {
         static Listener listener = new Listener();
+        static List<System.Timers.Timer> timers = new List<System.Timers.Timer>();
 
-        
-        
+        public static void TickRoom(GameRoom room, int tick = 100)
+        {
+            var timer = new System.Timers.Timer();
+            timer.Interval = tick;
+            timer.Elapsed += ((s,e) => { room.Update(); });
+            timer.AutoReset = true;
+            timer.Enabled = true;
+
+            timers.Add(timer);
+        }
+
+
         static void Main(string[] args)
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 8888);
 
             listener.Init(endPoint, SessionManager.Instance.CreateSession);
 
-            JobTimer.Instance.Push(FlushRoom);
-            
             while (true)
             {
-                JobTimer.Instance.Flush();
+                Thread.Sleep(1000);
             }
-        }
-
-        static void FlushRoom()
-        {
-            /*
-            foreach (KeyValuePair<int, GameRoom> pair in RoomManager.Instance.GetRooms())
-            {
-                pair.Value.Push(() => pair.Value.Flush());
-            }
-            JobTimer.Instance.Push(FlushRoom, 250);
-            */
         }
     }
 }

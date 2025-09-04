@@ -6,12 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
-namespace Server
+namespace Server.Game.Job
 {
     public struct JobTimerElem : IComparable<JobTimerElem>
     {
         public int execTic;
-        public Action action;   
+        public IJob job;   
 
         public int CompareTo(JobTimerElem other)
         {
@@ -24,14 +24,12 @@ namespace Server
         public PriorityQueue<JobTimerElem> priorityQueue = new PriorityQueue<JobTimerElem>();
         object key = new object();
 
-        public static JobTimer Instance { get; } = new JobTimer();
-
         //
-        public void Push(Action action, int tickAter = 0)
+        public void Push(IJob job, int tickAter = 0)
         {
             JobTimerElem jobTimerElem = new JobTimerElem();
-            jobTimerElem.action = action;
-            jobTimerElem.execTic = System.Environment.TickCount + tickAter;
+            jobTimerElem.job = job;
+            jobTimerElem.execTic = Environment.TickCount + tickAter;
 
             lock (key)
             {
@@ -43,9 +41,9 @@ namespace Server
         {
             while (true)
             {
-                int now = System.Environment.TickCount;
+                int now = Environment.TickCount;
 
-                JobTimerElem job;
+                JobTimerElem jobElem;
 
                 lock (key)
                 {
@@ -54,8 +52,8 @@ namespace Server
                         break;
                     }
 
-                    job = priorityQueue.Peek();
-                    if(job.execTic > now)
+                    jobElem = priorityQueue.Peek();
+                    if(jobElem.execTic > now)
                     {
                         break;
                     }
@@ -63,7 +61,7 @@ namespace Server
                     priorityQueue.Pop();
                 }
 
-                job.action.Invoke();
+                jobElem.job.Execute();
             }
             
         }

@@ -9,6 +9,7 @@ namespace Server.Game
 {
     public class GameObject
     {
+        public int objectId { get; set; }
         public GameObjectType objectType { get; set; } = GameObjectType.None;
 
         public GameRoom gameRoom { get; set; }

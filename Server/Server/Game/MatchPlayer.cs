@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Server.Game
 {
-    public class Player
+    public class MatchPlayer
     {
         public ClientSession session;
-        public bool isReady = false;
+        public Matchplayerinfo playerInfo;
     }
 }

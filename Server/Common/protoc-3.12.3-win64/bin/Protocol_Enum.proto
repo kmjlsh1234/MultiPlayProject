@@ -57,7 +57,7 @@ enum MsgId {
 enum GameObjectType {
     NONE = 0;
     PLAYER = 1;
-    MONSTER = 2;
+    ENEMY = 2;
     PROJECTILE = 3;
 }
 

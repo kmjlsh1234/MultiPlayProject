@@ -38,15 +38,6 @@ public class MyPlayerController : PlayerController
 
             Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);
             rigid.MoveRotation(Quaternion.Slerp(rigid.rotation, targetRotation, rotateSpeed * Time.deltaTime));
-
-            //Charactercontroller 기반
-            /*
-            controller.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
-
-            // 방향 회전
-            Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-            */
         }
 
         tickTimer += Time.deltaTime;

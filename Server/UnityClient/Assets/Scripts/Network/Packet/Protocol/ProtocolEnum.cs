@@ -37,10 +37,10 @@ namespace Google.Protobuf.Protocol {
             "FQoRQ19MT0FESU5HQ09NUExFVEUQFxIRCg1TX0lOR0FNRVNUQVJUEBgSDAoI",
             "Q19JTlZJVEUQGRIMCghTX0lOVklURRAaEhAKDFNfU1BBV05FTkVNWRAbEg8K",
             "C1NfRVJST1JDT0RFEBwSEgoOQ19FWElUR0FNRVJPT00QHRISCg5TX0VYSVRH",
-            "QU1FUk9PTRAeKkMKDkdhbWVPYmplY3RUeXBlEggKBE5PTkUQABIKCgZQTEFZ",
-            "RVIQARILCgdNT05TVEVSEAISDgoKUFJPSkVDVElMRRADKjgKDUNyZWF0dXJl",
-            "U3RhdGUSCAoESURMRRAAEggKBE1PVkUQARIJCgVTS0lMTBACEggKBERFQUQQ",
-            "A0IbqgIYR29vZ2xlLlByb3RvYnVmLlByb3RvY29sYgZwcm90bzM="));
+            "QU1FUk9PTRAeKkEKDkdhbWVPYmplY3RUeXBlEggKBE5PTkUQABIKCgZQTEFZ",
+            "RVIQARIJCgVFTkVNWRACEg4KClBST0pFQ1RJTEUQAyo4Cg1DcmVhdHVyZVN0",
+            "YXRlEggKBElETEUQABIICgRNT1ZFEAESCQoFU0tJTEwQAhIICgRERUFEEANC",
+            "G6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.CreatureState), }, null, null));
@@ -86,7 +86,7 @@ namespace Google.Protobuf.Protocol {
   public enum GameObjectType {
     [pbr::OriginalName("NONE")] None = 0,
     [pbr::OriginalName("PLAYER")] Player = 1,
-    [pbr::OriginalName("MONSTER")] Monster = 2,
+    [pbr::OriginalName("ENEMY")] Enemy = 2,
     [pbr::OriginalName("PROJECTILE")] Projectile = 3,
   }
 

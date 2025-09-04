@@ -36,7 +36,7 @@ public partial class PacketHandler
         MatchRoom matchRoom = RoomManager.Instance.CreateMatchRoom(session);
 
         session.matchRoom = matchRoom;
-        matchRoom.EnterRoom(session);
+        matchRoom.Push(matchRoom.EnterRoom, session);
     }
 
 
@@ -47,8 +47,9 @@ public partial class PacketHandler
 
         MatchRoom matchRoom = RoomManager.Instance.CreateOrJoinMatchRoom(session);
         session.matchRoom = matchRoom;
-        matchRoom.EnterRoom(session);
+        matchRoom.Push(matchRoom.EnterRoom, session);
     }
+
 
     //나중에 Redis API로 변경
     public static void C_RoomlistHandler(Session s, IMessage pkt)

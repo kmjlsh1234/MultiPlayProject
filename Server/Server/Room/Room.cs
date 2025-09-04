@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf;
+using Server.Game.Job;
 using ServerCore;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,10 @@ using System.Windows;
 
 namespace Server
 {
-    public abstract class Room<T>
+    public abstract class Room<T> : JobSerializer
     {
         public int roomId { get; set; }
         public int masterId { get; set; }
-        protected object key { get; set; } = new object();
 
         public abstract void BroadCast(IMessage packet);
 

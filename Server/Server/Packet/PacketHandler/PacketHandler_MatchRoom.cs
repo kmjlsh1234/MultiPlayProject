@@ -21,7 +21,7 @@ public partial class PacketHandler
         if (room != null)
         {
             session.matchRoom = room;
-            room.EnterRoom(session);
+            room.Push(room.EnterRoom, session);
         }
         else
         {
@@ -33,7 +33,7 @@ public partial class PacketHandler
     public static void C_ExitroomHandler(Session s, IMessage pkt)
     {
         ClientSession session = s as ClientSession;
-        session.matchRoom.ExitRoom(session);
+        session.matchRoom.Push(session.matchRoom.ExitRoom, session);
     }
 
     public static void C_ReadyHandler(Session s, IMessage pkt)

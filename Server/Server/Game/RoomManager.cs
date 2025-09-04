@@ -13,12 +13,55 @@ namespace Server.Game
         public static RoomManager Instance { get; } = new RoomManager();
 
         object key = new object();
-
+        Dictionary<int, System.Timers.Timer> gameRoomTimers = new Dictionary<int, System.Timers.Timer>();
+        Dictionary<int, System.Timers.Timer> matchRoomTimers = new Dictionary<int, System.Timers.Timer>();
         Dictionary<int, MatchRoom> matchRooms = new Dictionary<int, MatchRoom>();
         Dictionary<int, GameRoom> gameRooms = new Dictionary<int, GameRoom>();
 
         int matchRoomId = 1;
         int gameRoomId = 1;
+
+        public void StartUpdateGameRoom(GameRoom room, int tick = 100)
+        {
+            var timer = new System.Timers.Timer();
+            timer.Interval = tick;
+            timer.Elapsed += ((s, e) => { room.Update(); });
+            timer.AutoReset = true;
+            timer.Enabled = true;
+
+            lock (key)
+            {
+                gameRoomTimers.Add(room.roomId, timer);
+            }
+            
+        }
+
+        public void StopUpdateMatchRoom(int roomId)
+        {
+            lock (key)
+            {
+                System.Timers.Timer timer = null;
+                matchRoomTimers.TryGetValue(roomId, out timer);
+                if (timer != null)
+                {
+                    timer.Enabled = false;
+                    matchRoomTimers.Remove(roomId);
+                }
+            }
+        }
+
+        public void StartUpdateMatchRoom(MatchRoom room, int tick = 100)
+        {
+            var timer = new System.Timers.Timer();
+            timer.Interval = tick;
+            timer.Elapsed += ((s, e) => { room.Update(); });
+            timer.AutoReset = true;
+            timer.Enabled = true;
+            lock (key)
+            {
+                matchRoomTimers.Add(room.roomId, timer);
+            }
+        }
 
         #region ::::MatchRoom
         public MatchRoom CreateMatchRoom(ClientSession session)
@@ -31,6 +74,7 @@ namespace Server.Game
                 room.masterId = session.sessionId;
                 matchRooms.Add(matchRoomId, room);
                 matchRoomId++;
+                StartUpdateMatchRoom(room, 500);
                 Console.WriteLine($"Create Match Room / roomId : {room.roomId}");
             }
 
@@ -59,6 +103,13 @@ namespace Server.Game
             lock (key)
             {
                 Console.WriteLine($"Match Room {roomId} Removed");
+                System.Timers.Timer timer = null;
+                matchRoomTimers.TryGetValue(roomId, out timer);
+                if (timer != null)
+                {
+                    timer.Enabled = false;
+                    matchRoomTimers.Remove(roomId);
+                }
                 return matchRooms.Remove(roomId);
             }
         }
@@ -97,8 +148,8 @@ namespace Server.Game
                 gameRooms.Add(gameRoomId, room);
                 gameRoomId++;
                 Console.WriteLine($"Create Game Room / roomId : {room.roomId}");
+                StartUpdateGameRoom(room, 50);
             }
-
             return room;
         }
 
@@ -107,7 +158,22 @@ namespace Server.Game
             lock (key)
             {
                 Console.WriteLine($"Game Room {roomId} Removed");
+                System.Timers.Timer timer = null;
+                gameRoomTimers.TryGetValue(roomId, out timer);
+                if (timer != null)
+                {
+                    timer.Enabled = false;
+                    gameRoomTimers.Remove(roomId);
+                }
                 return gameRooms.Remove(roomId);
+            }
+        }
+
+        public Dictionary<int, GameRoom> GetGameRooms()
+        {
+            lock (key)
+            {
+                return gameRooms;
             }
         }
         #endregion
