@@ -91,9 +91,12 @@ namespace Server
 
         public override void BroadCast(IMessage packet)
         {
-            foreach (MatchPlayer player in players.Values)
+            lock (key)
             {
-                player.session.Send(packet);
+                foreach (MatchPlayer player in players.Values)
+                {
+                    player.session.Send(packet);
+                }
             }
         }
 

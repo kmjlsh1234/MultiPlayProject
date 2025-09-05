@@ -24,6 +24,8 @@ namespace Server
         public int roomId { get; set; }
         public int masterId { get; set; }
 
+        protected object key = new object();
+
         public RoomType roomType { get; set; } = RoomType.None;
 
         public abstract void BroadCast(IMessage packet);

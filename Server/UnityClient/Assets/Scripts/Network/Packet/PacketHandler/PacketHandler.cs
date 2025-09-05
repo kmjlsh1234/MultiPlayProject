@@ -31,9 +31,5 @@ public partial class PacketHandler
         LoadingSceneManager.Instance.OnLoadingCompleted.Invoke();
     }
 
-    public static void S_SpawnenemyHandler(Session session, IMessage pkt)
-    {
-        S_Spawnenemy packet = pkt as S_Spawnenemy;
-        GameManager.Instance.SpawnEnemy(packet);
-    }
+    
 }

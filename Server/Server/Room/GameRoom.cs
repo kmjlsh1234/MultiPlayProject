@@ -2,6 +2,7 @@
 using Google.Protobuf.Protocol;
 using Server.Game;
 using Server.Game.Map;
+using Server.Game.Object;
 using System;
 using System.Collections.Generic;
 using System.IO.Pipelines;
@@ -15,6 +16,8 @@ namespace Server
     public class GameRoom : Room
     {
         public Dictionary<int, GamePlayer> players = new Dictionary<int, GamePlayer>();
+        public Dictionary<int, Enemy> enemies = new Dictionary<int, Enemy>();
+
         public Map map { get; set; } = new Map();
         public int count = 0;
         
@@ -26,10 +29,14 @@ namespace Server
         #region :::: Abstract Function
         public override void BroadCast(IMessage packet)
         {
-            foreach (GamePlayer player in players.Values)
+            lock (key)
             {
-                player.session.Send(packet);
+                foreach (GamePlayer player in players.Values)
+                {
+                    player.session.Send(packet);
+                }
             }
+            
         }
 
         public override void EnterRoom(ClientSession session)
@@ -93,6 +100,7 @@ namespace Server
         {
             this.count = count;
             map.LoadMap("MapData");
+            PushAfter(2000, () => { SpawnEnemy(); });
             return true;
         }
 
@@ -123,6 +131,19 @@ namespace Server
 
         public void SpawnEnemy()
         {
+            Console.WriteLine("Spawn");
+            Enemy enemy = ObjectManager.Instance.Add<Enemy>();
+            enemies.Add(enemy.objectId, enemy);
+
+            S_Spawnenemy packet = new S_Spawnenemy()
+            {
+                ObjectId = enemy.objectId,
+                PosX = enemy.objectinfo.Pos.PosX,
+                PosY = enemy.objectinfo.Pos.PosY,
+                PosZ = enemy.objectinfo.Pos.PosZ,
+            };
+            Push(() => { BroadCast(packet); });
+            PushAfter(5000, () => { SpawnEnemy(); });
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Server.Game.Object
             Positioninfo pos = new Positioninfo()
             {
                 PosX = 72,
-                PosY = 0,
+                PosY = 0.1f,
                 PosZ = 72,
             };
 

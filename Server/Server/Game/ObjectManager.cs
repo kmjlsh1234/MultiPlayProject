@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Server.Game
 {
-    public class ObjectManager
+    public class ObjectManager : SingletonBase<ObjectManager>
     {
-        public static ObjectManager Instance { get; } = new ObjectManager();
         object key = new object();
 
         Dictionary<int, GamePlayer> players = new Dictionary<int, GamePlayer>();

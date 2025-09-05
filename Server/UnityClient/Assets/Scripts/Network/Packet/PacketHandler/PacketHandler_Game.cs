@@ -27,4 +27,10 @@ public partial class PacketHandler
         S_Move packet = pkt as S_Move;
         PlayerManager.Instance.OnPacketRecv(packet);
     }
+
+    public static void S_SpawnenemyHandler(Session session, IMessage pkt)
+    {
+        S_Spawnenemy packet = pkt as S_Spawnenemy;
+        GameManager.Instance.SpawnEnemy(packet);
+    }
 }

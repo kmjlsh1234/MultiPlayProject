@@ -26,7 +26,7 @@ public class GameManager : SingletonBase<GameManager>
     {
         GameObject go = Instantiate(enemy);
         Enemy target= go.GetComponent<Enemy>();
-        //target.transform.position = new Vector3(packet.posX, 0, packet.posZ);
+        target.transform.position = new Vector3(packet.PosX, packet.PosY, packet.PosZ);
         enemyDic.Add(target);
     }
 }

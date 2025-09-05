@@ -16,7 +16,7 @@ namespace Server.Game.Job
         {
             timer.Push(job, tickAfter);
         }
-
+        public void PushAfter(int tickAfter, Action action) { PushAfter(tickAfter, new Job(action)); }
         public void PushAfter<T1>(int tickAfter, Action<T1> action, T1 t1) { PushAfter(tickAfter, new Job<T1>(action, t1)); }
 
         public void PushAfter<T1, T2>(int tickAfter, Action<T1, T2> action, T1 t1, T2 t2) { PushAfter(tickAfter, new Job<T1, T2>(action, t1, t2)); }
