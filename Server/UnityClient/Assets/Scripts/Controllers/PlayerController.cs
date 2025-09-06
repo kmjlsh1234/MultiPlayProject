@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         anim.SetBool("IsIdle", true);
+
         rigid = GetComponent<Rigidbody>();
         rigid.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
     }

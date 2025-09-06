@@ -20,7 +20,6 @@ namespace Server
 
         public Map map { get; set; } = new Map();
         public int count = 0;
-        
         public GameRoom()
         {
             roomType = RoomType.Game;
@@ -62,7 +61,7 @@ namespace Server
 
             if (players.Count == 0)
             {
-                RoomManager.Instance.RemoveGameRoom(roomId);
+                RoomManager.Instance.RemoveRoom<GameRoom>(roomId, roomType);
             }
             else
             {
@@ -99,8 +98,8 @@ namespace Server
         public bool Init(int count)
         {
             this.count = count;
-            map.LoadMap("MapData");
-            PushAfter(2000, () => { SpawnEnemy(); });
+            //map.LoadMap("MapData");
+            PushAfter(2000, SpawnEnemy);
             return true;
         }
 
@@ -129,21 +128,46 @@ namespace Server
             }
         }
 
+        public void HandleEnemyMove(ClientSession session, C_Enemymove packet)
+        {
+            S_Enemymove resPacket = new S_Enemymove();
+            Console.WriteLine($"EnemyInArea : {packet.Enemies.Count}");
+            foreach(Objectinfo info in packet.Enemies)
+            {
+                Enemy enemy = null;
+                enemies.TryGetValue(info.ObjectId, out enemy);
+                if(enemy != null)
+                {
+                    enemy.objectinfo.Pos = info.Pos;
+                    resPacket.Enemies.Add(info);
+                }
+            }
+
+            BroadCast(resPacket);
+        }
+
         public void SpawnEnemy()
         {
             Console.WriteLine("Spawn");
-            Enemy enemy = ObjectManager.Instance.Add<Enemy>();
-            enemies.Add(enemy.objectId, enemy);
 
-            S_Spawnenemy packet = new S_Spawnenemy()
+            try
             {
-                ObjectId = enemy.objectId,
-                PosX = enemy.objectinfo.Pos.PosX,
-                PosY = enemy.objectinfo.Pos.PosY,
-                PosZ = enemy.objectinfo.Pos.PosZ,
-            };
-            Push(() => { BroadCast(packet); });
-            PushAfter(5000, () => { SpawnEnemy(); });
+                Enemy enemy = ObjectManager.Instance.Add<Enemy>();
+                enemies.Add(enemy.objectId, enemy);
+                
+                S_Spawnenemy packet = new S_Spawnenemy(){ ObjectInfo = enemy.objectinfo };
+                BroadCast(packet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[SpawnEnemy ERROR] {ex}");
+            }
+            finally
+            {
+                PushAfter(2000, SpawnEnemy);
+            }
         }
     }
+
+    GamePlayer
 }

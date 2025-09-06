@@ -33,7 +33,7 @@ public partial class PacketHandler
         ClientSession session = s as ClientSession;
         C_Createroom packet = pkt as C_Createroom;
 
-        MatchRoom matchRoom = RoomManager.Instance.CreateMatchRoom(session);
+        MatchRoom matchRoom = RoomManager.Instance.CreateRoom<MatchRoom>(session.sessionId);
 
         session.matchRoom = matchRoom;
         matchRoom.Push(matchRoom.EnterRoom, session);

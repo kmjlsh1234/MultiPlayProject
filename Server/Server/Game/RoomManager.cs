@@ -21,8 +21,7 @@ namespace Server.Game
         Dictionary<int, MatchRoom> matchRooms = new Dictionary<int, MatchRoom>();
         Dictionary<int, GameRoom> gameRooms = new Dictionary<int, GameRoom>();
 
-        int matchRoomId = 1;
-        int gameRoomId = 1;
+        int roomId = 0;
 
         public void StartTickRoom<R>(R room, int tick = 100) where R : Room
         {
@@ -77,23 +76,51 @@ namespace Server.Game
             }
         }
 
-        #region ::::MatchRoom
-        public MatchRoom CreateMatchRoom(ClientSession session)
+        public T CreateRoom<T>(int masterId) where T : Room, new()
         {
-            MatchRoom room = new MatchRoom();
+            T room = new T();
 
             lock (key)
             {
-                room.roomId = matchRoomId;
-                room.masterId = session.sessionId;
-                matchRooms.Add(matchRoomId, room);
-                matchRoomId++;
-                StartTickRoom(room, 500);
-                Console.WriteLine($"Create Match Room / roomId : {room.roomId}");
+                room.roomId = roomId;
+                room.masterId = masterId;
+                switch (room.roomType)
+                {
+                    case RoomType.Match:
+                        matchRooms.Add(roomId, room as MatchRoom);
+                        StartTickRoom(room, 500);
+                        break;
+                    case RoomType.Game:
+                        gameRooms.Add(roomId, room as GameRoom);
+                        StartTickRoom(room, 50);
+                        break;
+                    default:
+                        return null;
+                }
+                
             }
-
+            Console.WriteLine($"Create {room.roomType.ToString()} Room / roomId : {room.roomId}");
+            roomId++;
             return room;
         }
+
+        public bool RemoveRoom<T>(int roomId, RoomType roomType) where T : Room, new()
+        {
+            lock (key)
+            {
+                Console.WriteLine($"{roomType.ToString()} Room {roomId} Removed");
+                StopTickRoom(roomId, roomType);
+                switch (roomType)
+                {
+                    case RoomType.Match:
+                        return matchRooms.Remove(roomId);
+                    case RoomType.Game:
+                        return gameRooms.Remove(roomId);
+                    default:
+                        return false;
+                }
+            }
+        } 
 
         public MatchRoom CreateOrJoinMatchRoom(ClientSession session)
         {
@@ -108,18 +135,8 @@ namespace Server.Game
                 }
             }
 
-            MatchRoom matchRoom = CreateMatchRoom(session);
+            MatchRoom matchRoom = CreateRoom<MatchRoom>(session.sessionId);
             return matchRoom;
-        }
-
-        public bool RemoveMatchRoom(int roomId)
-        {
-            lock (key)
-            {
-                Console.WriteLine($"Match Room {roomId} Removed");
-                StopTickRoom(roomId, RoomType.Match);
-                return matchRooms.Remove(roomId);
-            }
         }
 
         public MatchRoom FindMatchRoom(int roomId)
@@ -142,42 +159,7 @@ namespace Server.Game
                 return matchRooms;
             }
         }
-        #endregion
 
-        #region ::::GameRoom
-        public GameRoom CreateGameRoom(int masterId)
-        {
-            GameRoom room = new GameRoom();
-
-            lock (key)
-            {
-                room.roomId = gameRoomId;
-                room.masterId = masterId;
-                gameRooms.Add(gameRoomId, room);
-                gameRoomId++;
-                Console.WriteLine($"Create Game Room / roomId : {room.roomId}");
-                StartTickRoom(room, 50);
-            }
-            return room;
-        }
-
-        public bool RemoveGameRoom(int roomId)
-        {
-            lock (key)
-            {
-                Console.WriteLine($"Game Room {roomId} Removed");
-                StopTickRoom(roomId, RoomType.Game);
-                return gameRooms.Remove(roomId);
-            }
-        }
-
-        public Dictionary<int, GameRoom> GetGameRooms()
-        {
-            lock (key)
-            {
-                return gameRooms;
-            }
-        }
-        #endregion
+        
     }
 }

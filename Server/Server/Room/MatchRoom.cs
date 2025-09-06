@@ -61,7 +61,7 @@ namespace Server
 
             if (players.Count == 0)
             {
-                RoomManager.Instance.RemoveMatchRoom(roomId);
+                RoomManager.Instance.RemoveRoom<MatchRoom>(roomId, roomType);
             }
             else
             {
@@ -137,7 +137,7 @@ namespace Server
 
             if (players.Count == readyCount)
             {
-                GameRoom gameRoom = RoomManager.Instance.CreateGameRoom(masterId);
+                GameRoom gameRoom = RoomManager.Instance.CreateRoom<GameRoom>(masterId);
                 gameRoom.Init(players.Count);
                 foreach(MatchPlayer player in players.Values)
                 {

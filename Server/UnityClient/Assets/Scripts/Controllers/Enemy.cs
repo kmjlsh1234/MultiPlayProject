@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     private float lastSearchTime = 0f;
     Dictionary<int, PlayerController> playerDic;
 
-    private PlayerController targetPlayer; // 현재 따라가는 대상
+    public PlayerController targetPlayer; // 현재 따라가는 대상
     private Rigidbody rb;
 
     public void Awake()

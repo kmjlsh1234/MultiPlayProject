@@ -50,6 +50,9 @@ enum MsgId {
 
     C_EXITGAMEROOM = 28;
     S_EXITGAMEROOM = 29;
+
+    C_ENEMYMOVE = 30;
+    S_ENEMYMOVE = 31;
 }
 
 enum GameObjectType {

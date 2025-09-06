@@ -23,6 +23,7 @@ public class PlayerManager : SingletonBase<PlayerManager>
                     p.gameObject.tag = "Player";
                     p.playerId = playerInfo.SessionId;
                     playerList.Add(p.playerId, p);
+                    
                 }
                 else
                 {

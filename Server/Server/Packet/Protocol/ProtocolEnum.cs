@@ -25,7 +25,7 @@ namespace Google.Protobuf.Protocol {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChNQcm90b2NvbF9FbnVtLnByb3RvEghQcm90b2NvbBofZ29vZ2xlL3Byb3Rv",
-            "YnVmL3RpbWVzdGFtcC5wcm90byqCBAoFTXNnSWQSDwoLQ19QSU5HQ0hFQ0sQ",
+            "YnVmL3RpbWVzdGFtcC5wcm90byqkBAoFTXNnSWQSDwoLQ19QSU5HQ0hFQ0sQ",
             "ABIPCgtTX1BPTkdDSEVDSxABEg0KCVNfQ09OTkVDVBACEhAKDENfUExBWUVS",
             "SU5GTxADEgoKBkNfQ0hBVBAEEgoKBlNfQ0hBVBAFEgsKB0NfUkVBRFkQBhIL",
             "CgdTX1JFQURZEAcSCwoHQ19TVEFSVBAIEhIKDlNfTE9BRElOR1NUQVJUEAkS",
@@ -36,11 +36,12 @@ namespace Google.Protobuf.Protocol {
             "DgoKU19ST09NTElTVBAUEg4KClNfUk9PTUlORk8QFRIVChFDX0xPQURJTkdD",
             "T01QTEVURRAWEhEKDVNfSU5HQU1FU1RBUlQQFxIMCghDX0lOVklURRAYEgwK",
             "CFNfSU5WSVRFEBkSEAoMU19TUEFXTkVORU1ZEBoSDwoLU19FUlJPUkNPREUQ",
-            "GxISCg5DX0VYSVRHQU1FUk9PTRAcEhIKDlNfRVhJVEdBTUVST09NEB0qQQoO",
-            "R2FtZU9iamVjdFR5cGUSCAoETk9ORRAAEgoKBlBMQVlFUhABEgkKBUVORU1Z",
-            "EAISDgoKUFJPSkVDVElMRRADKjgKDUNyZWF0dXJlU3RhdGUSCAoESURMRRAA",
-            "EggKBE1PVkUQARIJCgVTS0lMTBACEggKBERFQUQQA0IbqgIYR29vZ2xlLlBy",
-            "b3RvYnVmLlByb3RvY29sYgZwcm90bzM="));
+            "GxISCg5DX0VYSVRHQU1FUk9PTRAcEhIKDlNfRVhJVEdBTUVST09NEB0SDwoL",
+            "Q19FTkVNWU1PVkUQHhIPCgtTX0VORU1ZTU9WRRAfKkEKDkdhbWVPYmplY3RU",
+            "eXBlEggKBE5PTkUQABIKCgZQTEFZRVIQARIJCgVFTkVNWRACEg4KClBST0pF",
+            "Q1RJTEUQAyo4Cg1DcmVhdHVyZVN0YXRlEggKBElETEUQABIICgRNT1ZFEAES",
+            "CQoFU0tJTEwQAhIICgRERUFEEANCG6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90",
+            "b2NvbGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.CreatureState), }, null, null));
@@ -80,6 +81,8 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("S_ERRORCODE")] SErrorcode = 27,
     [pbr::OriginalName("C_EXITGAMEROOM")] CExitgameroom = 28,
     [pbr::OriginalName("S_EXITGAMEROOM")] SExitgameroom = 29,
+    [pbr::OriginalName("C_ENEMYMOVE")] CEnemymove = 30,
+    [pbr::OriginalName("S_ENEMYMOVE")] SEnemymove = 31,
   }
 
   public enum GameObjectType {

@@ -25,23 +25,23 @@ namespace Google.Protobuf.Protocol {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChNQcm90b2NvbF9EYXRhLnByb3RvEghQcm90b2NvbBofZ29vZ2xlL3Byb3Rv",
-            "YnVmL3RpbWVzdGFtcC5wcm90bxoTUHJvdG9jb2xfRW51bS5wcm90byKhAQoK",
+            "YnVmL3RpbWVzdGFtcC5wcm90bxoTUHJvdG9jb2xfRW51bS5wcm90byKzAQoK",
             "T2JqZWN0aW5mbxIQCghvYmplY3RJZBgBIAEoBRIjCgNwb3MYAiABKAsyFi5Q",
             "cm90b2NvbC5Qb3NpdGlvbmluZm8SDAoEcm90WRgDIAEoAhImCglzdGF0ZUlu",
             "Zm8YBCABKAsyEy5Qcm90b2NvbC5TdGF0ZWluZm8SJgoFc3RhdGUYBSABKA4y",
-            "Fy5Qcm90b2NvbC5DcmVhdHVyZVN0YXRlIloKClNfUm9vbWluZm8SDgoGcm9v",
-            "bUlkGAEgASgFEhAKCG1hc3RlcklkGAIgASgFEioKB3BsYXllcnMYAyADKAsy",
-            "GS5Qcm90b2NvbC5NYXRjaHBsYXllcmluZm8iRwoPTWF0Y2hwbGF5ZXJpbmZv",
-            "EhEKCXNlc3Npb25JZBgBIAEoBRIQCghuaWNrTmFtZRgCIAEoCRIPCgdpc1Jl",
-            "YWR5GAMgASgIIjgKDFBvc2l0aW9uaW5mbxIMCgRwb3NYGAEgASgCEgwKBHBv",
-            "c1kYAiABKAISDAoEcG9zWhgDIAEoAiJUCglTdGF0ZWluZm8SDQoFbGV2ZWwY",
-            "ASABKAUSCgoCaHAYAiABKAUSDQoFbWF4SHAYAyABKAUSDgoGYXR0YWNrGAQg",
-            "ASgFEg0KBXNwZWVkGAUgASgCQhuqAhhHb29nbGUuUHJvdG9idWYuUHJvdG9j",
-            "b2xiBnByb3RvMw=="));
+            "Fy5Qcm90b2NvbC5DcmVhdHVyZVN0YXRlEhAKCHRhcmdldElkGAYgASgFIloK",
+            "ClNfUm9vbWluZm8SDgoGcm9vbUlkGAEgASgFEhAKCG1hc3RlcklkGAIgASgF",
+            "EioKB3BsYXllcnMYAyADKAsyGS5Qcm90b2NvbC5NYXRjaHBsYXllcmluZm8i",
+            "RwoPTWF0Y2hwbGF5ZXJpbmZvEhEKCXNlc3Npb25JZBgBIAEoBRIQCghuaWNr",
+            "TmFtZRgCIAEoCRIPCgdpc1JlYWR5GAMgASgIIjgKDFBvc2l0aW9uaW5mbxIM",
+            "CgRwb3NYGAEgASgCEgwKBHBvc1kYAiABKAISDAoEcG9zWhgDIAEoAiJUCglT",
+            "dGF0ZWluZm8SDQoFbGV2ZWwYASABKAUSCgoCaHAYAiABKAUSDQoFbWF4SHAY",
+            "AyABKAUSDgoGYXR0YWNrGAQgASgFEg0KBXNwZWVkGAUgASgCQhuqAhhHb29n",
+            "bGUuUHJvdG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Google.Protobuf.Protocol.ProtocolEnumReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.Objectinfo), global::Google.Protobuf.Protocol.Objectinfo.Parser, new[]{ "ObjectId", "Pos", "RotY", "StateInfo", "State" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.Objectinfo), global::Google.Protobuf.Protocol.Objectinfo.Parser, new[]{ "ObjectId", "Pos", "RotY", "StateInfo", "State", "TargetId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_Roominfo), global::Google.Protobuf.Protocol.S_Roominfo.Parser, new[]{ "RoomId", "MasterId", "Players" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.Matchplayerinfo), global::Google.Protobuf.Protocol.Matchplayerinfo.Parser, new[]{ "SessionId", "NickName", "IsReady" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.Positioninfo), global::Google.Protobuf.Protocol.Positioninfo.Parser, new[]{ "PosX", "PosY", "PosZ" }, null, null, null, null),
@@ -82,6 +82,7 @@ namespace Google.Protobuf.Protocol {
       rotY_ = other.rotY_;
       stateInfo_ = other.stateInfo_ != null ? other.stateInfo_.Clone() : null;
       state_ = other.state_;
+      targetId_ = other.targetId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -145,6 +146,17 @@ namespace Google.Protobuf.Protocol {
       }
     }
 
+    /// <summary>Field number for the "targetId" field.</summary>
+    public const int TargetIdFieldNumber = 6;
+    private int targetId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int TargetId {
+      get { return targetId_; }
+      set {
+        targetId_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Objectinfo);
@@ -163,6 +175,7 @@ namespace Google.Protobuf.Protocol {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(RotY, other.RotY)) return false;
       if (!object.Equals(StateInfo, other.StateInfo)) return false;
       if (State != other.State) return false;
+      if (TargetId != other.TargetId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -174,6 +187,7 @@ namespace Google.Protobuf.Protocol {
       if (RotY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(RotY);
       if (stateInfo_ != null) hash ^= StateInfo.GetHashCode();
       if (State != global::Google.Protobuf.Protocol.CreatureState.Idle) hash ^= State.GetHashCode();
+      if (TargetId != 0) hash ^= TargetId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -207,6 +221,10 @@ namespace Google.Protobuf.Protocol {
         output.WriteRawTag(40);
         output.WriteEnum((int) State);
       }
+      if (TargetId != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(TargetId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -229,6 +247,9 @@ namespace Google.Protobuf.Protocol {
       }
       if (State != global::Google.Protobuf.Protocol.CreatureState.Idle) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) State);
+      }
+      if (TargetId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TargetId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -261,6 +282,9 @@ namespace Google.Protobuf.Protocol {
       }
       if (other.State != global::Google.Protobuf.Protocol.CreatureState.Idle) {
         State = other.State;
+      }
+      if (other.TargetId != 0) {
+        TargetId = other.TargetId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -297,6 +321,10 @@ namespace Google.Protobuf.Protocol {
           }
           case 40: {
             State = (global::Google.Protobuf.Protocol.CreatureState) input.ReadEnum();
+            break;
+          }
+          case 48: {
+            TargetId = input.ReadInt32();
             break;
           }
         }

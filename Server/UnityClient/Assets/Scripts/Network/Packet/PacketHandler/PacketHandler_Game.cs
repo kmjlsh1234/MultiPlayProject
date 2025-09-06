@@ -30,7 +30,19 @@ public partial class PacketHandler
 
     public static void S_SpawnenemyHandler(Session session, IMessage pkt)
     {
+        Debug.Log(" S_Spawnenemy");
         S_Spawnenemy packet = pkt as S_Spawnenemy;
         GameManager.Instance.SpawnEnemy(packet);
+    }
+
+    public static void S_EnemymoveHandler(Session session, IMessage pkt)
+    {
+        Debug.Log(" S_Enemymove");
+        if(NetworkManager.Instance.sessionId == ChatManager.Instance.masterId)
+        {
+            return;
+        }
+        S_Enemymove packet = pkt as S_Enemymove;
+        GameManager.Instance.LerpEnemyPos(packet); 
     }
 }

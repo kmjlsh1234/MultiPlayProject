@@ -10,17 +10,30 @@ namespace Server.Game.Object
 {
     public class Enemy : GameObject
     {
-        public GamePlayer targetPlayer;
+        public Random rand = new Random();
+        float[,] spawnPoints = new float[,]
+        { 
+            { 72f, 72f },
+            { 72f, -72f },
+            { -72f, 72f },
+            { -72f, -72f },
+        };
+
+        public GamePlayer target;
+        
 
         public Enemy()
         {
             objectType = GameObjectType.Enemy;
 
+            
+            int i = rand.Next(spawnPoints.GetLength(0));
+
             Positioninfo pos = new Positioninfo()
             {
-                PosX = 72,
+                PosX = spawnPoints[i, 0],
                 PosY = 0.1f,
-                PosZ = 72,
+                PosZ = spawnPoints[i, 1],
             };
 
             Stateinfo stateInfo = new Stateinfo()

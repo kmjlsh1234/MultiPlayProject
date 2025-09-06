@@ -17,4 +17,11 @@ public partial class PacketHandler
         C_Move packet = pkt as C_Move;
         session.gameRoom.HandleMove(session, packet);
     }
+
+    public static void C_EnemymoveHandler(Session s, IMessage pkt)
+    {
+        ClientSession session = s as ClientSession;
+        C_Enemymove packet = pkt as C_Enemymove;
+        session.gameRoom.HandleEnemyMove(session, packet);
+    }
 }

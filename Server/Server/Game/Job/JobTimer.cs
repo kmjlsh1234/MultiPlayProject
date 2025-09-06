@@ -8,32 +8,31 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Server.Game.Job
 {
-    public struct JobTimerElem : IComparable<JobTimerElem>
+    struct JobTimerElem : IComparable<JobTimerElem>
     {
-        public int execTic;
-        public IJob job;   
+        public int execTick; // 실행 시간
+        public IJob job;
 
         public int CompareTo(JobTimerElem other)
         {
-            return other.execTic.CompareTo(execTic);
+            return other.execTick - execTick;
         }
     }
 
     public class JobTimer
     {
-        public PriorityQueue<JobTimerElem> priorityQueue = new PriorityQueue<JobTimerElem>();
-        object key = new object();
+        PriorityQueue<JobTimerElem> _pq = new PriorityQueue<JobTimerElem>();
+        object _lock = new object();
 
-        //
-        public void Push(IJob job, int tickAter = 0)
+        public void Push(IJob job, int tickAfter = 0)
         {
-            JobTimerElem jobTimerElem = new JobTimerElem();
-            jobTimerElem.job = job;
-            jobTimerElem.execTic = Environment.TickCount + tickAter;
+            JobTimerElem jobElement;
+            jobElement.execTick = System.Environment.TickCount + tickAfter;
+            jobElement.job = job;
 
-            lock (key)
+            lock (_lock)
             {
-                priorityQueue.Push(jobTimerElem);
+                _pq.Push(jobElement);
             }
         }
 
@@ -41,29 +40,30 @@ namespace Server.Game.Job
         {
             while (true)
             {
-                int now = Environment.TickCount;
+                int now = System.Environment.TickCount;
 
-                JobTimerElem jobElem;
+                JobTimerElem jobElement;
 
-                lock (key)
+                lock (_lock)
                 {
-                    if (priorityQueue.Count == 0)
+                    if (_pq.Count == 0)
                     {
                         break;
                     }
+                        
 
-                    jobElem = priorityQueue.Peek();
-                    if(jobElem.execTic > now)
+                    jobElement = _pq.Peek();
+                    if (jobElement.execTick > now)
                     {
+
                         break;
                     }
+                        
 
-                    priorityQueue.Pop();
+                    _pq.Pop();
                 }
-
-                jobElem.job.Execute();
+                jobElement.job.Execute();
             }
-            
         }
     }
 }
