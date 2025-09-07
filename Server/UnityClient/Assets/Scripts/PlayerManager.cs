@@ -10,7 +10,7 @@ public class PlayerManager : SingletonBase<PlayerManager>
 
     public void GeneratePlayer()
     {
-        foreach (Matchplayerinfo playerInfo in ChatManager.Instance.players.Values)
+        foreach (Matchplayerinfo playerInfo in RoomManager.Instance.players.Values)
         {
             GameObject go = ResourcesManager.Instance.getPrefabObj("Player");
             if (go != null)

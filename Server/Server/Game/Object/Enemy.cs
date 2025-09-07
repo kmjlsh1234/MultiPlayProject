@@ -24,6 +24,7 @@ namespace Server.Game.Object
 
         public Enemy()
         {
+            
             objectType = GameObjectType.Enemy;
 
             
@@ -47,7 +48,6 @@ namespace Server.Game.Object
 
             objectinfo = new Objectinfo()
             {
-                ObjectId = objectId,
                 Pos = pos,
                 RotY = 0f,
                 StateInfo = stateInfo

@@ -7,6 +7,7 @@ namespace Server
 {
     public class MatchRoom : Room
     {
+        public Matchroominfo roomInfo { get; set; }
         Dictionary<int, MatchPlayer> players = new Dictionary<int, MatchPlayer>();
 
         public MatchRoom()
@@ -22,21 +23,14 @@ namespace Server
             player.playerInfo = new Matchplayerinfo()
             {
                 SessionId = session.sessionId,
+                NickName = session.nickName,
                 IsReady = false
             };
             players.Add(session.sessionId, player);
-
+            
+            roomInfo.Players.Add(player.playerInfo);
             //본인에게 정보 전송
-            S_Roominfo roomInfoPacket = new S_Roominfo()
-            {
-                RoomId = roomId,
-                MasterId = masterId,
-            };
-
-            foreach (MatchPlayer p in players.Values)
-            {
-                roomInfoPacket.Players.Add(p.playerInfo);
-            }
+            S_Roominfo roomInfoPacket = new S_Roominfo() { RoomInfo = roomInfo };
             session.Send(roomInfoPacket);
 
             //타인에게 정보 전송
@@ -56,8 +50,15 @@ namespace Server
 
         public override void ExitRoom(ClientSession session)
         {
-            players.Remove(session.sessionId);
-            session.matchRoom = null;
+            MatchPlayer player = null;
+            players.TryGetValue(session.sessionId, out player);
+            if (player != null)
+            {
+                roomInfo.Players.Remove(player.playerInfo);
+                players.Remove(session.sessionId);
+                session.matchRoom = null;
+            }
+            
 
             if (players.Count == 0)
             {
@@ -103,7 +104,6 @@ namespace Server
         public override void Update()
         {
             Flush();
-            Console.WriteLine("MatchRoom Update");
         }
         #endregion
 

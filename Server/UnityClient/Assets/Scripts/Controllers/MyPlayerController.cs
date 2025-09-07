@@ -6,7 +6,7 @@ public class MyPlayerController : PlayerController
     private float tickInterval = 0.2f;
     private float tickTimer = 0f;
     private Vector3 lastMoveDir = Vector3.zero;
-    private SyncroAreaController area;
+    
 
     protected override void Start()
     {
@@ -16,8 +16,7 @@ public class MyPlayerController : PlayerController
         CameraFollow camera = Camera.main.GetComponent<CameraFollow>();
         camera.Init(this.transform);
 
-        area = GetComponentInChildren<SyncroAreaController>();
-        area.Init();
+        
     }
 
     private void Update()

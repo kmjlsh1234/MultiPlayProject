@@ -11,7 +11,7 @@ public partial class PacketHandler
 
         S_Roominfo packet = pkt as S_Roominfo;
 
-        ChatManager.Instance.InitRoom(packet);
+        RoomManager.Instance.InitRoom(packet);
         UIManager.Instance.Push(UIType.UIPopup_Match);
     }
 
@@ -26,7 +26,7 @@ public partial class PacketHandler
         }
 
 
-        ChatManager.Instance.AddPlayer(packet.PlayerInfo);
+        RoomManager.Instance.AddPlayer(packet.PlayerInfo);
     }
 
     public static void S_ExitroomHandler(Session session, IMessage pkt)
@@ -42,7 +42,7 @@ public partial class PacketHandler
         }
         else
         {
-            ChatManager.Instance.RemovePlayer(packet.SessionId);
+            RoomManager.Instance.RemovePlayer(packet.SessionId);
         }
     }
 
@@ -52,7 +52,7 @@ public partial class PacketHandler
 
         S_Changeroominfo packet = pkt as S_Changeroominfo;
 
-        ChatManager.Instance.UpdateMaster(packet.MasterId);
+        RoomManager.Instance.UpdateMaster(packet.MasterId);
     }
 
     public static void S_ReadyHandler(Session session, IMessage pkt)
@@ -60,6 +60,6 @@ public partial class PacketHandler
         Debug.Log("S_BroadCast_ReadyPacket");
         S_Ready packet = pkt as S_Ready;
 
-        ChatManager.Instance.UpdateReady(packet.SessionId, packet.IsReady);
+        RoomManager.Instance.UpdateReady(packet.SessionId, packet.IsReady);
     }
 }

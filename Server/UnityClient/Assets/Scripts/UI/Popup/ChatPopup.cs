@@ -47,7 +47,7 @@ public class ChatPopup : UIBase
         RegisterButton();
         RegisterEventHandler();
 
-        ChatManager.Instance.OnChatRecved += UpdateChatList;
+        RoomManager.Instance.OnChatRecved += UpdateChatList;
         
     }
 
@@ -58,10 +58,10 @@ public class ChatPopup : UIBase
             playerItem = ResourcesManager.Instance.getUIObj("PlayerItem");
         }
 
-        UpdateRoomId(ChatManager.Instance.roomId);
-        UpdateMaster(ChatManager.Instance.masterId);
+        UpdateRoomId(RoomManager.Instance.roomId);
+        UpdateMaster(RoomManager.Instance.masterId);
 
-        Dictionary<int, Matchplayerinfo> players = ChatManager.Instance.players;
+        Dictionary<int, Matchplayerinfo> players = RoomManager.Instance.players;
         InitPlayerInfo(players);
     }
 
@@ -77,10 +77,10 @@ public class ChatPopup : UIBase
 
     void RegisterEventHandler()
     {
-        ChatManager.Instance.AddPlayerHandler += AddPlayer;
-        ChatManager.Instance.RemovePlayerHandler += RemovePlayer;
-        ChatManager.Instance.UpdateMasterHandler += UpdateMaster;
-        ChatManager.Instance.UpdateReadyHandler += UpdateReady;
+        RoomManager.Instance.AddPlayerHandler += AddPlayer;
+        RoomManager.Instance.RemovePlayerHandler += RemovePlayer;
+        RoomManager.Instance.UpdateMasterHandler += UpdateMaster;
+        RoomManager.Instance.UpdateReadyHandler += UpdateReady;
     }
 
     void SendMessage()

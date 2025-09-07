@@ -29,20 +29,20 @@ namespace Google.Protobuf.Protocol {
             "T2JqZWN0aW5mbxIQCghvYmplY3RJZBgBIAEoBRIjCgNwb3MYAiABKAsyFi5Q",
             "cm90b2NvbC5Qb3NpdGlvbmluZm8SDAoEcm90WRgDIAEoAhImCglzdGF0ZUlu",
             "Zm8YBCABKAsyEy5Qcm90b2NvbC5TdGF0ZWluZm8SJgoFc3RhdGUYBSABKA4y",
-            "Fy5Qcm90b2NvbC5DcmVhdHVyZVN0YXRlEhAKCHRhcmdldElkGAYgASgFIloK",
-            "ClNfUm9vbWluZm8SDgoGcm9vbUlkGAEgASgFEhAKCG1hc3RlcklkGAIgASgF",
-            "EioKB3BsYXllcnMYAyADKAsyGS5Qcm90b2NvbC5NYXRjaHBsYXllcmluZm8i",
-            "RwoPTWF0Y2hwbGF5ZXJpbmZvEhEKCXNlc3Npb25JZBgBIAEoBRIQCghuaWNr",
-            "TmFtZRgCIAEoCRIPCgdpc1JlYWR5GAMgASgIIjgKDFBvc2l0aW9uaW5mbxIM",
-            "CgRwb3NYGAEgASgCEgwKBHBvc1kYAiABKAISDAoEcG9zWhgDIAEoAiJUCglT",
-            "dGF0ZWluZm8SDQoFbGV2ZWwYASABKAUSCgoCaHAYAiABKAUSDQoFbWF4SHAY",
-            "AyABKAUSDgoGYXR0YWNrGAQgASgFEg0KBXNwZWVkGAUgASgCQhuqAhhHb29n",
-            "bGUuUHJvdG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
+            "Fy5Qcm90b2NvbC5DcmVhdHVyZVN0YXRlEhAKCHRhcmdldElkGAYgASgFIl0K",
+            "DU1hdGNocm9vbWluZm8SDgoGcm9vbUlkGAEgASgFEhAKCG1hc3RlcklkGAIg",
+            "ASgFEioKB3BsYXllcnMYAyADKAsyGS5Qcm90b2NvbC5NYXRjaHBsYXllcmlu",
+            "Zm8iRwoPTWF0Y2hwbGF5ZXJpbmZvEhEKCXNlc3Npb25JZBgBIAEoBRIQCghu",
+            "aWNrTmFtZRgCIAEoCRIPCgdpc1JlYWR5GAMgASgIIjgKDFBvc2l0aW9uaW5m",
+            "bxIMCgRwb3NYGAEgASgCEgwKBHBvc1kYAiABKAISDAoEcG9zWhgDIAEoAiJU",
+            "CglTdGF0ZWluZm8SDQoFbGV2ZWwYASABKAUSCgoCaHAYAiABKAUSDQoFbWF4",
+            "SHAYAyABKAUSDgoGYXR0YWNrGAQgASgFEg0KBXNwZWVkGAUgASgCQhuqAhhH",
+            "b29nbGUuUHJvdG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Google.Protobuf.Protocol.ProtocolEnumReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.Objectinfo), global::Google.Protobuf.Protocol.Objectinfo.Parser, new[]{ "ObjectId", "Pos", "RotY", "StateInfo", "State", "TargetId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_Roominfo), global::Google.Protobuf.Protocol.S_Roominfo.Parser, new[]{ "RoomId", "MasterId", "Players" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.Matchroominfo), global::Google.Protobuf.Protocol.Matchroominfo.Parser, new[]{ "RoomId", "MasterId", "Players" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.Matchplayerinfo), global::Google.Protobuf.Protocol.Matchplayerinfo.Parser, new[]{ "SessionId", "NickName", "IsReady" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.Positioninfo), global::Google.Protobuf.Protocol.Positioninfo.Parser, new[]{ "PosX", "PosY", "PosZ" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.Stateinfo), global::Google.Protobuf.Protocol.Stateinfo.Parser, new[]{ "Level", "Hp", "MaxHp", "Attack", "Speed" }, null, null, null, null)
@@ -333,11 +333,11 @@ namespace Google.Protobuf.Protocol {
 
   }
 
-  public sealed partial class S_Roominfo : pb::IMessage<S_Roominfo> {
-    private static readonly pb::MessageParser<S_Roominfo> _parser = new pb::MessageParser<S_Roominfo>(() => new S_Roominfo());
+  public sealed partial class Matchroominfo : pb::IMessage<Matchroominfo> {
+    private static readonly pb::MessageParser<Matchroominfo> _parser = new pb::MessageParser<Matchroominfo>(() => new Matchroominfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<S_Roominfo> Parser { get { return _parser; } }
+    public static pb::MessageParser<Matchroominfo> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -350,14 +350,14 @@ namespace Google.Protobuf.Protocol {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_Roominfo() {
+    public Matchroominfo() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_Roominfo(S_Roominfo other) : this() {
+    public Matchroominfo(Matchroominfo other) : this() {
       roomId_ = other.roomId_;
       masterId_ = other.masterId_;
       players_ = other.players_.Clone();
@@ -365,8 +365,8 @@ namespace Google.Protobuf.Protocol {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_Roominfo Clone() {
-      return new S_Roominfo(this);
+    public Matchroominfo Clone() {
+      return new Matchroominfo(this);
     }
 
     /// <summary>Field number for the "roomId" field.</summary>
@@ -403,11 +403,11 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as S_Roominfo);
+      return Equals(other as Matchroominfo);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(S_Roominfo other) {
+    public bool Equals(Matchroominfo other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -470,7 +470,7 @@ namespace Google.Protobuf.Protocol {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(S_Roominfo other) {
+    public void MergeFrom(Matchroominfo other) {
       if (other == null) {
         return;
       }

@@ -14,14 +14,6 @@ public partial class PacketHandler
         SceneManager.LoadScene(SceneType.LobbyScene.ToString());
     }
 
-    public static void S_RoomlistHandler(Session session, IMessage pkt)
-    {
-        Debug.Log("S_RoomList");
-
-        S_Roomlist packet = pkt as S_Roomlist;
-        DataManager.Instance.OnRoomListRecvCompleted(packet);
-    }
-
     public static void S_InviteHandler(Session session, IMessage pkt)
     {
         Debug.Log("S_InvitePacket");

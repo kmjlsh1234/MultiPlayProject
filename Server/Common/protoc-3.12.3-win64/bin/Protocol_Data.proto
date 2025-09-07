@@ -14,7 +14,7 @@ message Objectinfo {
     int32 targetId = 6;
 }
 
-message S_Roominfo{
+message Matchroominfo {
     int32 roomId = 1;
     int32 masterId = 2;
     repeated Matchplayerinfo players = 3;

@@ -48,9 +48,6 @@ public class PacketManager
         onRecv.Add((ushort) MsgId.SEntermatchroom, MakePacket<S_Entermatchroom>);
         handler.Add((ushort)MsgId.SEntermatchroom, PacketHandler.S_EntermatchroomHandler);
 
-        onRecv.Add((ushort) MsgId.SRoomlist, MakePacket<S_Roomlist>);
-        handler.Add((ushort)MsgId.SRoomlist, PacketHandler.S_RoomlistHandler);
-
         onRecv.Add((ushort) MsgId.SRoominfo, MakePacket<S_Roominfo>);
         handler.Add((ushort)MsgId.SRoominfo, PacketHandler.S_RoominfoHandler);
 

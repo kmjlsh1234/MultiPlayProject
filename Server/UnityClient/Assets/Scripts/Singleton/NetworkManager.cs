@@ -9,6 +9,7 @@ using UnityEngine;
 public class NetworkManager : SingletonBase<NetworkManager>
 {
     public int sessionId;
+    public string uuid;
 
     ServerSession session = new ServerSession();
 

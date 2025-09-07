@@ -38,7 +38,7 @@ public partial class PacketHandler
     public static void S_EnemymoveHandler(Session session, IMessage pkt)
     {
         Debug.Log(" S_Enemymove");
-        if(NetworkManager.Instance.sessionId == ChatManager.Instance.masterId)
+        if(NetworkManager.Instance.sessionId == RoomManager.Instance.masterId)
         {
             return;
         }

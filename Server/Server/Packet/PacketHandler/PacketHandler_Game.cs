@@ -22,6 +22,6 @@ public partial class PacketHandler
     {
         ClientSession session = s as ClientSession;
         C_Enemymove packet = pkt as C_Enemymove;
-        session.gameRoom.HandleEnemyMove(session, packet);
+        session.gameRoom.HandleEnemyMove(session, packet);       
     }
 }

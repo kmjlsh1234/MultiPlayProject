@@ -18,7 +18,7 @@ public partial class PacketHandler
             playerId = packet.SessionId,
             message = packet.Message,
         };
-        ChatManager.Instance.RecevMessage(chat);
+        RoomManager.Instance.RecevMessage(chat);
     }
 
     //로딩 시작

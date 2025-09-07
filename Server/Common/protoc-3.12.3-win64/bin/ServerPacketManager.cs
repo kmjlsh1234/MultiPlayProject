@@ -24,8 +24,8 @@ public class PacketManager
         onRecv.Add((ushort) MsgId.CPingcheck, MakePacket<C_Pingcheck>);
         handler.Add((ushort)MsgId.CPingcheck, PacketHandler.C_PingcheckHandler);
 
-        onRecv.Add((ushort) MsgId.CPlayerinfo, MakePacket<C_Playerinfo>);
-        handler.Add((ushort)MsgId.CPlayerinfo, PacketHandler.C_PlayerinfoHandler);
+        onRecv.Add((ushort) MsgId.CConnect, MakePacket<C_Connect>);
+        handler.Add((ushort)MsgId.CConnect, PacketHandler.C_ConnectHandler);
 
         onRecv.Add((ushort) MsgId.CChat, MakePacket<C_Chat>);
         handler.Add((ushort)MsgId.CChat, PacketHandler.C_ChatHandler);
@@ -50,9 +50,6 @@ public class PacketManager
 
         onRecv.Add((ushort) MsgId.CEntermatchroom, MakePacket<C_Entermatchroom>);
         handler.Add((ushort)MsgId.CEntermatchroom, PacketHandler.C_EntermatchroomHandler);
-
-        onRecv.Add((ushort) MsgId.CRoomlist, MakePacket<C_Roomlist>);
-        handler.Add((ushort)MsgId.CRoomlist, PacketHandler.C_RoomlistHandler);
 
         onRecv.Add((ushort) MsgId.CLoadingcomplete, MakePacket<C_Loadingcomplete>);
         handler.Add((ushort)MsgId.CLoadingcomplete, PacketHandler.C_LoadingcompleteHandler);

@@ -148,15 +148,21 @@ namespace Server
 
         public void SpawnEnemy()
         {
-            Console.WriteLine("Spawn");
 
             try
             {
                 Enemy enemy = ObjectManager.Instance.Add<Enemy>();
-                enemies.Add(enemy.objectId, enemy);
+                enemy.objectinfo.ObjectId = enemy.objectId;
                 
-                S_Spawnenemy packet = new S_Spawnenemy(){ ObjectInfo = enemy.objectinfo };
+                enemies.Add(enemy.objectId, enemy);
+                enemy.objectinfo.TargetId = FindeTargetPlayer(enemy.objectinfo.Pos);
+                S_Spawnenemy packet = new S_Spawnenemy()
+                { 
+                    ObjectInfo = enemy.objectinfo
+                };
+
                 BroadCast(packet);
+                Console.WriteLine($"Enemy {enemy.objectinfo.ObjectId} Spawn");
             }
             catch (Exception ex)
             {
@@ -167,7 +173,30 @@ namespace Server
                 PushAfter(2000, SpawnEnemy);
             }
         }
-    }
 
-    GamePlayer
+        public int FindeTargetPlayer(Positioninfo info)
+        {
+            GamePlayer closestPlayer = null;
+            float closestDistance = float.MaxValue;
+
+            foreach (GamePlayer player in players.Values)
+            {
+                Positioninfo targetInfo = player.objectinfo.Pos;
+
+                float dx = info.PosX - targetInfo.PosX;
+                float dy = info.PosY - targetInfo.PosY;
+                float dz = info.PosZ - targetInfo.PosZ;
+
+                float distance = (dx * dx) + (dy * dy) + (dz * dz); // 제곱거리 (루트 연산 없음 → 성능 좋음)
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestPlayer = player;
+                }
+            }
+
+            return closestPlayer.session.sessionId;
+        }
+    }
 }

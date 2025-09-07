@@ -45,7 +45,7 @@ namespace Server
             if(matchRoom != null)
             {
                 MatchRoom copyRoom = matchRoom;
-                copyRoom.Push(copyRoom.ExitRoom, this);
+                copyRoom.ExitRoom(this);
                 matchRoom = null;
             }
 

@@ -6,7 +6,7 @@ using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ChatManager : SingletonBase<ChatManager>
+public class RoomManager : SingletonBase<RoomManager>
 {
     public bool isMaster = false;
 
@@ -31,11 +31,11 @@ public class ChatManager : SingletonBase<ChatManager>
 
     public void InitRoom(S_Roominfo packet)
     {
-        roomId = packet.RoomId;
-        masterId = packet.MasterId;
+        roomId = packet.RoomInfo.RoomId;
+        masterId = packet.RoomInfo.MasterId;
 
         players.Clear();
-        foreach(Matchplayerinfo playerInfo in packet.Players)
+        foreach(Matchplayerinfo playerInfo in packet.RoomInfo.Players)
         {
             players.Add(playerInfo.SessionId, playerInfo);
         }

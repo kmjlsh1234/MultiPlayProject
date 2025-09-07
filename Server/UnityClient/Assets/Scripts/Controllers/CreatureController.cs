@@ -1,16 +1,9 @@
+using Google.Protobuf.Protocol;
 using UnityEngine;
 
 public class CreatureController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public int objectId { get; set; }
+    public Objectinfo Objectinfo { get; set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

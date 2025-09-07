@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     protected Vector3 moveDir = Vector3.zero;
 
     private bool isIdle = true;
+
+    public SyncroAreaController area;
     protected virtual void Start()
     {
         anim = GetComponent<Animator>();
@@ -31,6 +33,9 @@ public class PlayerController : MonoBehaviour
 
         rigid = GetComponent<Rigidbody>();
         rigid.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+
+        area = GetComponentInChildren<SyncroAreaController>();
+        area.Init();
     }
 
     private void Update()

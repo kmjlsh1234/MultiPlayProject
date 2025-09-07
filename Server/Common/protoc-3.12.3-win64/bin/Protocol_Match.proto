@@ -39,6 +39,10 @@ message S_Entermatchroom{
     Matchplayerinfo playerInfo = 1;
 }
 
+message S_Roominfo{
+    Matchroominfo roomInfo = 1;
+}
+
 message C_Invite{
     int32 sessionId = 1;
 }

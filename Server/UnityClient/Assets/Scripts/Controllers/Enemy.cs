@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public int objectId;
     public float moveSpeed = 2f;      // 이동 속도
     public float searchInterval = 0.5f; // 몇 초마다 타겟 갱신할지
     private float lastSearchTime = 0f;
-    Dictionary<int, PlayerController> playerDic;
 
     public PlayerController targetPlayer; // 현재 따라가는 대상
     private Rigidbody rb;
@@ -14,11 +14,21 @@ public class Enemy : MonoBehaviour
     public void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        playerDic = PlayerManager.Instance.playerList;
+
 
         //가장 가까운 적 찾아 이동
-        FindClosestPlayer();
+        if (NetworkManager.Instance.sessionId.Equals(RoomManager.Instance.masterId))
+        {
+            FindClosestPlayer();
+        }
+        
     }
+
+    public void Init(PlayerController target)
+    {
+        this.targetPlayer = target;
+    }
+
     private void FixedUpdate()
     {
         // 주기적으로 가장 가까운 플레이어 찾기
