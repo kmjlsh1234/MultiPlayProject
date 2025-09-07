@@ -1,0 +1,56 @@
+syntax = "proto3";
+package Protocol;
+
+import "google/protobuf/timestamp.proto";
+import "Protocol_Data.proto"; 
+option csharp_namespace = "Google.Protobuf.Protocol";
+
+message C_Ready{
+    bool isReady = 1;
+}
+
+message S_Ready{
+    int32 sessionId = 1;
+    bool isReady = 2;
+}
+
+message S_Loadingstart{
+
+}
+
+message C_Exitroom{
+
+}
+
+message S_Exitroom{
+    int32 sessionId = 1;
+}
+
+message S_Changeroominfo{
+    int32 roomId = 1;
+    int32 masterId = 2;
+}
+
+message C_Entermatchroom{
+    int32 roomId = 1;
+}
+
+message S_Entermatchroom{
+    Matchplayerinfo playerInfo = 1;
+}
+
+message S_Roominfo{
+    Matchroominfo roomInfo = 1;
+}
+
+message C_Invite{
+    int32 sessionId = 1;
+}
+
+message C_Start{
+
+}
+
+message C_Loadingcomplete{
+
+}

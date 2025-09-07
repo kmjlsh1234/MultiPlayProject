@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Packet\GenPackets.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
     <PackageReference Include="Google.Protobuf" Version="3.32.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.8.58" />

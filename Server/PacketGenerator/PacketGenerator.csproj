@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.32.0" />
+    <None Remove="PDL.xml" />
   </ItemGroup>
 
   <ItemGroup>

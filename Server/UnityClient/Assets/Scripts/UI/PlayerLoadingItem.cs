@@ -15,11 +15,6 @@ public class PlayerLoadingItem : MonoBehaviour
         
     }
 
-    public void Init(PlayerData playerData)
-    {
-        slider.value = 0;
-        progressText.text = "0%";
-        playerInfoText.text = $"Session Id : {playerData.sessionId}\nNickName : {playerData.nickName}";
-    }
+    
 
 }

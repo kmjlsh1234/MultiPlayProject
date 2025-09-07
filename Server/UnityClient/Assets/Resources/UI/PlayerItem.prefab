@@ -167,7 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSelfObj: {fileID: 3638938027695034390}
   frame: {fileID: 6747912088092031066}
-  playerInfo: {fileID: 6698300594963791984}
+  playerInfoText: {fileID: 6698300594963791984}
 --- !u!1 &7026910140945027523
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,8 +260,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

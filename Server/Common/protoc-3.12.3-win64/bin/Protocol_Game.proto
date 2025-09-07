@@ -1,0 +1,58 @@
+syntax = "proto3";
+package Protocol;
+
+import "google/protobuf/timestamp.proto";
+import "Protocol_Enum.proto";
+import "Protocol_Data.proto"; 
+option csharp_namespace = "Google.Protobuf.Protocol";
+
+message C_Joinroom{
+    int32 roomId = 1;
+}
+
+message S_Inviteroom{
+    int32 roomId = 1;
+}
+
+message S_Entergameroom{
+}
+
+message C_Exitgameroom {
+}
+
+message S_Exitgameroom {
+    int32 sessionId = 1;
+}
+
+message C_Move{
+    float posX = 1;
+    float posY = 2;
+    float posZ = 3;
+    float rotY = 4;
+    CreatureState state = 5;
+}
+
+message S_Move{
+    int32 sessionId =1;
+    float posX = 2;
+    float posY = 3;
+    float posZ = 4;
+    float rotY = 5;
+    CreatureState state = 6;
+}
+
+message S_Ingamestart{
+    
+}
+
+message S_Spawnenemy{
+    Objectinfo objectInfo = 1;
+}
+
+message C_Enemymove {
+    repeated Objectinfo enemies = 1;
+}
+
+message S_Enemymove {
+    repeated Objectinfo enemies = 1;
+}

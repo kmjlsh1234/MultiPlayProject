@@ -1,3 +1,5 @@
+using Google.Protobuf;
+using Google.Protobuf.Protocol;
 using ServerCore;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,35 +31,33 @@ public class UIManager : SingletonBase<UIManager>
         }
     }
 
-    public void Push(UIType type, IPacket pkt = null)
+    public void Push(UIType type, IMessage pkt = null)
     {
         GameObject go = null;
 
         if (type == UIType.UIPopup_Error)
         {
-            S_ErrorCode packet = pkt as S_ErrorCode;
+            S_Errorcode packet = pkt as S_Errorcode;
             if (uiDic.TryGetValue(type, out go))
             {
                 go.name = go.name.Replace("(Clone)", "");
                 GameObject ui = Instantiate(go, Vector3.zero, Quaternion.identity, transform);
                 ui.GetComponentInChildren<Canvas>().sortingOrder = canvasOrder++;
-                UIBase uiBase = ui.GetComponent<UIBase>();
+                ErrorPopup errorPopup = ui.GetComponent<ErrorPopup>();
                 uiStack.Push(ui);
-                ErrorPopup errorPopup = uiBase as ErrorPopup;
                 errorPopup.Init(packet);
             }
         }
         else if(type == UIType.UIPopup_Invite)
         {
-            S_InvitePacket packet = pkt as S_InvitePacket;
+            S_Invite packet = pkt as S_Invite;
             if (uiDic.TryGetValue(type, out go))
             {
                 go.name = go.name.Replace("(Clone)", "");
                 GameObject ui = Instantiate(go, Vector3.zero, Quaternion.identity, transform);
                 ui.GetComponentInChildren<Canvas>().sortingOrder = canvasOrder++;
-                UIBase uiBase = ui.GetComponent<UIBase>();
+                InvitePopup invitePopup = ui.GetComponent<InvitePopup>();
                 uiStack.Push(ui);
-                InvitePopup invitePopup = uiBase as InvitePopup;
                 invitePopup.Init(packet);
             }
         }

@@ -1,0 +1,41 @@
+syntax = "proto3";
+package Protocol;
+
+import "google/protobuf/timestamp.proto";
+import "Protocol_Enum.proto";
+option csharp_namespace = "Google.Protobuf.Protocol";
+
+message Objectinfo {
+    int32 objectId = 1;
+    Positioninfo pos = 2;
+    float rotY = 3;
+    Stateinfo stateInfo = 4;
+    CreatureState state = 5;
+    int32 targetId = 6;
+}
+
+message Matchroominfo {
+    int32 roomId = 1;
+    int32 masterId = 2;
+    repeated Matchplayerinfo players = 3;
+}
+
+message Matchplayerinfo {
+    int32 sessionId = 1;
+    string nickName = 2;
+    bool isReady = 3;
+}
+
+message Positioninfo{
+    float posX = 1;
+    float posY = 2;
+    float posZ = 3;
+}
+
+message Stateinfo{
+    int32 level = 1;
+    int32 hp = 2;
+    int32 maxHp = 3;
+    int32 attack = 4;
+    float speed = 5;
+}

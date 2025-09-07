@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,14 +7,14 @@ public class PlayerItem : MonoBehaviour
 {
     [SerializeField] private GameObject isSelfObj;  
     [SerializeField] private Image frame;
-    [SerializeField] private TMP_Text playerInfo;
+    [SerializeField] private TMP_Text playerInfoText;
 
-    public void Init(PlayerData playerData)
+    public void Init(Matchplayerinfo playerInfo)
     {
-        isSelfObj.gameObject.SetActive(playerData.isSelf);
+        isSelfObj.gameObject.SetActive(playerInfo.SessionId.Equals(NetworkManager.Instance.sessionId));
 
-        playerInfo.text = $"Session Id : {playerData.sessionId}\nNickName : {playerData.nickName}";
-        frame.color = playerData.isReady ? Color.green : Color.white;
+        playerInfoText.text = $"Session Id : {playerInfo.SessionId}\nNickName : {playerInfo.NickName}";
+        frame.color = playerInfo.IsReady ? Color.green : Color.white;
     }
 
     public void ChangeColor(bool isReady)

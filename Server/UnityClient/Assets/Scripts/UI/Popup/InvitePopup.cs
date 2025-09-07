@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,10 +18,10 @@ public class InvitePopup : UIBase
         closeButton.onClick.AddListener(() => UIManager.Instance.Pop());
     }
 
-    public void Init(S_InvitePacket packet)
+    public void Init(S_Invite packet)
     {
-        this.roomId = packet.roomId;
-        inviteInfo.text = $"{packet.sendUserNickName}이 초대를 보냈습니다.";
+        this.roomId = packet.RoomId;
+        inviteInfo.text = $"{packet.NickName}이 초대를 보냈습니다.";
     }
 
     void EnterRoom()
@@ -28,11 +29,11 @@ public class InvitePopup : UIBase
         
         if (!isSend)
         {
-            C_EnterRoom packet = new C_EnterRoom()
+            C_Entermatchroom packet = new C_Entermatchroom()
             {
-                roomId = roomId,
+                RoomId = roomId,
             };
-            NetworkManager.Instance.Send(packet.Write());
+            NetworkManager.Instance.Send(packet);
             isSend = true;
         }
         

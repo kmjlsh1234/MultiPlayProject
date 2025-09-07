@@ -1,3 +1,4 @@
+using Google.Protobuf;
 using ServerCore;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using UnityEngine;
 public class NetworkManager : SingletonBase<NetworkManager>
 {
     public int sessionId;
+    public string uuid;
 
     ServerSession session = new ServerSession();
 
@@ -18,21 +20,26 @@ public class NetworkManager : SingletonBase<NetworkManager>
 
     public override void Init()
     {
+        //IPAddress.Parse("10.153.33.245")
         IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, 8888);
         connector.Init(endPoint, session);
     }
 
-    public void Send(ArraySegment<byte> buff)
+    public void Send(IMessage packet)
     {
-        session.Send(buff);
+        session.Send(packet);
     }
 
     void Update()
     {
-        List<IPacket> packets = PacketQueue.Instance.PopAll();
-        foreach (IPacket packet in packets)
+        List<PacketMessage> packets = PacketQueue.Instance.PopAll();
+        foreach (PacketMessage packet in packets)
         {
-            PacketManager.Instance.HandlePacket(session, packet);
+            Action<Session, IMessage> handler = PacketManager.Instance.GetPacketHandler(packet.id);
+            if(handler != null)
+            {
+                handler.Invoke(session, packet.message);
+            }
         }
     }
 }

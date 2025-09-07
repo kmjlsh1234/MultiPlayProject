@@ -12,7 +12,7 @@ namespace Server
         int sessionId = 0;
         object key = new object();
 
-        Dictionary<int, ClientSession> sessionDic = new Dictionary<int, ClientSession>();
+        Dictionary<int, ClientSession> sessions = new Dictionary<int, ClientSession>();
 
         public Session CreateSession()
         {
@@ -20,7 +20,7 @@ namespace Server
             {
                 ClientSession session = new ClientSession();
                 session.sessionId = ++sessionId;
-                sessionDic.Add(sessionId, session);
+                sessions.Add(sessionId, session);
 
                 return session;
             }
@@ -30,7 +30,7 @@ namespace Server
         {
             lock (key)
             {
-                sessionDic.Remove(session.sessionId);
+                sessions.Remove(session.sessionId);
             }
         }
 
@@ -39,7 +39,7 @@ namespace Server
             lock (key)
             {
                 ClientSession session = null;
-                sessionDic.TryGetValue(sessionId, out session);
+                sessions.TryGetValue(sessionId, out session);
                 return session;
             }
         }

@@ -14,15 +14,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LoadingScene.unity
     guid: a92f8fac52b331743b68551da09f1c72
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ChatScene.unity
     guid: b69878fa8158d824aa32adf2de329e74
-  - enabled: 1
+  - enabled: 0
     path: Assets/StarterAssets/ThirdPersonController/Scenes/Playground.unity
     guid: e9017d5f96b9f09489b4b37e1d6eb914
   - enabled: 1
     path: Assets/Scenes/InGameScene.unity
     guid: 8a6f50d499719574c83ba5b0cec9484a
   m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   m_UseUCBPForAssetBundles: 0

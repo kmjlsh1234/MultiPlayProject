@@ -1,36 +1,37 @@
+using Google.Protobuf.Protocol;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerManager : SingletonBase<PlayerManager>
 {
-    public Dictionary<int, PlayerData> playerDataList = new Dictionary<int, PlayerData>();
-    public Dictionary<int, Player> playerList = new Dictionary<int, Player>();
+    public Dictionary<int, Matchplayerinfo> playerDataList = new Dictionary<int, Matchplayerinfo>();
+    public Dictionary<int, PlayerController> playerList = new Dictionary<int, PlayerController>();
 
     public void GeneratePlayer()
     {
-        playerDataList = ChatManager.Instance.playerDic;
-        foreach (KeyValuePair<int, PlayerData> pair in playerDataList)
+        foreach (Matchplayerinfo playerInfo in RoomManager.Instance.players.Values)
         {
             GameObject go = ResourcesManager.Instance.getPrefabObj("Player");
             if (go != null)
             {
                 GameObject player = Instantiate(go, Vector3.zero, Quaternion.identity);
-                
-                if(pair.Key == NetworkManager.Instance.sessionId)
+
+                if(playerInfo.SessionId == NetworkManager.Instance.sessionId)
                 {
-                    Debug.Log($"My id : {pair.Key}");
-                    Player p = player.AddComponent<MyPlayer>();
-                    p.playerId = pair.Key;
-                    playerList.Add(pair.Key, p);
+                    PlayerController p = player.AddComponent<MyPlayerController>();
+                    p.gameObject.tag = "Player";
+                    p.playerId = playerInfo.SessionId;
+                    playerList.Add(p.playerId, p);
+                    
                 }
                 else
                 {
-                    Player p = player.AddComponent<Player>();
-                    p.playerId = pair.Key;
-                    playerList.Add(pair.Key, p);
+                    PlayerController p = player.AddComponent<PlayerController>();
+                    p.playerId = playerInfo.SessionId;
+                    playerList.Add(p.playerId, p);
                 }
-                
+
                
             }
             else
@@ -40,14 +41,29 @@ public class PlayerManager : SingletonBase<PlayerManager>
         }
     }
 
-    public void OnPacketRecv(S_BroadCast_MovePacket packet)
+    public void RemovePlayer(int sessionId)
     {
-        Player player= null;
-        playerList.TryGetValue(packet.playerId, out player);
-        if(player != null)
+        Matchplayerinfo playerInfo = null;
+        if(playerDataList.TryGetValue(sessionId, out playerInfo))
         {
-            if (packet.playerId == NetworkManager.Instance.sessionId) return;
-            player.RecvPacket(packet);
+            playerDataList.Remove(sessionId);
+        }
+
+        PlayerController controller = null;
+        if(playerList.TryGetValue(sessionId, out controller))
+        {
+            playerList.Remove(sessionId);
+            Destroy(controller.gameObject);
+        }
+    }
+
+    public void OnPacketRecv(S_Move packet)
+    {
+        PlayerController player= null;
+        playerList.TryGetValue(packet.SessionId, out player);
+        if(player != null && !NetworkManager.Instance.sessionId.Equals(packet.SessionId))
+        {
+            player.OnMovePacket(packet);
         }
     }
 }

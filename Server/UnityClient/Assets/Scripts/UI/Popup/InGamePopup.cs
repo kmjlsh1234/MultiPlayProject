@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -11,8 +12,8 @@ public class InGamePopup : UIBase
     void Start()
     {
         LoadingSceneManager.Instance.OnLoadingCompleted += (() => StartCoroutine(UpdateTimer()));
-        C_LoadingCompletePacket packet = new C_LoadingCompletePacket();
-        NetworkManager.Instance.Send(packet.Write());
+        C_Loadingcomplete packet = new C_Loadingcomplete();
+        NetworkManager.Instance.Send(packet);
     }
 
     private IEnumerator UpdateTimer()
