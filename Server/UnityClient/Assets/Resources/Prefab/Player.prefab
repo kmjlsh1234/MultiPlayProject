@@ -2531,7 +2531,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collider: {fileID: 0}
-  tickInterval: 1
 --- !u!1 &7735948567744267300
 GameObject:
   m_ObjectHideFlags: 0

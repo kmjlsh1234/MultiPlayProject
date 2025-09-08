@@ -42,14 +42,11 @@ public class PacketManager
         onRecv.Add((ushort) MsgId.SExitroom, MakePacket<S_Exitroom>);
         handler.Add((ushort)MsgId.SExitroom, PacketHandler.S_ExitroomHandler);
 
-        onRecv.Add((ushort) MsgId.SChangeroominfo, MakePacket<S_Changeroominfo>);
-        handler.Add((ushort)MsgId.SChangeroominfo, PacketHandler.S_ChangeroominfoHandler);
-
         onRecv.Add((ushort) MsgId.SEntermatchroom, MakePacket<S_Entermatchroom>);
         handler.Add((ushort)MsgId.SEntermatchroom, PacketHandler.S_EntermatchroomHandler);
 
-        onRecv.Add((ushort) MsgId.SRoominfo, MakePacket<S_Roominfo>);
-        handler.Add((ushort)MsgId.SRoominfo, PacketHandler.S_RoominfoHandler);
+        onRecv.Add((ushort) MsgId.SMatchroominfo, MakePacket<S_Matchroominfo>);
+        handler.Add((ushort)MsgId.SMatchroominfo, PacketHandler.S_MatchroominfoHandler);
 
         onRecv.Add((ushort) MsgId.SIngamestart, MakePacket<S_Ingamestart>);
         handler.Add((ushort)MsgId.SIngamestart, PacketHandler.S_IngamestartHandler);
@@ -68,6 +65,9 @@ public class PacketManager
 
         onRecv.Add((ushort) MsgId.SEnemymove, MakePacket<S_Enemymove>);
         handler.Add((ushort)MsgId.SEnemymove, PacketHandler.S_EnemymoveHandler);
+
+        onRecv.Add((ushort) MsgId.SGameroominfo, MakePacket<S_Gameroominfo>);
+        handler.Add((ushort)MsgId.SGameroominfo, PacketHandler.S_GameroominfoHandler);
         
     
     }

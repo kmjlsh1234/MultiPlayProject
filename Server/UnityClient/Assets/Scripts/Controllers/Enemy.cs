@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
 
 
         //가장 가까운 적 찾아 이동
-        if (NetworkManager.Instance.sessionId.Equals(RoomManager.Instance.masterId))
+        if (GameManager.Instance.isMaster)
         {
             FindClosestPlayer();
         }
@@ -57,7 +57,7 @@ public class Enemy : MonoBehaviour
 
     private void FindClosestPlayer()
     {
-        Dictionary<int, PlayerController> dic = PlayerManager.Instance.playerList;
+        Dictionary<int, PlayerController> dic = GameManager.Instance.playerControllers;
 
         float minDist = float.MaxValue;
         PlayerController closest = null;

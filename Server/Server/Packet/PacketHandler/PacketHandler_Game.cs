@@ -5,6 +5,13 @@ using ServerCore;
 
 public partial class PacketHandler
 {
+    public static void C_LoadingcompleteHandler(Session s, IMessage pkt)
+    {
+        ClientSession session = s as ClientSession;
+        session.gameRoom.Push(() => session.gameRoom.CheckGameStart(session));
+
+    }
+
     public static void C_ExitgameroomHandler(Session s, IMessage pkt)
     {
         ClientSession session = s as ClientSession;

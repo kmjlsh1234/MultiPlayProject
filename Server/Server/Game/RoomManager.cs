@@ -88,28 +88,22 @@ namespace Server.Game
                 switch (room.roomType)
                 {
                     case RoomType.Match:
-                        Matchroominfo roomInfo = new Matchroominfo()
-                        {
-                            RoomId = roomId,
-                            MasterId = masterId,
-                        };
                         MatchRoom matchRoom = room as MatchRoom;
-                        matchRoom.roomInfo = roomInfo;
                         matchRooms.Add(roomId, matchRoom);
-                        StartTickRoom(matchRoom, 500);
+                        
                         break;
                     case RoomType.Game:
                         GameRoom gameRoom = room as GameRoom;
                         gameRooms.Add(roomId, gameRoom);
-                        StartTickRoom(gameRoom, 50);
                         break;
                     default:
                         return null;
                 }
-                
+                StartTickRoom(room, 500);
+                roomId++;
             }
-            Console.WriteLine($"Create {room.roomType.ToString()} Room / roomId : {room.roomId}");
-            roomId++;
+            Console.WriteLine($"Create {room.roomType.ToString()} Room [{room.roomId}]");
+            
             return room;
         }
 

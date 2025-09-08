@@ -20,6 +20,8 @@ namespace Server
 
         public Map map { get; set; } = new Map();
         public int count = 0;
+        public int loadingCompleteCount = 0;
+
         public GameRoom()
         {
             roomType = RoomType.Game;
@@ -69,12 +71,7 @@ namespace Server
                 {
                     int originMasterId = masterId;
                     masterId = players.First().Value.session.sessionId;
-                    S_Changeroominfo changeRoomInfoPacket = new S_Changeroominfo()
-                    {
-                        RoomId = roomId,
-                        MasterId = masterId,
-                    };
-                    BroadCast(changeRoomInfoPacket);
+                    //TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!마스터 바뀐것 처리
                     Console.WriteLine($"Master Change {originMasterId} -> {masterId}");
                 }
             }
@@ -95,11 +92,34 @@ namespace Server
         }
         #endregion
 
+        public void CheckGameStart(ClientSession session)
+        {
+            loadingCompleteCount++;
+            if (loadingCompleteCount.Equals(players.Count))
+            {
+                S_Gameroominfo packet = new S_Gameroominfo();
+                
+                Gameroominfo info = new Gameroominfo();
+                info.RoomId = roomId;
+                info.MasterId = masterId;
+                
+                foreach(GamePlayer gamePlayer in players.Values)
+                {
+                    info.Players.Add(gamePlayer.objectinfo);
+                }
+
+                packet.RoomInfo = info;
+
+                BroadCast(packet);
+                PushAfter(2000, SpawnEnemy);
+            }
+        }
+
         public bool Init(int count)
         {
             this.count = count;
             //map.LoadMap("MapData");
-            PushAfter(2000, SpawnEnemy);
+            
             return true;
         }
 
@@ -116,7 +136,7 @@ namespace Server
                 player.objectinfo.State = packet.State;
                 S_Move movePacket = new S_Move()
                 {
-                    SessionId = session.sessionId,
+                    SessionId = player.session.sessionId,
                     PosX = packet.PosX,
                     PosY = packet.PosY,
                     PosZ = packet.PosZ,
@@ -124,7 +144,7 @@ namespace Server
                     State = packet.State,
                 };
                 BroadCast(movePacket);
-                Console.WriteLine($"{session.sessionId} : [ {movePacket.PosX}, {movePacket.PosY}, {movePacket.PosZ}]");
+                Console.WriteLine($"{player.objectId} : [ {movePacket.PosX}, {movePacket.PosY}, {movePacket.PosZ}]");
             }
         }
 
@@ -170,7 +190,7 @@ namespace Server
             }
             finally
             {
-                PushAfter(2000, SpawnEnemy);
+                PushAfter(5000, SpawnEnemy);
             }
         }
 
@@ -196,7 +216,7 @@ namespace Server
                 }
             }
 
-            return closestPlayer.session.sessionId;
+            return closestPlayer.objectId;
         }
     }
 }

@@ -26,11 +26,6 @@ message S_Exitroom{
     int32 sessionId = 1;
 }
 
-message S_Changeroominfo{
-    int32 roomId = 1;
-    int32 masterId = 2;
-}
-
 message C_Entermatchroom{
     int32 roomId = 1;
 }
@@ -39,7 +34,7 @@ message S_Entermatchroom{
     Matchplayerinfo playerInfo = 1;
 }
 
-message S_Roominfo{
+message S_Matchroominfo{
     Matchroominfo roomInfo = 1;
 }
 

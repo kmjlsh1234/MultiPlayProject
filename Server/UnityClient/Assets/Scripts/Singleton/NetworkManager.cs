@@ -10,18 +10,15 @@ public class NetworkManager : SingletonBase<NetworkManager>
 {
     public int sessionId;
     public string uuid;
-
-    ServerSession session = new ServerSession();
-
-    Connector connector = new Connector();
-    Queue<ArraySegment<byte>> sendQueue = new Queue<ArraySegment<byte>>();
-
     
+    ServerSession session = new ServerSession();
+    Connector connector = new Connector();
 
     public override void Init()
     {
         //IPAddress.Parse("10.153.33.245")
-        IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, 8888);
+        //IPAddress.Loopback
+        IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("10.153.33.245"), 8888);
         connector.Init(endPoint, session);
     }
 
@@ -30,6 +27,9 @@ public class NetworkManager : SingletonBase<NetworkManager>
         session.Send(packet);
     }
 
+    /// <summary>
+    /// Unity에서는 UnityEngine API는 백그라운드 스레드에서 접근 못하기때문에 메인 스레드에서만 접근해야함
+    /// </summary>
     void Update()
     {
         List<PacketMessage> packets = PacketQueue.Instance.PopAll();

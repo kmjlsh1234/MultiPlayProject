@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class PlayerManager : SingletonBase<PlayerManager>
 {
-    public Dictionary<int, Matchplayerinfo> playerDataList = new Dictionary<int, Matchplayerinfo>();
+    //public Dictionary<int, Matchplayerinfo> playerDataList = new Dictionary<int, Matchplayerinfo>();
     public Dictionary<int, PlayerController> playerList = new Dictionary<int, PlayerController>();
 
     public void GeneratePlayer()
     {
+        /*
         foreach (Matchplayerinfo playerInfo in RoomManager.Instance.players.Values)
         {
             GameObject go = ResourcesManager.Instance.getPrefabObj("Player");
@@ -39,31 +40,18 @@ public class PlayerManager : SingletonBase<PlayerManager>
                 Debug.LogError("Player Prefab is Null");
             }
         }
+        */
     }
-
-    public void RemovePlayer(int sessionId)
-    {
-        Matchplayerinfo playerInfo = null;
-        if(playerDataList.TryGetValue(sessionId, out playerInfo))
-        {
-            playerDataList.Remove(sessionId);
-        }
-
-        PlayerController controller = null;
-        if(playerList.TryGetValue(sessionId, out controller))
-        {
-            playerList.Remove(sessionId);
-            Destroy(controller.gameObject);
-        }
-    }
-
+    
     public void OnPacketRecv(S_Move packet)
     {
+        /*
         PlayerController player= null;
         playerList.TryGetValue(packet.SessionId, out player);
-        if(player != null && !NetworkManager.Instance.sessionId.Equals(packet.SessionId))
+        if(player != null && !NetworkManager.Instance.sessionId.Equals(packet.ObjectId))
         {
             player.OnMovePacket(packet);
         }
+        */
     }
 }

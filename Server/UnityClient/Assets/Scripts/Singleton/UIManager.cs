@@ -61,6 +61,19 @@ public class UIManager : SingletonBase<UIManager>
                 invitePopup.Init(packet);
             }
         }
+        else if(type == UIType.UIPopup_Match)
+        {
+            S_Matchroominfo packet = pkt as S_Matchroominfo;
+            if (uiDic.TryGetValue(type, out go))
+            {
+                go.name = go.name.Replace("(Clone)", "");
+                GameObject ui = Instantiate(go, Vector3.zero, Quaternion.identity, transform);
+                ui.GetComponentInChildren<Canvas>().sortingOrder = canvasOrder++;
+                MatchRoomPopup popup = ui.GetComponent<MatchRoomPopup>();
+                uiStack.Push(ui);
+                popup.Init(packet);
+            }
+        }
         else
         {
             if (uiDic.TryGetValue(type, out go))

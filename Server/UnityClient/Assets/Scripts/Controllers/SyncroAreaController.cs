@@ -9,10 +9,8 @@ public class SyncroAreaController : MonoBehaviour
 
     public void Init()
     {
-        if(!NetworkManager.Instance.sessionId.Equals(RoomManager.Instance.masterId))
-        {
-            enabled = false;
-        }
+        enabled = GameManager.Instance.isMaster;
+
         collider = GetComponent<SphereCollider>();
         GameManager.Instance.controllers.Add(this);
     }

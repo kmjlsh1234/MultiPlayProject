@@ -21,8 +21,9 @@ namespace ServerCore
             SocketAsyncEventArgs args = new SocketAsyncEventArgs();
             args.UserToken = socket;
             args.RemoteEndPoint = endPoint;
+            
             args.Completed += new EventHandler<SocketAsyncEventArgs>(OnConnectCompleted);
-
+            
             RegistConnect(args);
         }
 

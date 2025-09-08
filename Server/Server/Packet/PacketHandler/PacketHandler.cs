@@ -33,12 +33,5 @@ public partial class PacketHandler
         ClientSession session = s as ClientSession;
     }
 
-    public static void C_LoadingcompleteHandler(Session s, IMessage pkt)
-    {        
-        ClientSession session = s as ClientSession;
-        //session.room.Push(() => session.room.LoadingComplete(session));
-
-    }
-
     
 }

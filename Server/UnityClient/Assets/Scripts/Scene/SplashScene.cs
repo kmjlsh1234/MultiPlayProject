@@ -12,9 +12,7 @@ public class SplashScene : MonoBehaviour
     public void Awake()
     {
         ResourcesManager.Instance.Init();
-        DataManager.Instance.Init();
         NetworkManager.Instance.Init();
-        RoomManager.Instance.Init();
         UIManager.Instance.Init();
         PlayerManager.Instance.Init();
         LoadingSceneManager.Instance.Init();
@@ -29,9 +27,13 @@ public class SplashScene : MonoBehaviour
 
     void Enter()
     {
-        string uuid = Guid.NewGuid().ToString();
-        C_Connect packet = new C_Connect() { NickName =uuid };
+        C_Connect packet = new C_Connect() 
+        { 
+            NickName = Guid.NewGuid().ToString() 
+        };
+
+        NetworkManager.Instance.uuid = packet.NickName;
         NetworkManager.Instance.Send(packet);
-        NetworkManager.Instance.uuid = uuid;
+        
     }
 }

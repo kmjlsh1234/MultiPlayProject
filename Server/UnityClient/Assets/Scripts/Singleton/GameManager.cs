@@ -1,15 +1,17 @@
 using Google.Protobuf.Protocol;
-using NUnit.Framework;
-using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class GameManager : SingletonBase<GameManager>
 {
+    public bool isMaster { get; set; }
 
     private GameObject enemy;
-    public Dictionary<int, PlayerController> players = new Dictionary<int, PlayerController>();
+    public Dictionary<int, Objectinfo> players = new Dictionary<int, Objectinfo>();
+    public Dictionary<int, PlayerController> playerControllers = new Dictionary<int, PlayerController>();
     public Dictionary<int, Enemy> enemies = new Dictionary<int, Enemy>();
 
     public List<SyncroAreaController> controllers = new List<SyncroAreaController>();
@@ -17,15 +19,78 @@ public class GameManager : SingletonBase<GameManager>
     public override void Init()
     {
         base.Init();
-        LoadingSceneManager.Instance.OnLoadingCompleted += GameStart;
         enemy = ResourcesManager.Instance.getPrefabObj("Enemy");
     }
 
-    public void GameStart()
+    public void GameStart(S_Gameroominfo packet)
     {
-        PlayerManager.Instance.GeneratePlayer();
+        isMaster = packet.RoomInfo.MasterId.Equals(NetworkManager.Instance.sessionId);
+        GeneratePlayer(packet);
         StartCoroutine(SyncroStart());
     }
+
+    #region Player
+    public void GeneratePlayer(S_Gameroominfo packet)
+    {
+        foreach (Objectinfo info in packet.RoomInfo.Players)
+        {
+            players.Add(info.ObjectId, info);
+        }
+
+        foreach (Objectinfo playerInfo in players.Values)
+        {
+            GameObject go = ResourcesManager.Instance.getPrefabObj("Player");
+            if (go != null)
+            {
+                GameObject player = Instantiate(go, Vector3.zero, Quaternion.identity);
+                
+                if (playerInfo.ObjectId == NetworkManager.Instance.sessionId)
+                {
+                    PlayerController p = player.AddComponent<MyPlayerController>();
+                    p.gameObject.tag = "Player";
+                    p.gameObject.name = $"MyPlayer";
+                    p.playerId = playerInfo.ObjectId;
+                    playerControllers.Add(p.playerId, p);
+
+                }
+                else
+                {
+                    PlayerController p = player.AddComponent<PlayerController>();
+                    p.playerId = playerInfo.ObjectId;
+                    p.gameObject.name = $"Player_{playerInfo.ObjectId}";
+                    playerControllers.Add(p.playerId, p);
+                }
+
+
+            }
+            else
+            {
+                Debug.LogError("Player Prefab is Null");
+            }
+        }
+
+    }
+
+    public void RemovePlayer(int objectId)
+    {
+        if (playerControllers.TryGetValue(objectId, out PlayerController controller))
+        {
+            players.Remove(objectId);
+            Destroy(controller.gameObject);
+        }
+    }
+
+    public void PlayerMove(S_Move packet)
+    {
+        if(playerControllers.TryGetValue(packet.SessionId, out PlayerController player))
+        {
+            if (!NetworkManager.Instance.sessionId.Equals(packet.SessionId))
+            {
+                player.OnMovePacket(packet);
+            }
+        }
+    }
+    #endregion
 
     public void SpawnEnemy(S_Spawnenemy packet)
     {
@@ -33,32 +98,31 @@ public class GameManager : SingletonBase<GameManager>
         Enemy target= go.GetComponent<Enemy>();
         target.objectId = packet.ObjectInfo.ObjectId;
         target.transform.position = new Vector3(packet.ObjectInfo.Pos.PosX, packet.ObjectInfo.Pos.PosY, packet.ObjectInfo.Pos.PosZ);
-        PlayerController controller = null;
-        PlayerManager.Instance.playerList.TryGetValue(packet.ObjectInfo.TargetId, out controller);
         
-        target.Init(controller);
-        enemies.Add(packet.ObjectInfo.ObjectId, target);
+
+        if(GameManager.Instance.playerControllers.TryGetValue(packet.ObjectInfo.TargetId, out PlayerController controller))
+        {
+            target.Init(controller);
+            enemies.Add(packet.ObjectInfo.ObjectId, target);
+        }
+        
     }
 
     public void LerpEnemyPos(S_Enemymove packet)
     {
         foreach(Objectinfo info in packet.Enemies)
         {
-            Enemy enemy = null;
-            enemies.TryGetValue(info.ObjectId, out enemy);
-            if (enemy != null)
+            if(enemies.TryGetValue(info.ObjectId, out Enemy enemy))
             {
                 enemy.transform.position = new Vector3(info.Pos.PosX, info.Pos.PosY, info.Pos.PosZ);
-                PlayerController controller = null;
-                PlayerManager.Instance.playerList.TryGetValue(info.TargetId, out controller);
-                if(controller != null)
+                if(GameManager.Instance.playerControllers.TryGetValue(info.TargetId, out PlayerController controller))
                 {
                     enemy.targetPlayer = controller;
                 }
             }
         }
     }
-
+    
     IEnumerator SyncroStart()
     {
         yield return new WaitForSeconds(syncroTickInterval);

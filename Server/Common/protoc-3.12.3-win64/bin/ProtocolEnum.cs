@@ -25,22 +25,22 @@ namespace Google.Protobuf.Protocol {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChNQcm90b2NvbF9FbnVtLnByb3RvEghQcm90b2NvbBofZ29vZ2xlL3Byb3Rv",
-            "YnVmL3RpbWVzdGFtcC5wcm90byqBBAoFTXNnSWQSDwoLQ19QSU5HQ0hFQ0sQ",
+            "YnVmL3RpbWVzdGFtcC5wcm90byqEBAoFTXNnSWQSDwoLQ19QSU5HQ0hFQ0sQ",
             "ABIPCgtTX1BPTkdDSEVDSxABEg0KCUNfQ09OTkVDVBACEg0KCVNfQ09OTkVD",
             "VBADEgoKBkNfQ0hBVBAEEgoKBlNfQ0hBVBAFEgsKB0NfUkVBRFkQBhILCgdT",
             "X1JFQURZEAcSCwoHQ19TVEFSVBAIEhIKDlNfTE9BRElOR1NUQVJUEAkSCgoG",
             "Q19NT1ZFEAoSCgoGU19NT1ZFEAsSDgoKQ19FWElUUk9PTRAMEg4KClNfRVhJ",
-            "VFJPT00QDRIUChBTX0NIQU5HRVJPT01JTkZPEA4SEAoMQ19DUkVBVEVST09N",
-            "EA8SFgoSQ19DUkVBVEVPUkpPSU5ST09NEBASFAoQQ19FTlRFUk1BVENIUk9P",
-            "TRAREhQKEFNfRU5URVJNQVRDSFJPT00QEhIOCgpTX1JPT01JTkZPEBUSFQoR",
-            "Q19MT0FESU5HQ09NUExFVEUQFhIRCg1TX0lOR0FNRVNUQVJUEBcSDAoIQ19J",
-            "TlZJVEUQGBIMCghTX0lOVklURRAZEhAKDFNfU1BBV05FTkVNWRAaEg8KC1Nf",
-            "RVJST1JDT0RFEBsSEgoOQ19FWElUR0FNRVJPT00QHBISCg5TX0VYSVRHQU1F",
-            "Uk9PTRAdEg8KC0NfRU5FTVlNT1ZFEB4SDwoLU19FTkVNWU1PVkUQHypBCg5H",
-            "YW1lT2JqZWN0VHlwZRIICgROT05FEAASCgoGUExBWUVSEAESCQoFRU5FTVkQ",
-            "AhIOCgpQUk9KRUNUSUxFEAMqOAoNQ3JlYXR1cmVTdGF0ZRIICgRJRExFEAAS",
-            "CAoETU9WRRABEgkKBVNLSUxMEAISCAoEREVBRBADQhuqAhhHb29nbGUuUHJv",
-            "dG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
+            "VFJPT00QDRIQCgxDX0NSRUFURVJPT00QDxIWChJDX0NSRUFURU9SSk9JTlJP",
+            "T00QEBIUChBDX0VOVEVSTUFUQ0hST09NEBESFAoQU19FTlRFUk1BVENIUk9P",
+            "TRASEhMKD1NfTUFUQ0hST09NSU5GTxAVEhUKEUNfTE9BRElOR0NPTVBMRVRF",
+            "EBYSEQoNU19JTkdBTUVTVEFSVBAXEgwKCENfSU5WSVRFEBgSDAoIU19JTlZJ",
+            "VEUQGRIQCgxTX1NQQVdORU5FTVkQGhIPCgtTX0VSUk9SQ09ERRAbEhIKDkNf",
+            "RVhJVEdBTUVST09NEBwSEgoOU19FWElUR0FNRVJPT00QHRIPCgtDX0VORU1Z",
+            "TU9WRRAeEg8KC1NfRU5FTVlNT1ZFEB8SEgoOU19HQU1FUk9PTUlORk8QICpB",
+            "Cg5HYW1lT2JqZWN0VHlwZRIICgROT05FEAASCgoGUExBWUVSEAESCQoFRU5F",
+            "TVkQAhIOCgpQUk9KRUNUSUxFEAMqOAoNQ3JlYXR1cmVTdGF0ZRIICgRJRExF",
+            "EAASCAoETU9WRRABEgkKBVNLSUxMEAISCAoEREVBRBADQhuqAhhHb29nbGUu",
+            "UHJvdG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.CreatureState), }, null, null));
@@ -64,12 +64,11 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("S_MOVE")] SMove = 11,
     [pbr::OriginalName("C_EXITROOM")] CExitroom = 12,
     [pbr::OriginalName("S_EXITROOM")] SExitroom = 13,
-    [pbr::OriginalName("S_CHANGEROOMINFO")] SChangeroominfo = 14,
     [pbr::OriginalName("C_CREATEROOM")] CCreateroom = 15,
     [pbr::OriginalName("C_CREATEORJOINROOM")] CCreateorjoinroom = 16,
     [pbr::OriginalName("C_ENTERMATCHROOM")] CEntermatchroom = 17,
     [pbr::OriginalName("S_ENTERMATCHROOM")] SEntermatchroom = 18,
-    [pbr::OriginalName("S_ROOMINFO")] SRoominfo = 21,
+    [pbr::OriginalName("S_MATCHROOMINFO")] SMatchroominfo = 21,
     [pbr::OriginalName("C_LOADINGCOMPLETE")] CLoadingcomplete = 22,
     [pbr::OriginalName("S_INGAMESTART")] SIngamestart = 23,
     [pbr::OriginalName("C_INVITE")] CInvite = 24,
@@ -80,6 +79,7 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("S_EXITGAMEROOM")] SExitgameroom = 29,
     [pbr::OriginalName("C_ENEMYMOVE")] CEnemymove = 30,
     [pbr::OriginalName("S_ENEMYMOVE")] SEnemymove = 31,
+    [pbr::OriginalName("S_GAMEROOMINFO")] SGameroominfo = 32,
   }
 
   public enum GameObjectType {

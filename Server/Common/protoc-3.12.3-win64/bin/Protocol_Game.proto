@@ -10,6 +10,10 @@ message C_Joinroom{
     int32 roomId = 1;
 }
 
+message S_Gameroominfo {
+    Gameroominfo roomInfo = 1;
+}
+
 message S_Inviteroom{
     int32 roomId = 1;
 }

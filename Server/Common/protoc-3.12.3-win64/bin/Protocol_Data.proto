@@ -20,6 +20,12 @@ message Matchroominfo {
     repeated Matchplayerinfo players = 3;
 }
 
+message Gameroominfo {
+    int32 roomId = 1;
+    int32 masterId = 2;
+    repeated Objectinfo players = 3;
+}
+
 message Matchplayerinfo {
     int32 sessionId = 1;
     string nickName = 2;

@@ -1,13 +1,13 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using Server.Game;
+using System.Numerics;
 
 
 namespace Server
 {
     public class MatchRoom : Room
     {
-        public Matchroominfo roomInfo { get; set; }
         Dictionary<int, MatchPlayer> players = new Dictionary<int, MatchPlayer>();
 
         public MatchRoom()
@@ -27,11 +27,11 @@ namespace Server
                 IsReady = false
             };
             players.Add(session.sessionId, player);
-            
-            roomInfo.Players.Add(player.playerInfo);
+
             //본인에게 정보 전송
-            S_Roominfo roomInfoPacket = new S_Roominfo() { RoomInfo = roomInfo };
-            session.Send(roomInfoPacket);
+            S_Matchroominfo packet = new S_Matchroominfo() { RoomInfo = GenerateRoomInfo() };
+            BroadCast(packet);
+            session.Send(packet);
 
             //타인에게 정보 전송
             S_Entermatchroom enterRoomPacket = new S_Entermatchroom()
@@ -50,44 +50,38 @@ namespace Server
 
         public override void ExitRoom(ClientSession session)
         {
-            MatchPlayer player = null;
-            players.TryGetValue(session.sessionId, out player);
-            if (player != null)
+            if(players.TryGetValue(session.sessionId, out MatchPlayer player))
             {
-                roomInfo.Players.Remove(player.playerInfo);
                 players.Remove(session.sessionId);
                 session.matchRoom = null;
-            }
-            
 
-            if (players.Count == 0)
-            {
-                RoomManager.Instance.RemoveRoom<MatchRoom>(roomId, roomType);
-            }
-            else
-            {
-                if (masterId == session.sessionId)
+                if (players.Count == 0)
                 {
-                    int originMasterId = masterId;
-                    masterId = players.First().Value.session.sessionId;
-                    S_Changeroominfo changeRoomInfoPacket = new S_Changeroominfo()
-                    {
-                        RoomId = roomId,
-                        MasterId = masterId,
-                    };
-                    BroadCast(changeRoomInfoPacket);
-                    Console.WriteLine($"Master Change {originMasterId} -> {masterId}");
+                    RoomManager.Instance.RemoveRoom<MatchRoom>(roomId, roomType);
                 }
+                else
+                {
+                    if (masterId == session.sessionId)
+                    {
+                        int originMasterId = masterId;
+                        masterId = players.First().Value.session.sessionId;
+
+                        S_Matchroominfo packet = new S_Matchroominfo() { RoomInfo = GenerateRoomInfo() };
+                        BroadCast(packet);
+
+                        Console.WriteLine($"Master Change {originMasterId} -> {masterId}");
+                    }
+                }
+
+                //Room에 BroadCast
+                S_Exitroom leavePacket = new S_Exitroom()
+                {
+                    SessionId = session.sessionId,
+                };
+                BroadCast(leavePacket);
+
+                Console.WriteLine($"Session {session.sessionId} leave Room");
             }
-
-            //Room에 BroadCast
-            S_Exitroom leavePacket = new S_Exitroom()
-            {
-                SessionId = session.sessionId,
-            };
-            BroadCast(leavePacket);
-
-            Console.WriteLine($"Session {session.sessionId} leave Room");
         }
 
         public override void BroadCast(IMessage packet)
@@ -109,8 +103,7 @@ namespace Server
 
         public void UpdateReadyState(ClientSession session, C_Ready packet)
         {
-            MatchPlayer player = null;
-            if (players.TryGetValue(session.sessionId, out player))
+            if (players.TryGetValue(session.sessionId, out MatchPlayer player))
             {
                 player.playerInfo.IsReady = packet.IsReady;
 
@@ -147,6 +140,19 @@ namespace Server
 
                 RoomManager.Instance.StopTickRoom(roomId, roomType);
             }
+        }
+
+        public Matchroominfo GenerateRoomInfo()
+        {
+            Matchroominfo roomInfo = new Matchroominfo();
+            roomInfo.RoomId = roomId;
+            roomInfo.MasterId = masterId;
+            foreach (MatchPlayer p in players.Values)
+            {
+                roomInfo.Players.Add(p.playerInfo);
+            }
+
+            return roomInfo;
         }
     }
 }

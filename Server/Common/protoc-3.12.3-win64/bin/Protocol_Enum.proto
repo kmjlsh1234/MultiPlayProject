@@ -27,15 +27,13 @@ enum MsgId {
     C_EXITROOM = 12;
     S_EXITROOM = 13;
 
-    S_CHANGEROOMINFO = 14;
-
     C_CREATEROOM = 15;
     C_CREATEORJOINROOM = 16;
     
     C_ENTERMATCHROOM = 17;
     S_ENTERMATCHROOM = 18;
 
-    S_ROOMINFO = 21;
+    S_MATCHROOMINFO = 21;
 
     C_LOADINGCOMPLETE = 22;
     S_INGAMESTART = 23;
@@ -51,6 +49,8 @@ enum MsgId {
 
     C_ENEMYMOVE = 30;
     S_ENEMYMOVE = 31;
+
+    S_GAMEROOMINFO = 32;
 }
 
 enum GameObjectType {
