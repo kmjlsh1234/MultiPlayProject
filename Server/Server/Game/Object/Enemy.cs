@@ -20,13 +20,11 @@ namespace Server.Game.Object
         };
 
         public GamePlayer target;
-        
 
         public Enemy()
         {
             
             objectType = GameObjectType.Enemy;
-
             
             int i = rand.Next(spawnPoints.GetLength(0));
 

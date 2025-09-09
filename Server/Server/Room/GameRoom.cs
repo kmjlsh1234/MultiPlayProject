@@ -42,7 +42,7 @@ namespace Server
 
         public override void EnterRoom(ClientSession session)
         {
-            GamePlayer player = new GamePlayer(session, session.sessionId);
+            GamePlayer player = new GamePlayer(session);
             players.Add(player.session.sessionId, player);
 
             //나에게 정보 전송

@@ -15,7 +15,11 @@ public partial class PacketHandler
     {
         S_Matchroominfo packet = pkt as S_Matchroominfo;
 
-        UIManager.Instance.Push(UIType.UIPopup_Match, packet);
+        if (!UIManager.Instance.IsShow(UIType.UIPopup_Match))
+        {
+            UIManager.Instance.Push(UIType.UIPopup_Match, packet);
+        }
+        
         Event_S_MatchRoomInfo?.Invoke(packet);
     }
 

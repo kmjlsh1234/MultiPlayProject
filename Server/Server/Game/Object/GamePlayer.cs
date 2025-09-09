@@ -10,9 +10,11 @@ namespace Server.Game
 {
     public class GamePlayer : GameObject
     {
-        public GamePlayer(ClientSession session, int sessionId)
+        public GamePlayer(ClientSession session)
         {
-            objectId = sessionId;
+            this.session = session;
+
+            objectId = session.sessionId;
             objectType = GameObjectType.Player;
 
             Positioninfo pos = new Positioninfo()
@@ -33,7 +35,7 @@ namespace Server.Game
 
             objectinfo = new Objectinfo()
             {
-                ObjectId = sessionId,
+                ObjectId = objectId,
                 Pos = pos,
                 RotY = 0f,
                 StateInfo = stateInfo

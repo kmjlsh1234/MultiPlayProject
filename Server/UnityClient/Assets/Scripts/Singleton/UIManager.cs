@@ -2,6 +2,7 @@ using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using ServerCore;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum UIType
@@ -40,12 +41,12 @@ public class UIManager : SingletonBase<UIManager>
             S_Errorcode packet = pkt as S_Errorcode;
             if (uiDic.TryGetValue(type, out go))
             {
-                go.name = go.name.Replace("(Clone)", "");
                 GameObject ui = Instantiate(go, Vector3.zero, Quaternion.identity, transform);
                 ui.GetComponentInChildren<Canvas>().sortingOrder = canvasOrder++;
                 ErrorPopup errorPopup = ui.GetComponent<ErrorPopup>();
                 uiStack.Push(ui);
                 errorPopup.Init(packet);
+                ui.name = go.name.Replace("(Clone)", "");
             }
         }
         else if(type == UIType.UIPopup_Invite)
@@ -53,12 +54,12 @@ public class UIManager : SingletonBase<UIManager>
             S_Invite packet = pkt as S_Invite;
             if (uiDic.TryGetValue(type, out go))
             {
-                go.name = go.name.Replace("(Clone)", "");
                 GameObject ui = Instantiate(go, Vector3.zero, Quaternion.identity, transform);
                 ui.GetComponentInChildren<Canvas>().sortingOrder = canvasOrder++;
                 InvitePopup invitePopup = ui.GetComponent<InvitePopup>();
                 uiStack.Push(ui);
                 invitePopup.Init(packet);
+                ui.name = go.name.Replace("(Clone)", "");
             }
         }
         else if(type == UIType.UIPopup_Match)
@@ -66,30 +67,31 @@ public class UIManager : SingletonBase<UIManager>
             S_Matchroominfo packet = pkt as S_Matchroominfo;
             if (uiDic.TryGetValue(type, out go))
             {
-                go.name = go.name.Replace("(Clone)", "");
+                
                 GameObject ui = Instantiate(go, Vector3.zero, Quaternion.identity, transform);
                 ui.GetComponentInChildren<Canvas>().sortingOrder = canvasOrder++;
                 MatchRoomPopup popup = ui.GetComponent<MatchRoomPopup>();
                 uiStack.Push(ui);
                 popup.Init(packet);
+                ui.name = go.name.Replace("(Clone)", "");
             }
         }
         else
         {
             if (uiDic.TryGetValue(type, out go))
             {
-                go.name = go.name.Replace("(Clone)", "");
                 GameObject ui = Instantiate(go, Vector3.zero, Quaternion.identity, transform);
                 ui.GetComponentInChildren<Canvas>().sortingOrder = canvasOrder++;
                 UIBase uiBase = ui.GetComponent<UIBase>();
                 uiStack.Push(ui);
                 uiBase.Init();
+                //ui.name = go.name.Replace("(Clone)", "");
             }
         }
+       
 
 
-        
-        
+
         //예외 처리
     }
 
@@ -107,6 +109,21 @@ public class UIManager : SingletonBase<UIManager>
         Debug.Log("Pop");
         GameObject go = uiStack.Pop();
         canvasOrder--;
+        Debug.Log("Destroying: " + go.name);
         Destroy(go);
+    }
+
+    public bool IsShow(UIType type)
+    {
+        foreach(GameObject go in uiStack)
+        {
+            UIBase uiBase = go.GetComponent<UIBase>();
+            if(uiBase.uiType == type)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

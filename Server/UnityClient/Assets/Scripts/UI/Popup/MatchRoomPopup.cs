@@ -50,20 +50,15 @@ public class MatchRoomPopup : UIBase
 
         RegistButton();
         RegistEvent();
+        Debug.Log("Awake");
     }
 
-    private void OnDestroy()
-    {
-        PacketHandler.Event_S_MatchRoomInfo -= UpdateRoomInfo;
-        PacketHandler.Event_S_EnterMatchRoom -= AddPlayer;
-        PacketHandler.Event_S_ExitRoom -= RemovePlayer;
-        PacketHandler.Event_S_Ready -= UpdateReady;
-    }
-
+   
     public void Init(S_Matchroominfo packet)
     {
         playerItem = ResourcesManager.Instance.getUIObj("PlayerItem");
         UpdateRoomInfo(packet);
+        Debug.Log("MatchRoomInit");
     }
 
     void RegistButton()
@@ -117,6 +112,11 @@ public class MatchRoomPopup : UIBase
 
     void Back()
     {
+        PacketHandler.Event_S_MatchRoomInfo -= UpdateRoomInfo;
+        PacketHandler.Event_S_EnterMatchRoom -= AddPlayer;
+        PacketHandler.Event_S_ExitRoom -= RemovePlayer;
+        PacketHandler.Event_S_Ready -= UpdateReady;
+
         C_Exitroom packet = new C_Exitroom();
         NetworkManager.Instance.Send(packet);
         UIManager.Instance.Pop();

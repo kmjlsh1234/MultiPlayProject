@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,6 @@ public class Enemy : MonoBehaviour
     public int objectId;
     public float moveSpeed = 2f;      // 이동 속도
     public float searchInterval = 0.5f; // 몇 초마다 타겟 갱신할지
-    private float lastSearchTime = 0f;
 
     public PlayerController targetPlayer; // 현재 따라가는 대상
     private Rigidbody rb;
@@ -14,30 +14,20 @@ public class Enemy : MonoBehaviour
     public void Awake()
     {
         rb = GetComponent<Rigidbody>();
-
-
         //가장 가까운 적 찾아 이동
-        if (GameManager.Instance.isMaster)
-        {
-            FindClosestPlayer();
-        }
-        
     }
 
     public void Init(PlayerController target)
     {
         this.targetPlayer = target;
+        if (GameManager.Instance.isMaster)
+        {
+            StartCoroutine(FindClosestPlayer());
+        }
     }
 
     private void FixedUpdate()
     {
-        // 주기적으로 가장 가까운 플레이어 찾기
-        if (Time.time - lastSearchTime > searchInterval)
-        {
-            FindClosestPlayer();
-            lastSearchTime = Time.time;
-        }
-
         // 타겟이 있으면 그쪽으로 이동
         if (targetPlayer != null)
         {
@@ -55,8 +45,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void FindClosestPlayer()
+    IEnumerator FindClosestPlayer()
     {
+        yield return new WaitForSeconds(searchInterval);
         Dictionary<int, PlayerController> dic = GameManager.Instance.playerControllers;
 
         float minDist = float.MaxValue;
@@ -76,5 +67,6 @@ public class Enemy : MonoBehaviour
         }
 
         targetPlayer = closest;
+        StartCoroutine(FindClosestPlayer());
     }
 }

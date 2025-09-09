@@ -26,7 +26,11 @@ public class GameManager : SingletonBase<GameManager>
     {
         isMaster = packet.RoomInfo.MasterId.Equals(NetworkManager.Instance.sessionId);
         GeneratePlayer(packet);
-        StartCoroutine(SyncroStart());
+
+        if (isMaster)
+        {
+            StartCoroutine(SyncroStart());
+        }
     }
 
     #region Player
