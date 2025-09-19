@@ -10,10 +10,10 @@ namespace Server.Game
 {
     public class GamePlayer : GameObject
     {
-        public GamePlayer(ClientSession session)
+        public GamePlayer(ClientSession session, Map map)
         {
             this.session = session;
-
+            this.map = map;
             objectId = session.sessionId;
             objectType = GameObjectType.Player;
 
@@ -37,7 +37,6 @@ namespace Server.Game
             {
                 ObjectId = objectId,
                 Pos = pos,
-                RotY = 0f,
                 StateInfo = stateInfo
             };
             this.session = session;
@@ -54,6 +53,11 @@ namespace Server.Game
         public override void OnDead(GameObject attacker)
         {
             base.OnDead(attacker);
+        }
+
+        public override void Update()
+        {
+            base.Update();
         }
     }
 }

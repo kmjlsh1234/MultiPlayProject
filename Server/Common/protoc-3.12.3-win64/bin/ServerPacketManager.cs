@@ -54,14 +54,26 @@ public class PacketManager
         onRecv.Add((ushort) MsgId.CLoadingcomplete, MakePacket<C_Loadingcomplete>);
         handler.Add((ushort)MsgId.CLoadingcomplete, PacketHandler.C_LoadingcompleteHandler);
 
-        onRecv.Add((ushort) MsgId.CInvite, MakePacket<C_Invite>);
-        handler.Add((ushort)MsgId.CInvite, PacketHandler.C_InviteHandler);
-
         onRecv.Add((ushort) MsgId.CExitgameroom, MakePacket<C_Exitgameroom>);
         handler.Add((ushort)MsgId.CExitgameroom, PacketHandler.C_ExitgameroomHandler);
 
         onRecv.Add((ushort) MsgId.CEnemymove, MakePacket<C_Enemymove>);
         handler.Add((ushort)MsgId.CEnemymove, PacketHandler.C_EnemymoveHandler);
+
+        onRecv.Add((ushort) MsgId.CCreatepartyroom, MakePacket<C_Createpartyroom>);
+        handler.Add((ushort)MsgId.CCreatepartyroom, PacketHandler.C_CreatepartyroomHandler);
+
+        onRecv.Add((ushort) MsgId.CEnterpartyroom, MakePacket<C_Enterpartyroom>);
+        handler.Add((ushort)MsgId.CEnterpartyroom, PacketHandler.C_EnterpartyroomHandler);
+
+        onRecv.Add((ushort) MsgId.CExitpartyroom, MakePacket<C_Exitpartyroom>);
+        handler.Add((ushort)MsgId.CExitpartyroom, PacketHandler.C_ExitpartyroomHandler);
+
+        onRecv.Add((ushort) MsgId.CInvite, MakePacket<C_Invite>);
+        handler.Add((ushort)MsgId.CInvite, PacketHandler.C_InviteHandler);
+
+        onRecv.Add((ushort) MsgId.CInput, MakePacket<C_Input>);
+        handler.Add((ushort)MsgId.CInput, PacketHandler.C_InputHandler);
         
     
     }

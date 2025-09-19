@@ -45,6 +45,21 @@ message S_Move{
     CreatureState state = 6;
 }
 
+message C_Input{
+    float dirX = 1;
+    float dirY = 2;
+    float dirZ = 3;
+    Cellinfo cellInfo = 4;
+}
+
+message S_Input{
+    int32 sessionId = 1;
+    float dirX = 2;
+    float dirY = 3;
+    float dirZ = 4;
+    Cellinfo cellInfo = 5;
+}
+
 message S_Ingamestart{
     
 }
@@ -59,4 +74,12 @@ message C_Enemymove {
 
 message S_Enemymove {
     repeated Objectinfo enemies = 1;
+}
+
+message C_Skill {
+    
+}
+
+message S_Skill {
+
 }

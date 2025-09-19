@@ -5,13 +5,8 @@ import "google/protobuf/timestamp.proto";
 import "Protocol_Data.proto"; 
 option csharp_namespace = "Google.Protobuf.Protocol";
 
-message C_Ready{
-    bool isReady = 1;
-}
+message S_Matchstart{
 
-message S_Ready{
-    int32 sessionId = 1;
-    bool isReady = 2;
 }
 
 message S_Loadingstart{
@@ -36,10 +31,6 @@ message S_Entermatchroom{
 
 message S_Matchroominfo{
     Matchroominfo roomInfo = 1;
-}
-
-message C_Invite{
-    int32 sessionId = 1;
 }
 
 message C_Start{

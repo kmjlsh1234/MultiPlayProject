@@ -15,6 +15,8 @@ namespace Server
     {
         public int sessionId { get; set; }
         public string nickName { get; set; }
+
+        public PartyRoom partyRoom { get; set; }
         public MatchRoom matchRoom { get; set; }
         public GameRoom gameRoom { get; set; }
 
@@ -42,6 +44,14 @@ namespace Server
         {
             Console.WriteLine($"Client [{endPoint}] DisConnected!");
             SessionManager.Instance.Remove(this);
+
+            if(partyRoom != null)
+            {
+                PartyRoom copyRoom = partyRoom;
+                copyRoom.ExitRoom(this);
+                partyRoom = null;
+            }
+
             if(matchRoom != null)
             {
                 MatchRoom copyRoom = matchRoom;

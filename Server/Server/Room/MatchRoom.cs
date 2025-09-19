@@ -9,7 +9,10 @@ namespace Server
     public class MatchRoom : Room
     {
         Dictionary<int, MatchPlayer> players = new Dictionary<int, MatchPlayer>();
-
+        public override int PlayerCount
+        {
+            get { return players.Count; }
+        }
         public MatchRoom()
         {
             roomType = RoomType.Match;
@@ -30,7 +33,6 @@ namespace Server
 
             //본인에게 정보 전송
             S_Matchroominfo packet = new S_Matchroominfo() { RoomInfo = GenerateRoomInfo() };
-            BroadCast(packet);
             session.Send(packet);
 
             //타인에게 정보 전송
@@ -46,6 +48,8 @@ namespace Server
 
             BroadCast(enterRoomPacket);
             Console.WriteLine($"Player {session.sessionId} Enter Room {roomId}");
+
+            CheckGameStart();
         }
 
         public override void ExitRoom(ClientSession session)
@@ -101,45 +105,26 @@ namespace Server
         }
         #endregion
 
-        public void UpdateReadyState(ClientSession session, C_Ready packet)
+        public void CheckGameStart()
         {
-            if (players.TryGetValue(session.sessionId, out MatchPlayer player))
+            if (PlayerCount.Equals(4))
             {
-                player.playerInfo.IsReady = packet.IsReady;
-
-                S_Ready resPacket = new S_Ready()
-                {
-                    SessionId = session.sessionId,
-                    IsReady = packet.IsReady,
-                };
-                BroadCast(resPacket);
-                CheckGameStart();
+                MatchFinish();
             }
         }
 
-        public void CheckGameStart()
+        public void MatchFinish()
         {
-            int readyCount = 0;
+            GameRoom gameRoom = RoomManager.Instance.CreateRoom<GameRoom>(masterId);
+            gameRoom.Init(players.Count);
             foreach (MatchPlayer player in players.Values)
             {
-                if (player.playerInfo.IsReady)
-                {
-                    readyCount++;
-                }
+                gameRoom.EnterRoom(player.session);
+                player.session.gameRoom = gameRoom;
             }
 
-            if (players.Count == readyCount)
-            {
-                GameRoom gameRoom = RoomManager.Instance.CreateRoom<GameRoom>(masterId);
-                gameRoom.Init(players.Count);
-                foreach(MatchPlayer player in players.Values)
-                {
-                    gameRoom.EnterRoom(player.session);
-                    player.session.gameRoom = gameRoom;
-                }
-
-                RoomManager.Instance.StopTickRoom(roomId, roomType);
-            }
+            RoomManager.Instance.StopTickRoom(roomId, roomType);
+            Console.WriteLine("GameStart");
         }
 
         public Matchroominfo GenerateRoomInfo()

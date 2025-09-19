@@ -10,13 +10,14 @@ namespace Server.Game.Object
 {
     public class Enemy : GameObject
     {
+        
         public Random rand = new Random();
         float[,] spawnPoints = new float[,]
         { 
-            { 72f, 72f },
-            { 72f, -72f },
-            { -72f, 72f },
-            { -72f, -72f },
+            { 5f, 5f },
+            { 5f, -5f },
+            { -5f, 5f },
+            { -5f, -5f },
         };
 
         public GamePlayer target;
@@ -47,9 +48,13 @@ namespace Server.Game.Object
             objectinfo = new Objectinfo()
             {
                 Pos = pos,
-                RotY = 0f,
                 StateInfo = stateInfo
             };
         }
+        public override void Update()
+        {
+            base.Update();
+        }
     }
+
 }

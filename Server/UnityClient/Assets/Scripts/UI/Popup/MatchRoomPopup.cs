@@ -45,12 +45,10 @@ public class MatchRoomPopup : UIBase
 
     public void Awake()
     {
-
         invitePopup.SetActive(false);
 
         RegistButton();
         RegistEvent();
-        Debug.Log("Awake");
     }
 
    
@@ -58,7 +56,6 @@ public class MatchRoomPopup : UIBase
     {
         playerItem = ResourcesManager.Instance.getUIObj("PlayerItem");
         UpdateRoomInfo(packet);
-        Debug.Log("MatchRoomInit");
     }
 
     void RegistButton()

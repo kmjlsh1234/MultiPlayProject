@@ -1,7 +1,6 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using Server.Game;
-using Server.Game.Map;
 using Server.Game.Object;
 using System;
 using System.Collections.Generic;
@@ -18,7 +17,7 @@ namespace Server
         public Dictionary<int, GamePlayer> players = new Dictionary<int, GamePlayer>();
         public Dictionary<int, Enemy> enemies = new Dictionary<int, Enemy>();
 
-        public Map map { get; set; } = new Map();
+        public Map map { get; set; } = new Map(1.5f, -50f, -50f, 50f, 50f);
         public int count = 0;
         public int loadingCompleteCount = 0;
 
@@ -42,13 +41,12 @@ namespace Server
 
         public override void EnterRoom(ClientSession session)
         {
-            GamePlayer player = new GamePlayer(session);
+            GamePlayer player = new GamePlayer(session, map);
             players.Add(player.session.sessionId, player);
 
             //나에게 정보 전송
             Console.WriteLine($"Session {session.sessionId} Enter GameRoom");
-            //우리팀에게 브로드캐스트
-
+            
             if (count == players.Count)
             {
                 S_Loadingstart packet = new S_Loadingstart();
@@ -87,8 +85,17 @@ namespace Server
 
         public override void Update()
         {
+            foreach (GamePlayer player in players.Values)
+            {
+                player.Update();
+            }
+
+            foreach (Enemy enemy in enemies.Values)
+            {
+                enemy.Update();
+            }
+
             Flush();
-            //Console.WriteLine("GameRoom Update");
         }
         #endregion
 
@@ -125,15 +132,11 @@ namespace Server
 
         public void HandleMove(ClientSession session, C_Move packet)
         {
-            GamePlayer player = null;
-            players.TryGetValue(session.sessionId, out player);
-            if (player != null)
+            if(players.TryGetValue(session.sessionId, out GamePlayer player))
             {
                 player.objectinfo.Pos.PosX = packet.PosX;
                 player.objectinfo.Pos.PosY = packet.PosY;
                 player.objectinfo.Pos.PosZ = packet.PosZ;
-                player.objectinfo.RotY = packet.RotY;
-                player.objectinfo.State = packet.State;
                 S_Move movePacket = new S_Move()
                 {
                     SessionId = player.session.sessionId,
@@ -148,6 +151,25 @@ namespace Server
             }
         }
 
+        public void HandleInput(ClientSession session, C_Input packet)
+        {
+            if(players.TryGetValue(session.sessionId, out GamePlayer player))
+            {
+                player.objectinfo.CellInfo = packet.CellInfo;
+                S_Input movePacket = new S_Input()
+                {
+                    SessionId = player.session.sessionId,
+                    DirX = packet.DirX,
+                    DirY = packet.DirY,
+                    DirZ = packet.DirZ,
+                    CellInfo = packet.CellInfo,
+                };
+
+                BroadCast(movePacket);
+                Console.WriteLine($"{player.objectId} : [ {movePacket.DirX}, {movePacket.DirY}, {movePacket.DirZ}]");
+            }
+        }
+
         public void HandleEnemyMove(ClientSession session, C_Enemymove packet)
         {
             S_Enemymove resPacket = new S_Enemymove();
@@ -159,6 +181,7 @@ namespace Server
                 if(enemy != null)
                 {
                     enemy.objectinfo.Pos = info.Pos;
+                    enemy.objectinfo.CellInfo = map.WorldToCell(info.Pos);
                     resPacket.Enemies.Add(info);
                 }
             }
@@ -168,21 +191,28 @@ namespace Server
 
         public void SpawnEnemy()
         {
+            Enemy enemy = ObjectManager.Instance.Add<Enemy>();
+            enemy.map = map;
+            enemy.objectinfo.ObjectId = enemy.objectId;
+            enemy.objectinfo.CellInfo = map.WorldToCell(enemy.objectinfo.Pos);
+            enemy.objectinfo.TemplateId = 200001;
+            enemies.Add(enemy.objectId, enemy);
+            enemy.objectinfo.TargetId = FindeTargetPlayer(enemy.objectinfo.Pos);
 
+            S_Spawnenemy packet = new S_Spawnenemy()
+            {
+                ObjectInfo = enemy.objectinfo
+            };
+
+            BroadCast(packet);
+            PushAfter(5000, SpawnEnemy);
+
+            Console.WriteLine($"Enemy {enemy.objectinfo.ObjectId} -> Player {enemy.objectinfo.TargetId}");
+
+            /*
             try
             {
-                Enemy enemy = ObjectManager.Instance.Add<Enemy>();
-                enemy.objectinfo.ObjectId = enemy.objectId;
                 
-                enemies.Add(enemy.objectId, enemy);
-                enemy.objectinfo.TargetId = FindeTargetPlayer(enemy.objectinfo.Pos);
-                S_Spawnenemy packet = new S_Spawnenemy()
-                { 
-                    ObjectInfo = enemy.objectinfo
-                };
-
-                BroadCast(packet);
-                Console.WriteLine($"Enemy {enemy.objectinfo.ObjectId} Spawn");
             }
             catch (Exception ex)
             {
@@ -192,11 +222,13 @@ namespace Server
             {
                 PushAfter(5000, SpawnEnemy);
             }
+            */
         }
 
         public int FindeTargetPlayer(Positioninfo info)
         {
             GamePlayer closestPlayer = null;
+
             float closestDistance = float.MaxValue;
 
             foreach (GamePlayer player in players.Values)
@@ -207,7 +239,7 @@ namespace Server
                 float dy = info.PosY - targetInfo.PosY;
                 float dz = info.PosZ - targetInfo.PosZ;
 
-                float distance = (dx * dx) + (dy * dy) + (dz * dz); // 제곱거리 (루트 연산 없음 → 성능 좋음)
+                float distance = (dx * dx) + (dy * dy) + (dz * dz); 
 
                 if (distance < closestDistance)
                 {
@@ -216,7 +248,7 @@ namespace Server
                 }
             }
 
-            return closestPlayer.objectId;
+            return closestPlayer.session.sessionId;
         }
     }
 }

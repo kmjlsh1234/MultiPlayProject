@@ -13,13 +13,9 @@ public partial class PacketHandler
 
     public static void S_MatchroominfoHandler(Session session, IMessage pkt)
     {
+        Debug.Log($"S_Matchroominfo");
         S_Matchroominfo packet = pkt as S_Matchroominfo;
-
-        if (!UIManager.Instance.IsShow(UIType.UIPopup_Match))
-        {
-            UIManager.Instance.Push(UIType.UIPopup_Match, packet);
-        }
-        
+        UIManager.Instance.Push(UIType.UIPopup_Match, packet);
         Event_S_MatchRoomInfo?.Invoke(packet);
     }
 

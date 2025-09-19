@@ -37,9 +37,6 @@ enum MsgId {
 
     C_LOADINGCOMPLETE = 22;
     S_INGAMESTART = 23;
-   
-    C_INVITE = 24;
-    S_INVITE = 25;
 
     S_SPAWNENEMY = 26;
     S_ERRORCODE = 27;
@@ -51,6 +48,20 @@ enum MsgId {
     S_ENEMYMOVE = 31;
 
     S_GAMEROOMINFO = 32;
+
+    C_CREATEPARTYROOM = 200;
+    C_ENTERPARTYROOM = 201;
+    S_ENTERPARTYROOM = 202;
+    C_EXITPARTYROOM = 203;
+    S_PARTYROOMINFO = 204;
+    S_EXITPARTYROOM = 205;
+    C_INVITE = 206;
+    S_INVITE = 207;
+
+    S_MATCHSTART = 300;
+
+    C_INPUT = 401;
+    S_INPUT = 402;
 }
 
 enum GameObjectType {
@@ -65,4 +76,9 @@ enum CreatureState{
     MOVE = 1;
     SKILL = 2;
     DEAD = 3;
+}
+
+enum EnemyMoveMode {
+    LOCAL = 0;
+    SYNC = 1;
 }

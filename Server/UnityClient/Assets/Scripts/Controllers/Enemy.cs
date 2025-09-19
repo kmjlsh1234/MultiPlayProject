@@ -11,6 +11,9 @@ public class Enemy : MonoBehaviour
     public PlayerController targetPlayer; // 현재 따라가는 대상
     private Rigidbody rb;
 
+    // 패킷 보간용
+    private Coroutine lerpCoroutine;
+
     public void Awake()
     {
         rb = GetComponent<Rigidbody>();

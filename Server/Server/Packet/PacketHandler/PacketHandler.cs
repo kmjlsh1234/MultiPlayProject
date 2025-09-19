@@ -27,11 +27,5 @@ public partial class PacketHandler
         session.room.BroadCast(broadCastPacket.Write());
         */
     }
-
-    public static void C_StartHandler(Session s, IMessage pkt)
-    {
-        ClientSession session = s as ClientSession;
-    }
-
     
 }

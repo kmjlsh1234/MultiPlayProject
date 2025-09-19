@@ -23,6 +23,44 @@ public partial class PacketHandler
         };
 
         session.Send(connectPacket);
+        Console.WriteLine("Connect Packet Recv");
+    }
+
+    public static void C_CreatepartyroomHandler(Session s, IMessage pkt)
+    {
+
+    }
+
+    public static void C_EnterpartyroomHandler(Session s, IMessage pkt)
+    {
+        ClientSession session = s as ClientSession;
+        C_Enterpartyroom packet = pkt as C_Enterpartyroom;
+        //룸 입장 처리
+        PartyRoom room = RoomManager.Instance.FindRoom<PartyRoom>(packet.RoomId, RoomType.Party);
+        if (room != null)
+        {
+            //매치 중이거나 게임 중인지 체크
+            if (!room.roomState.Equals(RoomState.LobbySate))
+            {
+                S_Errorcode errorPacket = ErrorCodeFactory.GetErrorCode(ErrorCode.FAIL_ROOM_FIND);
+                session.Send(errorPacket);
+                return;
+            }
+            session.partyRoom = room;
+            session.partyRoom.EnterRoom(session);
+        }
+        else
+        {
+            S_Errorcode errorPacket = ErrorCodeFactory.GetErrorCode(ErrorCode.FAIL_ROOM_FIND);
+            session.Send(errorPacket);
+        }
+    }
+
+    public static void C_ExitpartyroomHandler(Session s, IMessage pkt)
+    {
+        ClientSession session = s as ClientSession;
+        
+        session.partyRoom.ExitRoom(session);
     }
 
     public static void C_CreateroomHandler(Session s, IMessage pkt)
@@ -38,8 +76,58 @@ public partial class PacketHandler
     {
         ClientSession session = s as ClientSession;
 
-        MatchRoom matchRoom = RoomManager.Instance.CreateOrJoinMatchRoom(session);
+        MatchRoom matchRoom = RoomManager.Instance.CreateOrJoinMatchRoom(session, 1);
         session.matchRoom = matchRoom;
         matchRoom.Push(matchRoom.EnterRoom, session);
+    }
+
+    public static void C_InviteHandler(Session s, IMessage pkt)
+    {
+        ClientSession session = s as ClientSession;
+        C_Invite packet = pkt as C_Invite;
+
+        ClientSession targetSession = SessionManager.Instance.FindBySessionId(packet.SessionId);
+
+        //초대 받을 세션 있는지 체크
+        if(targetSession == null)
+        {
+            S_Errorcode errorPacket = ErrorCodeFactory.GetErrorCode(ErrorCode.SESSION_NOT_FOUND);
+            session.Send(errorPacket);
+            Console.WriteLine($"ErrorCode : SESSION_NOT_FOUND");
+            return;
+        }
+
+        //세션이 이미 파티에 가입되어 있는지 체크
+        if (targetSession.partyRoom != null)
+        {
+            S_Errorcode errorPacket = ErrorCodeFactory.GetErrorCode(ErrorCode.SESSION_ALREADY_IN_ROOM);
+            session.Send(errorPacket);
+            Console.WriteLine($"ErrorCode : SESSION_ALREADY_IN_ROOM");
+            return;
+        }
+
+        if(session.partyRoom == null)
+        {
+            PartyRoom room = RoomManager.Instance.CreateRoom<PartyRoom>(session.sessionId);
+            session.partyRoom = room;
+            session.partyRoom.EnterRoom(session);
+        }
+
+        S_Invite resPacket = new S_Invite()
+        {
+            RoomId = session.partyRoom.roomId,
+            SessionId = session.sessionId,
+            NickName = session.nickName
+        };
+
+        targetSession.Send(resPacket);
+        Console.WriteLine($"Client {session.sessionId} Invite Client {targetSession.sessionId}");
+    }
+
+    public static void C_ReadyHandler(Session s, IMessage pkt)
+    {
+        ClientSession session = s as ClientSession;
+        C_Ready packet = pkt as C_Ready;
+        session.partyRoom.UpdateReady(session, packet);
     }
 }

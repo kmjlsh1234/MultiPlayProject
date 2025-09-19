@@ -25,10 +25,17 @@ public partial class PacketHandler
         session.gameRoom.HandleMove(session, packet);
     }
 
+    public static void C_InputHandler(Session s, IMessage pkt)
+    {
+        ClientSession session = s as ClientSession;
+        C_Input packet = pkt as C_Input;
+        session.gameRoom.HandleInput(session, packet);
+    }
+
     public static void C_EnemymoveHandler(Session s, IMessage pkt)
     {
         ClientSession session = s as ClientSession;
         C_Enemymove packet = pkt as C_Enemymove;
-        session.gameRoom.HandleEnemyMove(session, packet);       
+        session.gameRoom.HandleEnemyMove(session, packet); 
     }
 }

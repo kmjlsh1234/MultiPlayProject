@@ -1,49 +1,60 @@
-﻿using System;
+﻿using Google.Protobuf.Protocol;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server.Game.Map
+namespace Server.Game
 {
+    public class Cell
+    {
+        public HashSet<int> GameObjects = new HashSet<int>(); 
+    }
+
     public class Map
     {
-        public int minX { get; set; }
-        public int minY { get; set; }
-        public int maxX { get; set; }
-        public int maxY { get; set; }
+        public GameRoom room { get; set; }
 
-        bool[,] collision;
-        GameObject[,] objects;
-        public void LoadMap(string mapName)
+        private readonly float cellSize;
+        private readonly float minX;
+        private readonly float minY;
+        private readonly int width;
+        private readonly int height;
+        private readonly Cell[,] cells;
+
+        public Map(float cellSize, float minX, float minY, float maxX , float maxY)
         {
-            string text = File.ReadAllText($"../../../Game/Map/{mapName}.txt");
-            StringReader reader = new StringReader(text);
+            this.cellSize = cellSize;
+            this.minX = minX;
+            this.minY = minY;
 
-            minX = int.Parse(reader.ReadLine());
-            maxX = int.Parse(reader.ReadLine());
-            minY = int.Parse(reader.ReadLine());
-            maxY = int.Parse(reader.ReadLine());
+            this.width = (int)Math.Ceiling((maxX - minX) / cellSize);
+            this.height = (int)Math.Ceiling((maxY - minY) / cellSize);
 
-            int xCount = maxX - minX + 1;
-            int yCount = maxY - minY + 1;
-
-            collision = new bool[yCount, xCount];
-            objects = new GameObject[yCount, xCount];
-
-            for (int y = 0; y < yCount; y++)
+            cells = new Cell[width, height];
+            for(int x = 0; x< width; x++)
             {
-                string line = reader.ReadLine();
-                for (int x = 0; x < xCount; x++)
+                for(int y = 0; y< height; y++)
                 {
-                    collision[y, x] = (line[x] == '1' ? true : false);
+                    cells[x,y] = new Cell();
                 }
             }
         }
 
-        public bool CanGo()
+        public void Update()
         {
-            return true;
+            //TODO : 
+        }
+
+        public Cellinfo WorldToCell(Positioninfo pos)
+        {
+            Cellinfo cellPos = new Cellinfo();
+            cellPos.X = (int)Math.Floor((pos.PosX - minX) / cellSize);
+            cellPos.Y = 0; 
+            cellPos.Z = (int)Math.Floor((pos.PosZ - minY) / cellSize);
+            return cellPos;
         }
 
     }

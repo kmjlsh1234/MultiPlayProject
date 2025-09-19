@@ -101,6 +101,7 @@ public class GameManager : SingletonBase<GameManager>
         GameObject go = Instantiate(enemy);
         Enemy target= go.GetComponent<Enemy>();
         target.objectId = packet.ObjectInfo.ObjectId;
+
         target.transform.position = new Vector3(packet.ObjectInfo.Pos.PosX, packet.ObjectInfo.Pos.PosY, packet.ObjectInfo.Pos.PosZ);
         
 
@@ -118,8 +119,16 @@ public class GameManager : SingletonBase<GameManager>
         {
             if(enemies.TryGetValue(info.ObjectId, out Enemy enemy))
             {
-                enemy.transform.position = new Vector3(info.Pos.PosX, info.Pos.PosY, info.Pos.PosZ);
-                if(GameManager.Instance.playerControllers.TryGetValue(info.TargetId, out PlayerController controller))
+                Vector3 newPos = new Vector3(info.Pos.PosX, info.Pos.PosY, info.Pos.PosZ);
+                float distance = Vector3.Distance(enemy.transform.position, newPos);
+
+                if (distance > 0.5f)
+                {
+                    // 부드럽게 보간
+                    enemy.transform.position = newPos;
+                }
+
+                if (GameManager.Instance.playerControllers.TryGetValue(info.TargetId, out PlayerController controller))
                 {
                     enemy.targetPlayer = controller;
                 }

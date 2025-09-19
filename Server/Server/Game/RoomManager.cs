@@ -18,6 +18,7 @@ namespace Server.Game
         Dictionary<int, System.Timers.Timer> matchTimers = new Dictionary<int, System.Timers.Timer>();
 
         //Room Collections
+        Dictionary<int, PartyRoom> partyRooms = new Dictionary<int, PartyRoom>();
         Dictionary<int, MatchRoom> matchRooms = new Dictionary<int, MatchRoom>();
         Dictionary<int, GameRoom> gameRooms = new Dictionary<int, GameRoom>();
 
@@ -87,19 +88,26 @@ namespace Server.Game
 
                 switch (room.roomType)
                 {
+                    case RoomType.Party:
+                        PartyRoom partyRoom = room as PartyRoom;
+                        partyRooms.Add(roomId, partyRoom);
+                        break;
+
                     case RoomType.Match:
                         MatchRoom matchRoom = room as MatchRoom;
                         matchRooms.Add(roomId, matchRoom);
-                        
+                        StartTickRoom(room, 500);
+
                         break;
                     case RoomType.Game:
                         GameRoom gameRoom = room as GameRoom;
                         gameRooms.Add(roomId, gameRoom);
+                        StartTickRoom(room, 50);
                         break;
                     default:
                         return null;
                 }
-                StartTickRoom(room, 500);
+                
                 roomId++;
             }
             Console.WriteLine($"Create {room.roomType.ToString()} Room [{room.roomId}]");
@@ -115,6 +123,8 @@ namespace Server.Game
                 StopTickRoom(roomId, roomType);
                 switch (roomType)
                 {
+                    case RoomType .Party:
+                        return partyRooms.Remove(roomId);
                     case RoomType.Match:
                         return matchRooms.Remove(roomId);
                     case RoomType.Game:
@@ -125,14 +135,15 @@ namespace Server.Game
             }
         } 
 
-        public MatchRoom CreateOrJoinMatchRoom(ClientSession session)
+        public MatchRoom CreateOrJoinMatchRoom(ClientSession session, int playerCount)
         {
             lock (key)
             {
                 foreach(MatchRoom room in matchRooms.Values)
                 {
-                    if(room != null)
+                    if(room.PlayerCount + playerCount <= 4)
                     {
+                        
                         return room;
                     }
                 }
@@ -141,28 +152,30 @@ namespace Server.Game
             MatchRoom matchRoom = CreateRoom<MatchRoom>(session.sessionId);
             return matchRoom;
         }
-
-        public MatchRoom FindMatchRoom(int roomId)
+        public T FindRoom<T>(int roomId, RoomType type) where T : Room
         {
-            lock(key)
+            lock (key)
             {
-                MatchRoom room = null;
-                if(matchRooms.TryGetValue(roomId, out room))
+                switch (type)
                 {
-                    return room;
+                    case RoomType.Match:
+                        if (matchRooms.TryGetValue(roomId, out var matchRoom))
+                            return matchRoom as T;
+                        break;
+
+                    case RoomType.Party:
+                        if (partyRooms.TryGetValue(roomId, out var partyRoom))
+                            return partyRoom as T;
+                        break;
+                    case RoomType.Game:
+                        if (gameRooms.TryGetValue(roomId, out var gameRoom))
+                            return gameRoom as T;
+                        break;
+                    default:
+                        return null;
                 }
                 return null;
             }
         }
-
-        public Dictionary<int, MatchRoom> GetMatchRooms()
-        {
-            lock( key)
-            {
-                return matchRooms;
-            }
-        }
-
-        
     }
 }

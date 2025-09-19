@@ -51,9 +51,6 @@ public class PacketManager
         onRecv.Add((ushort) MsgId.SIngamestart, MakePacket<S_Ingamestart>);
         handler.Add((ushort)MsgId.SIngamestart, PacketHandler.S_IngamestartHandler);
 
-        onRecv.Add((ushort) MsgId.SInvite, MakePacket<S_Invite>);
-        handler.Add((ushort)MsgId.SInvite, PacketHandler.S_InviteHandler);
-
         onRecv.Add((ushort) MsgId.SSpawnenemy, MakePacket<S_Spawnenemy>);
         handler.Add((ushort)MsgId.SSpawnenemy, PacketHandler.S_SpawnenemyHandler);
 
@@ -68,6 +65,24 @@ public class PacketManager
 
         onRecv.Add((ushort) MsgId.SGameroominfo, MakePacket<S_Gameroominfo>);
         handler.Add((ushort)MsgId.SGameroominfo, PacketHandler.S_GameroominfoHandler);
+
+        onRecv.Add((ushort) MsgId.SEnterpartyroom, MakePacket<S_Enterpartyroom>);
+        handler.Add((ushort)MsgId.SEnterpartyroom, PacketHandler.S_EnterpartyroomHandler);
+
+        onRecv.Add((ushort) MsgId.SPartyroominfo, MakePacket<S_Partyroominfo>);
+        handler.Add((ushort)MsgId.SPartyroominfo, PacketHandler.S_PartyroominfoHandler);
+
+        onRecv.Add((ushort) MsgId.SExitpartyroom, MakePacket<S_Exitpartyroom>);
+        handler.Add((ushort)MsgId.SExitpartyroom, PacketHandler.S_ExitpartyroomHandler);
+
+        onRecv.Add((ushort) MsgId.SInvite, MakePacket<S_Invite>);
+        handler.Add((ushort)MsgId.SInvite, PacketHandler.S_InviteHandler);
+
+        onRecv.Add((ushort) MsgId.SMatchstart, MakePacket<S_Matchstart>);
+        handler.Add((ushort)MsgId.SMatchstart, PacketHandler.S_MatchstartHandler);
+
+        onRecv.Add((ushort) MsgId.SInput, MakePacket<S_Input>);
+        handler.Add((ushort)MsgId.SInput, PacketHandler.S_InputHandler);
         
     
     }

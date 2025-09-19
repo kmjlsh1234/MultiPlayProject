@@ -25,7 +25,7 @@ namespace Google.Protobuf.Protocol {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChNQcm90b2NvbF9FbnVtLnByb3RvEghQcm90b2NvbBofZ29vZ2xlL3Byb3Rv",
-            "YnVmL3RpbWVzdGFtcC5wcm90byqEBAoFTXNnSWQSDwoLQ19QSU5HQ0hFQ0sQ",
+            "YnVmL3RpbWVzdGFtcC5wcm90byq9BQoFTXNnSWQSDwoLQ19QSU5HQ0hFQ0sQ",
             "ABIPCgtTX1BPTkdDSEVDSxABEg0KCUNfQ09OTkVDVBACEg0KCVNfQ09OTkVD",
             "VBADEgoKBkNfQ0hBVBAEEgoKBlNfQ0hBVBAFEgsKB0NfUkVBRFkQBhILCgdT",
             "X1JFQURZEAcSCwoHQ19TVEFSVBAIEhIKDlNfTE9BRElOR1NUQVJUEAkSCgoG",
@@ -33,17 +33,22 @@ namespace Google.Protobuf.Protocol {
             "VFJPT00QDRIQCgxDX0NSRUFURVJPT00QDxIWChJDX0NSRUFURU9SSk9JTlJP",
             "T00QEBIUChBDX0VOVEVSTUFUQ0hST09NEBESFAoQU19FTlRFUk1BVENIUk9P",
             "TRASEhMKD1NfTUFUQ0hST09NSU5GTxAVEhUKEUNfTE9BRElOR0NPTVBMRVRF",
-            "EBYSEQoNU19JTkdBTUVTVEFSVBAXEgwKCENfSU5WSVRFEBgSDAoIU19JTlZJ",
-            "VEUQGRIQCgxTX1NQQVdORU5FTVkQGhIPCgtTX0VSUk9SQ09ERRAbEhIKDkNf",
-            "RVhJVEdBTUVST09NEBwSEgoOU19FWElUR0FNRVJPT00QHRIPCgtDX0VORU1Z",
-            "TU9WRRAeEg8KC1NfRU5FTVlNT1ZFEB8SEgoOU19HQU1FUk9PTUlORk8QICpB",
-            "Cg5HYW1lT2JqZWN0VHlwZRIICgROT05FEAASCgoGUExBWUVSEAESCQoFRU5F",
-            "TVkQAhIOCgpQUk9KRUNUSUxFEAMqOAoNQ3JlYXR1cmVTdGF0ZRIICgRJRExF",
-            "EAASCAoETU9WRRABEgkKBVNLSUxMEAISCAoEREVBRBADQhuqAhhHb29nbGUu",
-            "UHJvdG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
+            "EBYSEQoNU19JTkdBTUVTVEFSVBAXEhAKDFNfU1BBV05FTkVNWRAaEg8KC1Nf",
+            "RVJST1JDT0RFEBsSEgoOQ19FWElUR0FNRVJPT00QHBISCg5TX0VYSVRHQU1F",
+            "Uk9PTRAdEg8KC0NfRU5FTVlNT1ZFEB4SDwoLU19FTkVNWU1PVkUQHxISCg5T",
+            "X0dBTUVST09NSU5GTxAgEhYKEUNfQ1JFQVRFUEFSVFlST09NEMgBEhUKEENf",
+            "RU5URVJQQVJUWVJPT00QyQESFQoQU19FTlRFUlBBUlRZUk9PTRDKARIUCg9D",
+            "X0VYSVRQQVJUWVJPT00QywESFAoPU19QQVJUWVJPT01JTkZPEMwBEhQKD1Nf",
+            "RVhJVFBBUlRZUk9PTRDNARINCghDX0lOVklURRDOARINCghTX0lOVklURRDP",
+            "ARIRCgxTX01BVENIU1RBUlQQrAISDAoHQ19JTlBVVBCRAxIMCgdTX0lOUFVU",
+            "EJIDKkEKDkdhbWVPYmplY3RUeXBlEggKBE5PTkUQABIKCgZQTEFZRVIQARIJ",
+            "CgVFTkVNWRACEg4KClBST0pFQ1RJTEUQAyo4Cg1DcmVhdHVyZVN0YXRlEggK",
+            "BElETEUQABIICgRNT1ZFEAESCQoFU0tJTEwQAhIICgRERUFEEAMqJAoNRW5l",
+            "bXlNb3ZlTW9kZRIJCgVMT0NBTBAAEggKBFNZTkMQAUIbqgIYR29vZ2xlLlBy",
+            "b3RvYnVmLlByb3RvY29sYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.CreatureState), }, null, null));
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.EnemyMoveMode), }, null, null));
     }
     #endregion
 
@@ -71,8 +76,6 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("S_MATCHROOMINFO")] SMatchroominfo = 21,
     [pbr::OriginalName("C_LOADINGCOMPLETE")] CLoadingcomplete = 22,
     [pbr::OriginalName("S_INGAMESTART")] SIngamestart = 23,
-    [pbr::OriginalName("C_INVITE")] CInvite = 24,
-    [pbr::OriginalName("S_INVITE")] SInvite = 25,
     [pbr::OriginalName("S_SPAWNENEMY")] SSpawnenemy = 26,
     [pbr::OriginalName("S_ERRORCODE")] SErrorcode = 27,
     [pbr::OriginalName("C_EXITGAMEROOM")] CExitgameroom = 28,
@@ -80,6 +83,17 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("C_ENEMYMOVE")] CEnemymove = 30,
     [pbr::OriginalName("S_ENEMYMOVE")] SEnemymove = 31,
     [pbr::OriginalName("S_GAMEROOMINFO")] SGameroominfo = 32,
+    [pbr::OriginalName("C_CREATEPARTYROOM")] CCreatepartyroom = 200,
+    [pbr::OriginalName("C_ENTERPARTYROOM")] CEnterpartyroom = 201,
+    [pbr::OriginalName("S_ENTERPARTYROOM")] SEnterpartyroom = 202,
+    [pbr::OriginalName("C_EXITPARTYROOM")] CExitpartyroom = 203,
+    [pbr::OriginalName("S_PARTYROOMINFO")] SPartyroominfo = 204,
+    [pbr::OriginalName("S_EXITPARTYROOM")] SExitpartyroom = 205,
+    [pbr::OriginalName("C_INVITE")] CInvite = 206,
+    [pbr::OriginalName("S_INVITE")] SInvite = 207,
+    [pbr::OriginalName("S_MATCHSTART")] SMatchstart = 300,
+    [pbr::OriginalName("C_INPUT")] CInput = 401,
+    [pbr::OriginalName("S_INPUT")] SInput = 402,
   }
 
   public enum GameObjectType {
@@ -94,6 +108,11 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("MOVE")] Move = 1,
     [pbr::OriginalName("SKILL")] Skill = 2,
     [pbr::OriginalName("DEAD")] Dead = 3,
+  }
+
+  public enum EnemyMoveMode {
+    [pbr::OriginalName("LOCAL")] Local = 0,
+    [pbr::OriginalName("SYNC")] Sync = 1,
   }
 
   #endregion

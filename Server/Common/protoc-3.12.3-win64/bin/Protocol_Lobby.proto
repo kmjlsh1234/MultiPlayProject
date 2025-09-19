@@ -17,12 +17,49 @@ message C_Createroom {
 
 }
 
+message C_Createpartyroom {
+
+}
+
+message C_Enterpartyroom {
+    int32 roomId = 1;
+}
+
+message C_Exitpartyroom {
+
+}
+
+message S_Enterpartyroom{
+    Partyplayerinfo playerInfo = 1;
+}
+
+message S_Partyroominfo {
+    Partyroominfo roomInfo = 1;
+}
+
+message S_Exitpartyroom {
+    int32 sessionId = 1;
+}
+
 message C_Createorjoinroom{
 
+}
+
+message C_Invite{
+    int32 sessionId = 1;
 }
 
 message S_Invite{
     int32 roomId = 1;
     int32 sessionId = 2;
     string nickName = 3;
+}
+
+message C_Ready{
+    bool isReady = 1;
+}
+
+message S_Ready{
+    int32 sessionId = 1;
+    bool isReady = 2;
 }

@@ -34,6 +34,11 @@ public class UIManager : SingletonBase<UIManager>
 
     public void Push(UIType type, IMessage pkt = null)
     {
+        if (IsShow(type))
+        {
+            return;
+        }
+
         GameObject go = null;
 
         if (type == UIType.UIPopup_Error)

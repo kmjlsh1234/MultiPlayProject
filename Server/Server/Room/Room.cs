@@ -12,11 +12,20 @@ using System.Windows;
 
 namespace Server
 {
+    public enum RoomState
+    {
+        None,
+        LobbySate,
+        MatchState,
+        GameState,
+    }
+
     public enum RoomType
     {
         None = 0,
-        Match = 1,
-        Game = 2,
+        Party = 1,
+        Match = 2,
+        Game = 3,
     }
 
     public abstract class Room : JobSerializer
@@ -24,7 +33,13 @@ namespace Server
         public int roomId { get; set; }
         public int masterId { get; set; }
 
+        public int maxCount { get; set; }
+
+        public virtual int PlayerCount { get; }
+
         protected object key = new object();
+
+        public RoomState roomState { get; set; } = RoomState.None;
 
         public RoomType roomType { get; set; } = RoomType.None;
 
