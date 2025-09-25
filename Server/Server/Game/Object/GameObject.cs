@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,11 +12,10 @@ namespace Server.Game
     {
         public int objectId { get; set; }
 
-        public Map map { get; set; }
+        public GameRoom gameRoom { get; set; }
 
         public GameObjectType objectType { get; set; } = GameObjectType.None;
 
-        public GameRoom gameRoom { get; set; }
         public Objectinfo objectinfo { get; set; }
 
         public virtual void Update() 

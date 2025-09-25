@@ -25,7 +25,7 @@ namespace Google.Protobuf.Protocol {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChNQcm90b2NvbF9FbnVtLnByb3RvEghQcm90b2NvbBofZ29vZ2xlL3Byb3Rv",
-            "YnVmL3RpbWVzdGFtcC5wcm90byq9BQoFTXNnSWQSDwoLQ19QSU5HQ0hFQ0sQ",
+            "YnVmL3RpbWVzdGFtcC5wcm90byq1BgoFTXNnSWQSDwoLQ19QSU5HQ0hFQ0sQ",
             "ABIPCgtTX1BPTkdDSEVDSxABEg0KCUNfQ09OTkVDVBACEg0KCVNfQ09OTkVD",
             "VBADEgoKBkNfQ0hBVBAEEgoKBlNfQ0hBVBAFEgsKB0NfUkVBRFkQBhILCgdT",
             "X1JFQURZEAcSCwoHQ19TVEFSVBAIEhIKDlNfTE9BRElOR1NUQVJUEAkSCgoG",
@@ -41,11 +41,14 @@ namespace Google.Protobuf.Protocol {
             "X0VYSVRQQVJUWVJPT00QywESFAoPU19QQVJUWVJPT01JTkZPEMwBEhQKD1Nf",
             "RVhJVFBBUlRZUk9PTRDNARINCghDX0lOVklURRDOARINCghTX0lOVklURRDP",
             "ARIRCgxTX01BVENIU1RBUlQQrAISDAoHQ19JTlBVVBCRAxIMCgdTX0lOUFVU",
-            "EJIDKkEKDkdhbWVPYmplY3RUeXBlEggKBE5PTkUQABIKCgZQTEFZRVIQARIJ",
-            "CgVFTkVNWRACEg4KClBST0pFQ1RJTEUQAyo4Cg1DcmVhdHVyZVN0YXRlEggK",
-            "BElETEUQABIICgRNT1ZFEAESCQoFU0tJTEwQAhIICgRERUFEEAMqJAoNRW5l",
-            "bXlNb3ZlTW9kZRIJCgVMT0NBTBAAEggKBFNZTkMQAUIbqgIYR29vZ2xlLlBy",
-            "b3RvYnVmLlByb3RvY29sYgZwcm90bzM="));
+            "EJIDEgoKBUNfRVhQEJMDEgoKBVNfRVhQEJQDEg4KCVNfTEVWRUxVUBCVAxIP",
+            "CgpDX05FV1NLSUxMEJYDEhMKDkNfVVBHUkFERVNLSUxMEJcDEhIKDVNfU0tJ",
+            "TExTRUxFQ1QQmAMSFAoPU19MRVZFTFVQRklOSVNIEJkDKkEKDkdhbWVPYmpl",
+            "Y3RUeXBlEggKBE5PTkUQABIKCgZQTEFZRVIQARIJCgVFTkVNWRACEg4KClBS",
+            "T0pFQ1RJTEUQAyo4Cg1DcmVhdHVyZVN0YXRlEggKBElETEUQABIICgRNT1ZF",
+            "EAESCQoFU0tJTEwQAhIICgRERUFEEAMqJAoNRW5lbXlNb3ZlTW9kZRIJCgVM",
+            "T0NBTBAAEggKBFNZTkMQAUIbqgIYR29vZ2xlLlByb3RvYnVmLlByb3RvY29s",
+            "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.EnemyMoveMode), }, null, null));
@@ -94,6 +97,13 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("S_MATCHSTART")] SMatchstart = 300,
     [pbr::OriginalName("C_INPUT")] CInput = 401,
     [pbr::OriginalName("S_INPUT")] SInput = 402,
+    [pbr::OriginalName("C_EXP")] CExp = 403,
+    [pbr::OriginalName("S_EXP")] SExp = 404,
+    [pbr::OriginalName("S_LEVELUP")] SLevelup = 405,
+    [pbr::OriginalName("C_NEWSKILL")] CNewskill = 406,
+    [pbr::OriginalName("C_UPGRADESKILL")] CUpgradeskill = 407,
+    [pbr::OriginalName("S_SKILLSELECT")] SSkillselect = 408,
+    [pbr::OriginalName("S_LEVELUPFINISH")] SLevelupfinish = 409,
   }
 
   public enum GameObjectType {

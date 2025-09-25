@@ -62,6 +62,13 @@ enum MsgId {
 
     C_INPUT = 401;
     S_INPUT = 402;
+    C_EXP = 403;
+    S_EXP = 404;
+    S_LEVELUP = 405;
+    C_NEWSKILL = 406;
+    C_UPGRADESKILL = 407;
+    S_SKILLSELECT = 408;
+    S_LEVELUPFINISH = 409;
 }
 
 enum GameObjectType {

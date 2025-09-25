@@ -30,6 +30,7 @@ message Gameroominfo {
     int32 roomId = 1;
     int32 masterId = 2;
     repeated Objectinfo players = 3;
+    int32 randomSeed = 4;
 }
 
 message Partyplayerinfo {
@@ -50,6 +51,12 @@ message Positioninfo{
     float posZ = 3;
 }
 
+message Inputinfo{
+    float x = 1;
+    float y = 2;
+    float z = 3;
+}
+
 message Stateinfo{
     int32 level = 1;
     int32 hp = 2;
@@ -61,5 +68,16 @@ message Stateinfo{
 message Cellinfo{
     int32 x = 1;
     int32 y = 2;
-    int32 z = 3;
+}
+
+message Skillinfo{
+    int32 id = 1;
+    int32 skillLevel = 2;
+    int32 skillDamage = 4;
+    float skillCoolTime = 5;
+    float skillSize = 6;
+    float skillReach = 7;
+    float duration = 8;
+    float skillObjScale = 9;
+    float skillObjSpeed = 10;
 }

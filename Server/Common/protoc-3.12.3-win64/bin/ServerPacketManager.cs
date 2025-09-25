@@ -74,6 +74,15 @@ public class PacketManager
 
         onRecv.Add((ushort) MsgId.CInput, MakePacket<C_Input>);
         handler.Add((ushort)MsgId.CInput, PacketHandler.C_InputHandler);
+
+        onRecv.Add((ushort) MsgId.CExp, MakePacket<C_Exp>);
+        handler.Add((ushort)MsgId.CExp, PacketHandler.C_ExpHandler);
+
+        onRecv.Add((ushort) MsgId.CNewskill, MakePacket<C_Newskill>);
+        handler.Add((ushort)MsgId.CNewskill, PacketHandler.C_NewskillHandler);
+
+        onRecv.Add((ushort) MsgId.CUpgradeskill, MakePacket<C_Upgradeskill>);
+        handler.Add((ushort)MsgId.CUpgradeskill, PacketHandler.C_UpgradeskillHandler);
         
     
     }

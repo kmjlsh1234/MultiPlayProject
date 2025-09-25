@@ -10,13 +10,23 @@ namespace Server.Game
 {
     public class GamePlayer : GameObject
     {
-        public GamePlayer(ClientSession session, Map map)
+        public ClientSession session;
+        public bool isSkillSelect = false;
+        public Vector3 currentCellPos;
+
+        //Skill
+        public SkillManageComponent skillManageComponent;
+
+        public GamePlayer(ClientSession session, GameRoom room)
         {
             this.session = session;
-            this.map = map;
+            this.gameRoom = room;
+            skillManageComponent = new SkillManageComponent(this);
+
+
             objectId = session.sessionId;
             objectType = GameObjectType.Player;
-
+            
             Positioninfo pos = new Positioninfo()
             {
                 PosX = 0, 
@@ -26,24 +36,21 @@ namespace Server.Game
 
             Stateinfo stateInfo = new Stateinfo()
             {
-                Hp = 100,
-                MaxHp = 100,
+                Hp = 600,
+                MaxHp = 600,
                 Attack = 10,
                 Level = 1,
-                Speed = 5,
+                Speed = 3,
             };
 
             objectinfo = new Objectinfo()
             {
                 ObjectId = objectId,
                 Pos = pos,
-                StateInfo = stateInfo
+                StateInfo = stateInfo,
+                CellInfo = gameRoom.map.WorldToCell(pos)
             };
-            this.session = session;
         }
-
-        public ClientSession session;
-        public float rotateSpeed = 10f;
 
         public override void OnDamaged(GameObject attacker, int damage)
         {
@@ -58,6 +65,18 @@ namespace Server.Game
         public override void Update()
         {
             base.Update();
+            //UpdateGridPosition();
+        }
+
+        public void UpdateGridPosition()
+        {
+            Cellinfo newCell = gameRoom.map.WorldToCell(objectinfo.Pos);
+
+            if(newCell != objectinfo.CellInfo)
+            {
+                gameRoom.map.UpdateObjectPosition(this, objectinfo.CellInfo, newCell);
+            }
+            objectinfo.CellInfo = newCell;
         }
     }
 }

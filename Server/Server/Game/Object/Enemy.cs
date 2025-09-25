@@ -1,8 +1,12 @@
 ﻿using Google.Protobuf.Protocol;
+using Google.Protobuf.WellKnownTypes;
 using ServerCore;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,33 +14,27 @@ namespace Server.Game.Object
 {
     public class Enemy : GameObject
     {
-        
-        public Random rand = new Random();
-        float[,] spawnPoints = new float[,]
-        { 
-            { 5f, 5f },
-            { 5f, -5f },
-            { -5f, 5f },
-            { -5f, -5f },
-        };
-
-        public GamePlayer target;
+        public GamePlayer targetPlayer;
 
         public Enemy()
         {
-            
             objectType = GameObjectType.Enemy;
-            
-            int i = rand.Next(spawnPoints.GetLength(0));
+        }
 
-            Positioninfo pos = new Positioninfo()
+        public void Init(Vector2 position, GameRoom gameRoom)
+        {
+            this.gameRoom = gameRoom;
+
+            objectinfo = new Objectinfo();
+            objectinfo.ObjectId = objectId;
+            objectinfo.TemplateId = 200001;
+            objectinfo.Pos = new Positioninfo()
             {
-                PosX = spawnPoints[i, 0],
-                PosY = 0.1f,
-                PosZ = spawnPoints[i, 1],
+                PosX = position.X,
+                PosY = 0f,
+                PosZ = position.Y
             };
-
-            Stateinfo stateInfo = new Stateinfo()
+            objectinfo.StateInfo = new Stateinfo()
             {
                 Hp = 100,
                 MaxHp = 100,
@@ -44,17 +42,66 @@ namespace Server.Game.Object
                 Level = 1,
                 Speed = 2,
             };
-
-            objectinfo = new Objectinfo()
+            objectinfo.CellInfo = gameRoom.map.WorldToCell(objectinfo.Pos);
+            
+            targetPlayer = FindTargetPlayer();
+            if(targetPlayer != null)
             {
-                Pos = pos,
-                StateInfo = stateInfo
-            };
+                objectinfo.TargetId = targetPlayer.objectId;
+            }
+            
         }
+
         public override void Update()
         {
-            base.Update();
+            UpdateGridPosition();
+            FindTargetPlayer();
+        }
+
+        public override void OnDamaged(GameObject attacker, int damage)
+        {
+            base.OnDamaged(attacker, damage);
+        }
+
+        public override void OnDead(GameObject attacker)
+        {
+            base.OnDead(attacker);
+            gameRoom.map.Remove(this);
+        }
+
+        public GamePlayer FindTargetPlayer()
+        {
+
+            GamePlayer target = null;
+            int minDintance = int.MaxValue;
+            foreach (GamePlayer player in gameRoom.players.Values)
+            {
+                int distance = gameRoom.map.GetCellDistance(objectinfo.CellInfo, player.objectinfo.CellInfo);
+                if (distance < minDintance)
+                {
+                    minDintance = distance;
+                    target = player;
+                }
+            }
+
+            objectinfo.TargetId = target.objectId;
+            return target;
+        }
+
+        public void UpdateGridPosition()
+        {
+            Cellinfo newCell = gameRoom.map.WorldToCell(objectinfo.Pos);
+
+            if (newCell != objectinfo.CellInfo)
+            {
+                gameRoom.map.UpdateObjectPosition(this, objectinfo.CellInfo, newCell);
+            }
+            objectinfo.CellInfo = newCell;
+        }
+
+        public void UpdateEnemyPos()
+        {
+            
         }
     }
-
 }

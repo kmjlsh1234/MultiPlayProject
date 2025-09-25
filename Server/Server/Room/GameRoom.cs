@@ -14,16 +14,27 @@ namespace Server
 {
     public class GameRoom : Room
     {
+        public int PlayerCount { get { return players.Count; } }
         public Dictionary<int, GamePlayer> players = new Dictionary<int, GamePlayer>();
         public Dictionary<int, Enemy> enemies = new Dictionary<int, Enemy>();
 
-        public Map map { get; set; } = new Map(1.5f, -50f, -50f, 50f, 50f);
+        public Map map { get; set; } = new Map(1.5f, -30, -30, 30, 30);
+        public SpawningPool spawningPool { get; set; }
         public int count = 0;
         public int loadingCompleteCount = 0;
+        public int randomSeed { get; set; }
+
+        public int level = 1;
+        public int exp = 0;
+        public int maxExp = 10;
+
+        bool isSkillSelect = false;
 
         public GameRoom()
         {
             roomType = RoomType.Game;
+            randomSeed = Environment.TickCount;
+            spawningPool = new SpawningPool(this);
         }
 
         #region :::: Abstract Function
@@ -35,13 +46,12 @@ namespace Server
                 {
                     player.session.Send(packet);
                 }
-            }
-            
+            }     
         }
 
         public override void EnterRoom(ClientSession session)
         {
-            GamePlayer player = new GamePlayer(session, map);
+            GamePlayer player = new GamePlayer(session, this);
             players.Add(player.session.sessionId, player);
 
             //나에게 정보 전송
@@ -102,14 +112,15 @@ namespace Server
         public void CheckGameStart(ClientSession session)
         {
             loadingCompleteCount++;
-            if (loadingCompleteCount.Equals(players.Count))
+            if (loadingCompleteCount.Equals(PlayerCount))
             {
                 S_Gameroominfo packet = new S_Gameroominfo();
                 
                 Gameroominfo info = new Gameroominfo();
                 info.RoomId = roomId;
                 info.MasterId = masterId;
-                
+                info.RandomSeed = randomSeed;
+
                 foreach(GamePlayer gamePlayer in players.Values)
                 {
                     info.Players.Add(gamePlayer.objectinfo);
@@ -118,7 +129,7 @@ namespace Server
                 packet.RoomInfo = info;
 
                 BroadCast(packet);
-                PushAfter(2000, SpawnEnemy);
+                PushAfter(1500, SpawnEnemy);
             }
         }
 
@@ -130,6 +141,7 @@ namespace Server
             return true;
         }
 
+        #region :::: Player Control
         public void HandleMove(ClientSession session, C_Move packet)
         {
             if(players.TryGetValue(session.sessionId, out GamePlayer player))
@@ -155,49 +167,52 @@ namespace Server
         {
             if(players.TryGetValue(session.sessionId, out GamePlayer player))
             {
+                //TODO : 유저 위치 업데이트
+                //UpdatePlayerPosition(player, packet);
+
                 player.objectinfo.CellInfo = packet.CellInfo;
+                
                 S_Input movePacket = new S_Input()
                 {
                     SessionId = player.session.sessionId,
-                    DirX = packet.DirX,
-                    DirY = packet.DirY,
-                    DirZ = packet.DirZ,
+                    Input = new Inputinfo()
+                    {
+                        X = packet.Input.X,
+                        Y = packet.Input.Y,
+                        Z = packet.Input.Z,
+                    },
                     CellInfo = packet.CellInfo,
                 };
 
                 BroadCast(movePacket);
-                Console.WriteLine($"{player.objectId} : [ {movePacket.DirX}, {movePacket.DirY}, {movePacket.DirZ}]");
+                //Console.WriteLine($"{player.objectId} : [ {packet.CellInfo.X}, {packet.CellInfo.Y}]");
+                //Console.WriteLine($"{player.objectId} : [ {movePacket.DirX}, {movePacket.DirY}, {movePacket.DirZ}]");
             }
         }
 
+        #endregion
         public void HandleEnemyMove(ClientSession session, C_Enemymove packet)
         {
             S_Enemymove resPacket = new S_Enemymove();
-            Console.WriteLine($"EnemyInArea : {packet.Enemies.Count}");
+            Console.WriteLine($"EnemyArea Packet Size : {packet.CalculateSize()}");
+            Console.WriteLine($"EnemyCount : {packet.Enemies.Count}");
             foreach(Objectinfo info in packet.Enemies)
             {
-                Enemy enemy = null;
-                enemies.TryGetValue(info.ObjectId, out enemy);
-                if(enemy != null)
+                if(enemies.TryGetValue(info.ObjectId, out Enemy enemy))
                 {
                     enemy.objectinfo.Pos = info.Pos;
-                    enemy.objectinfo.CellInfo = map.WorldToCell(info.Pos);
                     resPacket.Enemies.Add(info);
                 }
             }
-
             BroadCast(resPacket);
         }
 
         public void SpawnEnemy()
         {
-            Enemy enemy = ObjectManager.Instance.Add<Enemy>();
-            enemy.map = map;
-            enemy.objectinfo.ObjectId = enemy.objectId;
-            enemy.objectinfo.CellInfo = map.WorldToCell(enemy.objectinfo.Pos);
-            enemy.objectinfo.TemplateId = 200001;
+            if (isSkillSelect) return;
+
+            Enemy enemy = spawningPool.TrySpawn();
             enemies.Add(enemy.objectId, enemy);
-            enemy.objectinfo.TargetId = FindeTargetPlayer(enemy.objectinfo.Pos);
 
             S_Spawnenemy packet = new S_Spawnenemy()
             {
@@ -205,50 +220,86 @@ namespace Server
             };
 
             BroadCast(packet);
-            PushAfter(5000, SpawnEnemy);
-
-            Console.WriteLine($"Enemy {enemy.objectinfo.ObjectId} -> Player {enemy.objectinfo.TargetId}");
-
-            /*
-            try
-            {
-                
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[SpawnEnemy ERROR] {ex}");
-            }
-            finally
-            {
-                PushAfter(5000, SpawnEnemy);
-            }
-            */
+            PushAfter(1500, SpawnEnemy);
         }
 
-        public int FindeTargetPlayer(Positioninfo info)
+        public void AddExp(ClientSession session, C_Exp packet)
         {
-            GamePlayer closestPlayer = null;
+            exp = packet.ExpCount;
 
-            float closestDistance = float.MaxValue;
+            S_Exp resPacket = new S_Exp() {  ExpCount = exp };
+            BroadCast(resPacket);
 
-            foreach (GamePlayer player in players.Values)
+            if (exp >= maxExp)
             {
-                Positioninfo targetInfo = player.objectinfo.Pos;
+                LevelUp();
+            }
+        }
 
-                float dx = info.PosX - targetInfo.PosX;
-                float dy = info.PosY - targetInfo.PosY;
-                float dz = info.PosZ - targetInfo.PosZ;
+        #region :::: LevelUp & SkillSelect
+        void LevelUp()
+        {
+            isSkillSelect = true;
+            level++;
+            maxExp *= 2;
+            exp = 0;
 
-                float distance = (dx * dx) + (dy * dy) + (dz * dz); 
+            S_Levelup packet = new S_Levelup();
+            BroadCast(packet);
 
-                if (distance < closestDistance)
+            PushAfter(10000, LevelUpFinish);
+            //TODO : 스킬 선택 타이머 시작
+        }
+
+        
+        public void SkillSelect(ClientSession session, IMessage pkt)
+        {
+            if(players.TryGetValue(session.sessionId, out GamePlayer player))
+            {
+                player.isSkillSelect = true;
+            }
+
+            switch (pkt.GetType() as IMessage)
+            {
+                case C_Upgradeskill:
+                    C_Upgradeskill upgradeSkill = pkt as C_Upgradeskill;
+                    player.skillManageComponent.UpgradeSkill(upgradeSkill.Skillinfo.Id);
+                    break;
+                case C_Newskill:
+                    C_Newskill newSkill = pkt as C_Newskill;
+                    player.skillManageComponent.AddSkill(newSkill.Skillinfo);
+                    break;
+                default:
+                    break;
+            }
+
+            int count = 0;
+            foreach(GamePlayer p in players.Values)
+            {
+                if (p.isSkillSelect)
                 {
-                    closestDistance = distance;
-                    closestPlayer = player;
+                    count++;
                 }
             }
 
-            return closestPlayer.session.sessionId;
+            S_Skillselect selectPacket = new S_Skillselect();
+            BroadCast(selectPacket);
+
+            if (count.Equals(PlayerCount))
+            {
+                LevelUpFinish();
+            }
+
         }
+
+        private void LevelUpFinish()
+        {
+            if (!isSkillSelect) return;
+
+            isSkillSelect = false;
+            BroadCast(new S_Levelupfinish());
+            PushAfter(1500, SpawnEnemy);
+        }
+        #endregion
     }
 }

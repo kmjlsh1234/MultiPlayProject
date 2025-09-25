@@ -21,7 +21,7 @@ namespace ServerCore
         SocketAsyncEventArgs recvArgs = new SocketAsyncEventArgs();
         SocketAsyncEventArgs sendArgs = new SocketAsyncEventArgs();
 
-        RecvBuffer recvBuffer = new RecvBuffer(1024);
+        RecvBuffer recvBuffer = new RecvBuffer(65535);
 
         #region
         public abstract void OnConnected(EndPoint endPoint);
@@ -129,6 +129,7 @@ namespace ServerCore
             }
             else
             {
+                Console.WriteLine("OnSendCompleted");
                 Disconnect();
             }
             
@@ -159,6 +160,7 @@ namespace ServerCore
                 bool isWriteSuccess = recvBuffer.OnWrite(args.BytesTransferred);
                 if (!isWriteSuccess)
                 {
+                    Console.WriteLine("OnRecvCompleted.IsWriteSuccess Error");
                     Disconnect();
                 }
 
@@ -169,6 +171,7 @@ namespace ServerCore
                 bool isReadSuccess = recvBuffer.OnRead(readLen);
                 if (!isReadSuccess)
                 {
+                    Console.WriteLine("OnRecvCompleted.isReadSuccess Error");
                     Disconnect();
                 }
                 RegistRecv();
@@ -176,6 +179,8 @@ namespace ServerCore
             }
             else
             {
+                Console.WriteLine($"args.BytesTransferred : {args.BytesTransferred}");
+                Console.WriteLine("OnRecvCompleted Error Point");
                 Disconnect();
             }  
         }

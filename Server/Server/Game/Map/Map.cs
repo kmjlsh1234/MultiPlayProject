@@ -10,7 +10,7 @@ namespace Server.Game
 {
     public class Cell
     {
-        public HashSet<int> GameObjects = new HashSet<int>(); 
+        public HashSet<GameObject> GameObjects = new HashSet<GameObject>(); 
     }
 
     public class Map
@@ -18,13 +18,14 @@ namespace Server.Game
         public GameRoom room { get; set; }
 
         private readonly float cellSize;
-        private readonly float minX;
-        private readonly float minY;
+        private readonly int minX;
+        private readonly int minY;
         private readonly int width;
         private readonly int height;
-        private readonly Cell[,] cells;
 
-        public Map(float cellSize, float minX, float minY, float maxX , float maxY)
+        private Dictionary<Cellinfo, Cell> cells = new Dictionary<Cellinfo, Cell>();
+
+        public Map(float cellSize, int minX, int minY, int maxX , int maxY)
         {
             this.cellSize = cellSize;
             this.minX = minX;
@@ -33,12 +34,13 @@ namespace Server.Game
             this.width = (int)Math.Ceiling((maxX - minX) / cellSize);
             this.height = (int)Math.Ceiling((maxY - minY) / cellSize);
 
-            cells = new Cell[width, height];
-            for(int x = 0; x< width; x++)
+            
+            for(int x = minX; x< maxX; x++)
             {
-                for(int y = 0; y< height; y++)
+                for(int y = minY; y< maxY; y++)
                 {
-                    cells[x,y] = new Cell();
+                    Cellinfo key = new Cellinfo() { X = x, Y = y };
+                    cells.Add(key, new Cell());
                 }
             }
         }
@@ -50,12 +52,59 @@ namespace Server.Game
 
         public Cellinfo WorldToCell(Positioninfo pos)
         {
-            Cellinfo cellPos = new Cellinfo();
-            cellPos.X = (int)Math.Floor((pos.PosX - minX) / cellSize);
-            cellPos.Y = 0; 
-            cellPos.Z = (int)Math.Floor((pos.PosZ - minY) / cellSize);
-            return cellPos;
+            Cellinfo cell = new Cellinfo();
+
+            cell.X = (int)Math.Floor(pos.PosX / cellSize);
+            cell.Y = (int)Math.Floor(pos.PosZ / cellSize);
+
+            return cell;
         }
 
+        public void UpdateObjectPosition(GameObject go, Cellinfo oldCellPos, Cellinfo newCellPos)
+        {
+            if (cells.TryGetValue(oldCellPos, out Cell oldCell))
+            {
+                oldCell.GameObjects.Remove(go);
+                Add(go, newCellPos);
+            }
+        }
+
+        public void Remove(GameObject go)
+        {
+            Cell cell = GetCell(go.objectinfo.CellInfo);
+            if (cell == null)
+                return;
+
+            cell.GameObjects.Remove(go);
+
+        }
+        public void Add(GameObject go, Cellinfo cellPos)
+        {
+            Cell cell = GetCell(cellPos);
+
+            if (cell != null)
+            {
+                cell.GameObjects.Add(go);
+            }
+        }
+
+        private Cell GetCell(Cellinfo info)
+        {
+            Cell cell = null;
+            
+            if (cells.TryGetValue(info, out cell) == false)
+            {
+                cell = new Cell();
+                cells.Add(info, cell);
+            }
+
+            return cell;
+        }
+
+        // 두 셀 사이의 거리 계산 (맨하탄 거리)
+        public int GetCellDistance(Cellinfo cell1, Cellinfo cell2)
+        {
+            return Math.Abs(cell1.X - cell2.X) + Math.Abs(cell1.Y - cell2.Y);
+        }
     }
 }

@@ -83,6 +83,18 @@ public class PacketManager
 
         onRecv.Add((ushort) MsgId.SInput, MakePacket<S_Input>);
         handler.Add((ushort)MsgId.SInput, PacketHandler.S_InputHandler);
+
+        onRecv.Add((ushort) MsgId.SExp, MakePacket<S_Exp>);
+        handler.Add((ushort)MsgId.SExp, PacketHandler.S_ExpHandler);
+
+        onRecv.Add((ushort) MsgId.SLevelup, MakePacket<S_Levelup>);
+        handler.Add((ushort)MsgId.SLevelup, PacketHandler.S_LevelupHandler);
+
+        onRecv.Add((ushort) MsgId.SSkillselect, MakePacket<S_Skillselect>);
+        handler.Add((ushort)MsgId.SSkillselect, PacketHandler.S_SkillselectHandler);
+
+        onRecv.Add((ushort) MsgId.SLevelupfinish, MakePacket<S_Levelupfinish>);
+        handler.Add((ushort)MsgId.SLevelupfinish, PacketHandler.S_LevelupfinishHandler);
         
     
     }
