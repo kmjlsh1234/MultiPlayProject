@@ -1,30 +1,29 @@
 syntax = "proto3";
 package Protocol;
 
-import "google/protobuf/timestamp.proto";
 import "Protocol_Enum.proto";
 import "Protocol_Data.proto"; 
 option csharp_namespace = "Google.Protobuf.Protocol";
 
-message C_Joinroom{
+message C_JoinRoom{
     int32 roomId = 1;
 }
 
-message S_Gameroominfo {
-    Gameroominfo roomInfo = 1;
+message S_GameRoomInfo {
+    GameRoomInfo roomInfo = 1;
 }
 
-message S_Inviteroom{
+message S_InviteRoom{
     int32 roomId = 1;
 }
 
-message S_Entergameroom{
+message S_EnterGameRoom{
 }
 
-message C_Exitgameroom {
+message C_ExitGameRoom {
 }
 
-message S_Exitgameroom {
+message S_ExitGameRoom {
     int32 sessionId = 1;
 }
 
@@ -46,30 +45,30 @@ message S_Move{
 }
 
 message C_Input{
-    Inputinfo input = 1;
-    Cellinfo cellInfo = 2;
+    InputInfo input = 1;
+    CellInfo cellInfo = 2;
 }
 
 message S_Input{
     int32 sessionId = 1;
-    Inputinfo input = 2;
-    Cellinfo cellInfo = 3;
+    InputInfo input = 2;
+    CellInfo cellInfo = 3;
 }
 
-message S_Ingamestart{
+message S_InGameStart{
     
 }
 
-message S_Spawnenemy{
-    Objectinfo objectInfo = 1;
+message S_SpawnEnemy{
+    ObjectInfo objectInfo = 1;
 }
 
-message C_Enemymove {
-    repeated Objectinfo enemies = 1;
+message C_EnemyMove {
+    repeated ObjectInfo enemies = 1;
 }
 
-message S_Enemymove {
-    repeated Objectinfo enemies = 1;
+message S_EnemyMove {
+    repeated ObjectInfo enemies = 1;
 }
 
 message C_Skill {
@@ -88,23 +87,23 @@ message S_Exp {
     int32 expCount = 1;
 }
 
-message S_Levelup {
+message S_LevelUp {
 
 }
 
-message C_Newskill {
-    Skillinfo Skillinfo = 1;
+message C_NewSkill {
+    SkillInfo skillinfo = 1;
 }
 
-message C_Upgradeskill{
-    Skillinfo Skillinfo = 1;
+message C_UpgradeSkill{
+    SkillInfo skillinfo = 1;
 }
 
-message S_Skillselect{
+message S_SkillSelect{
     int32 sessionId = 1;
-    Skillinfo Skillinfo = 2;
+    SkillInfo skillinfo = 2;
 }
 
-message S_Levelupfinish{
+message S_LevelUpFinish{
 
 }

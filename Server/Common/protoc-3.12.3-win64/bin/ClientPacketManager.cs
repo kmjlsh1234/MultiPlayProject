@@ -21,8 +21,8 @@ public class PacketManager
 
     public void Register()
     {
-        onRecv.Add((ushort) MsgId.SPongcheck, MakePacket<S_Pongcheck>);
-        handler.Add((ushort)MsgId.SPongcheck, PacketHandler.S_PongcheckHandler);
+        onRecv.Add((ushort) MsgId.SPongCheck, MakePacket<S_PongCheck>);
+        handler.Add((ushort)MsgId.SPongCheck, PacketHandler.S_PongCheckHandler);
 
         onRecv.Add((ushort) MsgId.SConnect, MakePacket<S_Connect>);
         handler.Add((ushort)MsgId.SConnect, PacketHandler.S_ConnectHandler);
@@ -33,53 +33,53 @@ public class PacketManager
         onRecv.Add((ushort) MsgId.SReady, MakePacket<S_Ready>);
         handler.Add((ushort)MsgId.SReady, PacketHandler.S_ReadyHandler);
 
-        onRecv.Add((ushort) MsgId.SLoadingstart, MakePacket<S_Loadingstart>);
-        handler.Add((ushort)MsgId.SLoadingstart, PacketHandler.S_LoadingstartHandler);
+        onRecv.Add((ushort) MsgId.SLoadingStart, MakePacket<S_LoadingStart>);
+        handler.Add((ushort)MsgId.SLoadingStart, PacketHandler.S_LoadingStartHandler);
 
         onRecv.Add((ushort) MsgId.SMove, MakePacket<S_Move>);
         handler.Add((ushort)MsgId.SMove, PacketHandler.S_MoveHandler);
 
-        onRecv.Add((ushort) MsgId.SExitroom, MakePacket<S_Exitroom>);
-        handler.Add((ushort)MsgId.SExitroom, PacketHandler.S_ExitroomHandler);
+        onRecv.Add((ushort) MsgId.SExitRoom, MakePacket<S_ExitRoom>);
+        handler.Add((ushort)MsgId.SExitRoom, PacketHandler.S_ExitRoomHandler);
 
-        onRecv.Add((ushort) MsgId.SEntermatchroom, MakePacket<S_Entermatchroom>);
-        handler.Add((ushort)MsgId.SEntermatchroom, PacketHandler.S_EntermatchroomHandler);
+        onRecv.Add((ushort) MsgId.SEnterMatchRoom, MakePacket<S_EnterMatchRoom>);
+        handler.Add((ushort)MsgId.SEnterMatchRoom, PacketHandler.S_EnterMatchRoomHandler);
 
-        onRecv.Add((ushort) MsgId.SMatchroominfo, MakePacket<S_Matchroominfo>);
-        handler.Add((ushort)MsgId.SMatchroominfo, PacketHandler.S_MatchroominfoHandler);
+        onRecv.Add((ushort) MsgId.SMatchRoomInfo, MakePacket<S_MatchRoomInfo>);
+        handler.Add((ushort)MsgId.SMatchRoomInfo, PacketHandler.S_MatchRoomInfoHandler);
 
-        onRecv.Add((ushort) MsgId.SIngamestart, MakePacket<S_Ingamestart>);
-        handler.Add((ushort)MsgId.SIngamestart, PacketHandler.S_IngamestartHandler);
+        onRecv.Add((ushort) MsgId.SInGameStart, MakePacket<S_InGameStart>);
+        handler.Add((ushort)MsgId.SInGameStart, PacketHandler.S_InGameStartHandler);
 
-        onRecv.Add((ushort) MsgId.SSpawnenemy, MakePacket<S_Spawnenemy>);
-        handler.Add((ushort)MsgId.SSpawnenemy, PacketHandler.S_SpawnenemyHandler);
+        onRecv.Add((ushort) MsgId.SSpawnEnemy, MakePacket<S_SpawnEnemy>);
+        handler.Add((ushort)MsgId.SSpawnEnemy, PacketHandler.S_SpawnEnemyHandler);
 
-        onRecv.Add((ushort) MsgId.SErrorcode, MakePacket<S_Errorcode>);
-        handler.Add((ushort)MsgId.SErrorcode, PacketHandler.S_ErrorcodeHandler);
+        onRecv.Add((ushort) MsgId.SErrorCode, MakePacket<S_ErrorCode>);
+        handler.Add((ushort)MsgId.SErrorCode, PacketHandler.S_ErrorCodeHandler);
 
-        onRecv.Add((ushort) MsgId.SExitgameroom, MakePacket<S_Exitgameroom>);
-        handler.Add((ushort)MsgId.SExitgameroom, PacketHandler.S_ExitgameroomHandler);
+        onRecv.Add((ushort) MsgId.SExitGameRoom, MakePacket<S_ExitGameRoom>);
+        handler.Add((ushort)MsgId.SExitGameRoom, PacketHandler.S_ExitGameRoomHandler);
 
-        onRecv.Add((ushort) MsgId.SEnemymove, MakePacket<S_Enemymove>);
-        handler.Add((ushort)MsgId.SEnemymove, PacketHandler.S_EnemymoveHandler);
+        onRecv.Add((ushort) MsgId.SEnemyMove, MakePacket<S_EnemyMove>);
+        handler.Add((ushort)MsgId.SEnemyMove, PacketHandler.S_EnemyMoveHandler);
 
-        onRecv.Add((ushort) MsgId.SGameroominfo, MakePacket<S_Gameroominfo>);
-        handler.Add((ushort)MsgId.SGameroominfo, PacketHandler.S_GameroominfoHandler);
+        onRecv.Add((ushort) MsgId.SGameRoomInfo, MakePacket<S_GameRoomInfo>);
+        handler.Add((ushort)MsgId.SGameRoomInfo, PacketHandler.S_GameRoomInfoHandler);
 
-        onRecv.Add((ushort) MsgId.SEnterpartyroom, MakePacket<S_Enterpartyroom>);
-        handler.Add((ushort)MsgId.SEnterpartyroom, PacketHandler.S_EnterpartyroomHandler);
+        onRecv.Add((ushort) MsgId.SEnterPartyRoom, MakePacket<S_EnterPartyRoom>);
+        handler.Add((ushort)MsgId.SEnterPartyRoom, PacketHandler.S_EnterPartyRoomHandler);
 
-        onRecv.Add((ushort) MsgId.SPartyroominfo, MakePacket<S_Partyroominfo>);
-        handler.Add((ushort)MsgId.SPartyroominfo, PacketHandler.S_PartyroominfoHandler);
+        onRecv.Add((ushort) MsgId.SPartyRoomInfo, MakePacket<S_PartyRoomInfo>);
+        handler.Add((ushort)MsgId.SPartyRoomInfo, PacketHandler.S_PartyRoomInfoHandler);
 
-        onRecv.Add((ushort) MsgId.SExitpartyroom, MakePacket<S_Exitpartyroom>);
-        handler.Add((ushort)MsgId.SExitpartyroom, PacketHandler.S_ExitpartyroomHandler);
+        onRecv.Add((ushort) MsgId.SExitPartyRoom, MakePacket<S_ExitPartyRoom>);
+        handler.Add((ushort)MsgId.SExitPartyRoom, PacketHandler.S_ExitPartyRoomHandler);
 
         onRecv.Add((ushort) MsgId.SInvite, MakePacket<S_Invite>);
         handler.Add((ushort)MsgId.SInvite, PacketHandler.S_InviteHandler);
 
-        onRecv.Add((ushort) MsgId.SMatchstart, MakePacket<S_Matchstart>);
-        handler.Add((ushort)MsgId.SMatchstart, PacketHandler.S_MatchstartHandler);
+        onRecv.Add((ushort) MsgId.SMatchStart, MakePacket<S_MatchStart>);
+        handler.Add((ushort)MsgId.SMatchStart, PacketHandler.S_MatchStartHandler);
 
         onRecv.Add((ushort) MsgId.SInput, MakePacket<S_Input>);
         handler.Add((ushort)MsgId.SInput, PacketHandler.S_InputHandler);
@@ -87,14 +87,14 @@ public class PacketManager
         onRecv.Add((ushort) MsgId.SExp, MakePacket<S_Exp>);
         handler.Add((ushort)MsgId.SExp, PacketHandler.S_ExpHandler);
 
-        onRecv.Add((ushort) MsgId.SLevelup, MakePacket<S_Levelup>);
-        handler.Add((ushort)MsgId.SLevelup, PacketHandler.S_LevelupHandler);
+        onRecv.Add((ushort) MsgId.SLevelUp, MakePacket<S_LevelUp>);
+        handler.Add((ushort)MsgId.SLevelUp, PacketHandler.S_LevelUpHandler);
 
-        onRecv.Add((ushort) MsgId.SSkillselect, MakePacket<S_Skillselect>);
-        handler.Add((ushort)MsgId.SSkillselect, PacketHandler.S_SkillselectHandler);
+        onRecv.Add((ushort) MsgId.SSkillSelect, MakePacket<S_SkillSelect>);
+        handler.Add((ushort)MsgId.SSkillSelect, PacketHandler.S_SkillSelectHandler);
 
-        onRecv.Add((ushort) MsgId.SLevelupfinish, MakePacket<S_Levelupfinish>);
-        handler.Add((ushort)MsgId.SLevelupfinish, PacketHandler.S_LevelupfinishHandler);
+        onRecv.Add((ushort) MsgId.SLevelUpFinish, MakePacket<S_LevelUpFinish>);
+        handler.Add((ushort)MsgId.SLevelUpFinish, PacketHandler.S_LevelUpFinishHandler);
         
     
     }

@@ -26,15 +26,15 @@ public partial class PacketHandler
         Console.WriteLine("Connect Packet Recv");
     }
 
-    public static void C_CreatepartyroomHandler(Session s, IMessage pkt)
+    public static void C_CreatePartyRoomHandler(Session s, IMessage pkt)
     {
 
     }
 
-    public static void C_EnterpartyroomHandler(Session s, IMessage pkt)
+    public static void C_EnterPartyRoomHandler(Session s, IMessage pkt)
     {
         ClientSession session = s as ClientSession;
-        C_Enterpartyroom packet = pkt as C_Enterpartyroom;
+        C_EnterPartyRoom packet = pkt as C_EnterPartyRoom;
         //룸 입장 처리
         PartyRoom room = RoomManager.Instance.FindRoom<PartyRoom>(packet.RoomId, RoomType.Party);
         if (room != null)
@@ -42,7 +42,7 @@ public partial class PacketHandler
             //매치 중이거나 게임 중인지 체크
             if (!room.roomState.Equals(RoomState.LobbySate))
             {
-                S_Errorcode errorPacket = ErrorCodeFactory.GetErrorCode(ErrorCode.FAIL_ROOM_FIND);
+                S_ErrorCode errorPacket = ErrorCodeFactory.GetErrorCode(ErrorCode.FAIL_ROOM_FIND);
                 session.Send(errorPacket);
                 return;
             }
@@ -51,19 +51,19 @@ public partial class PacketHandler
         }
         else
         {
-            S_Errorcode errorPacket = ErrorCodeFactory.GetErrorCode(ErrorCode.FAIL_ROOM_FIND);
+            S_ErrorCode errorPacket = ErrorCodeFactory.GetErrorCode(ErrorCode.FAIL_ROOM_FIND);
             session.Send(errorPacket);
         }
     }
 
-    public static void C_ExitpartyroomHandler(Session s, IMessage pkt)
+    public static void C_ExitPartyRoomHandler(Session s, IMessage pkt)
     {
         ClientSession session = s as ClientSession;
         
         session.partyRoom.ExitRoom(session);
     }
 
-    public static void C_CreateroomHandler(Session s, IMessage pkt)
+    public static void C_CreateRoomHandler(Session s, IMessage pkt)
     {
         ClientSession session = s as ClientSession;
         MatchRoom matchRoom = RoomManager.Instance.CreateRoom<MatchRoom>(session.sessionId);
@@ -72,7 +72,7 @@ public partial class PacketHandler
     }
 
     //TODO : 나중에 Redis API로 변경
-    public static void C_CreateorjoinroomHandler(Session s, IMessage pkt)
+    public static void C_CreateOrJoinRoomHandler(Session s, IMessage pkt)
     {
         ClientSession session = s as ClientSession;
 
@@ -91,7 +91,7 @@ public partial class PacketHandler
         //초대 받을 세션 있는지 체크
         if(targetSession == null)
         {
-            S_Errorcode errorPacket = ErrorCodeFactory.GetErrorCode(ErrorCode.SESSION_NOT_FOUND);
+            S_ErrorCode errorPacket = ErrorCodeFactory.GetErrorCode(ErrorCode.SESSION_NOT_FOUND);
             session.Send(errorPacket);
             Console.WriteLine($"ErrorCode : SESSION_NOT_FOUND");
             return;
@@ -100,7 +100,7 @@ public partial class PacketHandler
         //세션이 이미 파티에 가입되어 있는지 체크
         if (targetSession.partyRoom != null)
         {
-            S_Errorcode errorPacket = ErrorCodeFactory.GetErrorCode(ErrorCode.SESSION_ALREADY_IN_ROOM);
+            S_ErrorCode errorPacket = ErrorCodeFactory.GetErrorCode(ErrorCode.SESSION_ALREADY_IN_ROOM);
             session.Send(errorPacket);
             Console.WriteLine($"ErrorCode : SESSION_ALREADY_IN_ROOM");
             return;

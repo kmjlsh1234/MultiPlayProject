@@ -59,7 +59,7 @@ namespace Server
             
             if (count == players.Count)
             {
-                S_Loadingstart packet = new S_Loadingstart();
+                S_LoadingStart packet = new S_LoadingStart();
                 BroadCast(packet);
             }
         }
@@ -85,7 +85,7 @@ namespace Server
             }
 
             //Room에 BroadCast
-            S_Exitgameroom exitRoomPacket = new S_Exitgameroom()
+            S_ExitGameRoom exitRoomPacket = new S_ExitGameRoom()
             {
                 SessionId = session.sessionId,
             };
@@ -114,16 +114,16 @@ namespace Server
             loadingCompleteCount++;
             if (loadingCompleteCount.Equals(PlayerCount))
             {
-                S_Gameroominfo packet = new S_Gameroominfo();
+                S_GameRoomInfo packet = new S_GameRoomInfo();
                 
-                Gameroominfo info = new Gameroominfo();
+                GameRoomInfo info = new GameRoomInfo();
                 info.RoomId = roomId;
                 info.MasterId = masterId;
                 info.RandomSeed = randomSeed;
 
                 foreach(GamePlayer gamePlayer in players.Values)
                 {
-                    info.Players.Add(gamePlayer.objectinfo);
+                    info.Players.Add(gamePlayer.objectInfo);
                 }
 
                 packet.RoomInfo = info;
@@ -146,9 +146,9 @@ namespace Server
         {
             if(players.TryGetValue(session.sessionId, out GamePlayer player))
             {
-                player.objectinfo.Pos.PosX = packet.PosX;
-                player.objectinfo.Pos.PosY = packet.PosY;
-                player.objectinfo.Pos.PosZ = packet.PosZ;
+                player.objectInfo.Pos.PosX = packet.PosX;
+                player.objectInfo.Pos.PosY = packet.PosY;
+                player.objectInfo.Pos.PosZ = packet.PosZ;
                 S_Move movePacket = new S_Move()
                 {
                     SessionId = player.session.sessionId,
@@ -170,12 +170,12 @@ namespace Server
                 //TODO : 유저 위치 업데이트
                 //UpdatePlayerPosition(player, packet);
 
-                player.objectinfo.CellInfo = packet.CellInfo;
+                player.objectInfo.CellInfo = packet.CellInfo;
                 
                 S_Input movePacket = new S_Input()
                 {
                     SessionId = player.session.sessionId,
-                    Input = new Inputinfo()
+                    Input = new InputInfo()
                     {
                         X = packet.Input.X,
                         Y = packet.Input.Y,
@@ -191,16 +191,16 @@ namespace Server
         }
 
         #endregion
-        public void HandleEnemyMove(ClientSession session, C_Enemymove packet)
+        public void HandleEnemyMove(ClientSession session, C_EnemyMove packet)
         {
-            S_Enemymove resPacket = new S_Enemymove();
+            S_EnemyMove resPacket = new S_EnemyMove();
             Console.WriteLine($"EnemyArea Packet Size : {packet.CalculateSize()}");
             Console.WriteLine($"EnemyCount : {packet.Enemies.Count}");
-            foreach(Objectinfo info in packet.Enemies)
+            foreach(ObjectInfo info in packet.Enemies)
             {
                 if(enemies.TryGetValue(info.ObjectId, out Enemy enemy))
                 {
-                    enemy.objectinfo.Pos = info.Pos;
+                    enemy.objectInfo.Pos = info.Pos;
                     resPacket.Enemies.Add(info);
                 }
             }
@@ -214,9 +214,9 @@ namespace Server
             Enemy enemy = spawningPool.TrySpawn();
             enemies.Add(enemy.objectId, enemy);
 
-            S_Spawnenemy packet = new S_Spawnenemy()
+            S_SpawnEnemy packet = new S_SpawnEnemy()
             {
-                ObjectInfo = enemy.objectinfo
+                ObjectInfo = enemy.objectInfo
             };
 
             BroadCast(packet);
@@ -244,7 +244,7 @@ namespace Server
             maxExp *= 2;
             exp = 0;
 
-            S_Levelup packet = new S_Levelup();
+            S_LevelUp packet = new S_LevelUp();
             BroadCast(packet);
 
             PushAfter(10000, LevelUpFinish);
@@ -261,12 +261,12 @@ namespace Server
 
             switch (pkt.GetType() as IMessage)
             {
-                case C_Upgradeskill:
-                    C_Upgradeskill upgradeSkill = pkt as C_Upgradeskill;
+                case C_UpgradeSkill:
+                    C_UpgradeSkill upgradeSkill = pkt as C_UpgradeSkill;
                     player.skillManageComponent.UpgradeSkill(upgradeSkill.Skillinfo.Id);
                     break;
-                case C_Newskill:
-                    C_Newskill newSkill = pkt as C_Newskill;
+                case C_NewSkill:
+                    C_NewSkill newSkill = pkt as C_NewSkill;
                     player.skillManageComponent.AddSkill(newSkill.Skillinfo);
                     break;
                 default:
@@ -282,7 +282,7 @@ namespace Server
                 }
             }
 
-            S_Skillselect selectPacket = new S_Skillselect();
+            S_SkillSelect selectPacket = new S_SkillSelect();
             BroadCast(selectPacket);
 
             if (count.Equals(PlayerCount))
@@ -297,7 +297,7 @@ namespace Server
             if (!isSkillSelect) return;
 
             isSkillSelect = false;
-            BroadCast(new S_Levelupfinish());
+            BroadCast(new S_LevelUpFinish());
             PushAfter(1500, SpawnEnemy);
         }
         #endregion

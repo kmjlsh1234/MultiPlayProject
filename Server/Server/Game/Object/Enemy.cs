@@ -25,16 +25,16 @@ namespace Server.Game.Object
         {
             this.gameRoom = gameRoom;
 
-            objectinfo = new Objectinfo();
-            objectinfo.ObjectId = objectId;
-            objectinfo.TemplateId = 200001;
-            objectinfo.Pos = new Positioninfo()
+            objectInfo = new ObjectInfo();
+            objectInfo.ObjectId = objectId;
+            objectInfo.TemplateId = 200001;
+            objectInfo.Pos = new PositionInfo()
             {
                 PosX = position.X,
                 PosY = 0f,
                 PosZ = position.Y
             };
-            objectinfo.StateInfo = new Stateinfo()
+            objectInfo.StateInfo = new StateInfo()
             {
                 Hp = 100,
                 MaxHp = 100,
@@ -42,12 +42,12 @@ namespace Server.Game.Object
                 Level = 1,
                 Speed = 2,
             };
-            objectinfo.CellInfo = gameRoom.map.WorldToCell(objectinfo.Pos);
+            objectInfo.CellInfo = gameRoom.map.WorldToCell(objectInfo.Pos);
             
             targetPlayer = FindTargetPlayer();
             if(targetPlayer != null)
             {
-                objectinfo.TargetId = targetPlayer.objectId;
+                objectInfo.TargetId = targetPlayer.objectId;
             }
             
         }
@@ -76,7 +76,7 @@ namespace Server.Game.Object
             int minDintance = int.MaxValue;
             foreach (GamePlayer player in gameRoom.players.Values)
             {
-                int distance = gameRoom.map.GetCellDistance(objectinfo.CellInfo, player.objectinfo.CellInfo);
+                int distance = gameRoom.map.GetCellDistance(objectInfo.CellInfo, player.objectInfo.CellInfo);
                 if (distance < minDintance)
                 {
                     minDintance = distance;
@@ -84,19 +84,19 @@ namespace Server.Game.Object
                 }
             }
 
-            objectinfo.TargetId = target.objectId;
+            objectInfo.TargetId = target.objectId;
             return target;
         }
 
         public void UpdateGridPosition()
         {
-            Cellinfo newCell = gameRoom.map.WorldToCell(objectinfo.Pos);
+            CellInfo newCell = gameRoom.map.WorldToCell(objectInfo.Pos);
 
-            if (newCell != objectinfo.CellInfo)
+            if (newCell != objectInfo.CellInfo)
             {
-                gameRoom.map.UpdateObjectPosition(this, objectinfo.CellInfo, newCell);
+                gameRoom.map.UpdateObjectPosition(this, objectInfo.CellInfo, newCell);
             }
-            objectinfo.CellInfo = newCell;
+            objectInfo.CellInfo = newCell;
         }
 
         public void UpdateEnemyPos()

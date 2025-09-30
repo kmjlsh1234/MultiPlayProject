@@ -14,7 +14,7 @@ namespace PacketGenerator
         {
             List<string> files = new List<string>(args);
 
-            foreach(string file in files)
+            foreach (string file in files)
             {
                 bool startParsing = false;
                 foreach (string line in File.ReadAllLines(file))
@@ -24,7 +24,7 @@ namespace PacketGenerator
                         startParsing = true;
                         continue;
                     }
-                    
+
                     if (!startParsing)
                         continue;
 
@@ -39,46 +39,68 @@ namespace PacketGenerator
 
                     if (name.StartsWith("S_"))
                     {
-                        string[] words = name.Split("_");
+                        string msgName = RemoveUnderscorePascal(name);
+                        string packetName = ToPascalCaseSingleUnderscore(name);
 
-                        string msgName = "";
-                        foreach (string word in words)
-                        {
-                            msgName += FirstCharToUpper(word);
-                        }
-
-                        string packetName = $"S_{msgName.Substring(1)}";
                         clientRegister += string.Format(PacketFormat.managerRegisterFormat, msgName, packetName);
                     }
                     else if (name.StartsWith("C_"))
                     {
-                        string[] words = name.Split("_");
+                        string msgName = RemoveUnderscorePascal(name);
+                        string packetName = ToPascalCaseSingleUnderscore(name);
 
-                        string msgName = "";
-                        foreach (string word in words)
-                        {
-                            msgName += FirstCharToUpper(word);
-                        }
-
-                        string packetName = $"C_{msgName.Substring(1)}";
                         serverRegister += string.Format(PacketFormat.managerRegisterFormat, msgName, packetName);
                     }
                 }
             }
-            
-
 
             string clientManagerText = string.Format(PacketFormat.managerFormat, clientRegister);
             File.WriteAllText("ClientPacketManager.cs", clientManagerText);
             string serverManagerText = string.Format(PacketFormat.managerFormat, serverRegister);
             File.WriteAllText("ServerPacketManager.cs", serverManagerText);
-
         }
 
-        static string FirstCharToUpper(string input)
+        // C_EXIT_ROOM → CExitRoom
+        static string RemoveUnderscorePascal(string input)
         {
-            return input[0].ToString().ToUpper() + input.Substring(1).ToLower();
+            if (string.IsNullOrEmpty(input)) return input;
+
+            string[] parts = input.Split('_', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 0)
+                return input;
+
+            string prefix = parts[0]; // S or C
+            string result = prefix;
+
+            for (int i = 1; i < parts.Length; i++)
+            {
+                string lower = parts[i].ToLower();
+                result += char.ToUpper(lower[0]) + lower.Substring(1);
+            }
+
+            return result;
         }
-        
+
+        // C_EXIT_ROOM → C_ExitRoom
+        static string ToPascalCaseSingleUnderscore(string input)
+        {
+            if (string.IsNullOrEmpty(input)) return input;
+
+            string[] parts = input.Split('_', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length <= 1)
+                return input;
+
+            string prefix = parts[0]; // S or C
+
+            // 첫 번째 단어만 유지하고, 나머지는 PascalCase로 연결
+            string first = char.ToUpper(parts[1].ToLower()[0]) + parts[1].ToLower().Substring(1);
+            string rest = string.Concat(parts.Skip(2).Select(p =>
+            {
+                string lower = p.ToLower();
+                return char.ToUpper(lower[0]) + lower.Substring(1);
+            }));
+
+            return $"{prefix}_{first}{rest}";
+        }
     }
 }

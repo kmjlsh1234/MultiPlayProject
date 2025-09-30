@@ -24,31 +24,31 @@ namespace Google.Protobuf.Protocol {
     static ProtocolCommonReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChVQcm90b2NvbF9Db21tb24ucHJvdG8SCFByb3RvY29sGh9nb29nbGUvcHJv",
-            "dG9idWYvdGltZXN0YW1wLnByb3RvIg0KC0NfUGluZ2NoZWNrIg0KC1NfUG9u",
-            "Z2NoZWNrIhkKBkNfQ2hhdBIPCgdtZXNzYWdlGAEgASgJIj4KBlNfQ2hhdBIR",
-            "CglzZXNzaW9uSWQYASABKAUSEAoIbmlja05hbWUYAiABKAkSDwoHbWVzc2Fn",
-            "ZRgDIAEoCSIsCgtTX0Vycm9yY29kZRIMCgRjb2RlGAEgASgFEg8KB21lc3Nh",
-            "Z2UYAiABKAlCG6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIGcHJvdG8z"));
+            "ChVQcm90b2NvbF9Db21tb24ucHJvdG8SCFByb3RvY29sIg0KC0NfUGluZ0No",
+            "ZWNrIg0KC1NfUG9uZ0NoZWNrIhkKBkNfQ2hhdBIPCgdtZXNzYWdlGAEgASgJ",
+            "Ij4KBlNfQ2hhdBIRCglzZXNzaW9uSWQYASABKAUSEAoIbmlja05hbWUYAiAB",
+            "KAkSDwoHbWVzc2FnZRgDIAEoCSIsCgtTX0Vycm9yQ29kZRIMCgRjb2RlGAEg",
+            "ASgFEg8KB21lc3NhZ2UYAiABKAlCG6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90",
+            "b2NvbGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_Pingcheck), global::Google.Protobuf.Protocol.C_Pingcheck.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_Pongcheck), global::Google.Protobuf.Protocol.S_Pongcheck.Parser, null, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_PingCheck), global::Google.Protobuf.Protocol.C_PingCheck.Parser, null, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_PongCheck), global::Google.Protobuf.Protocol.S_PongCheck.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_Chat), global::Google.Protobuf.Protocol.C_Chat.Parser, new[]{ "Message" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_Chat), global::Google.Protobuf.Protocol.S_Chat.Parser, new[]{ "SessionId", "NickName", "Message" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_Errorcode), global::Google.Protobuf.Protocol.S_Errorcode.Parser, new[]{ "Code", "Message" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_ErrorCode), global::Google.Protobuf.Protocol.S_ErrorCode.Parser, new[]{ "Code", "Message" }, null, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  public sealed partial class C_Pingcheck : pb::IMessage<C_Pingcheck> {
-    private static readonly pb::MessageParser<C_Pingcheck> _parser = new pb::MessageParser<C_Pingcheck>(() => new C_Pingcheck());
+  public sealed partial class C_PingCheck : pb::IMessage<C_PingCheck> {
+    private static readonly pb::MessageParser<C_PingCheck> _parser = new pb::MessageParser<C_PingCheck>(() => new C_PingCheck());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<C_Pingcheck> Parser { get { return _parser; } }
+    public static pb::MessageParser<C_PingCheck> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -61,29 +61,29 @@ namespace Google.Protobuf.Protocol {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public C_Pingcheck() {
+    public C_PingCheck() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public C_Pingcheck(C_Pingcheck other) : this() {
+    public C_PingCheck(C_PingCheck other) : this() {
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public C_Pingcheck Clone() {
-      return new C_Pingcheck(this);
+    public C_PingCheck Clone() {
+      return new C_PingCheck(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as C_Pingcheck);
+      return Equals(other as C_PingCheck);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(C_Pingcheck other) {
+    public bool Equals(C_PingCheck other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -124,7 +124,7 @@ namespace Google.Protobuf.Protocol {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(C_Pingcheck other) {
+    public void MergeFrom(C_PingCheck other) {
       if (other == null) {
         return;
       }
@@ -145,11 +145,11 @@ namespace Google.Protobuf.Protocol {
 
   }
 
-  public sealed partial class S_Pongcheck : pb::IMessage<S_Pongcheck> {
-    private static readonly pb::MessageParser<S_Pongcheck> _parser = new pb::MessageParser<S_Pongcheck>(() => new S_Pongcheck());
+  public sealed partial class S_PongCheck : pb::IMessage<S_PongCheck> {
+    private static readonly pb::MessageParser<S_PongCheck> _parser = new pb::MessageParser<S_PongCheck>(() => new S_PongCheck());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<S_Pongcheck> Parser { get { return _parser; } }
+    public static pb::MessageParser<S_PongCheck> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -162,29 +162,29 @@ namespace Google.Protobuf.Protocol {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_Pongcheck() {
+    public S_PongCheck() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_Pongcheck(S_Pongcheck other) : this() {
+    public S_PongCheck(S_PongCheck other) : this() {
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_Pongcheck Clone() {
-      return new S_Pongcheck(this);
+    public S_PongCheck Clone() {
+      return new S_PongCheck(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as S_Pongcheck);
+      return Equals(other as S_PongCheck);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(S_Pongcheck other) {
+    public bool Equals(S_PongCheck other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -225,7 +225,7 @@ namespace Google.Protobuf.Protocol {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(S_Pongcheck other) {
+    public void MergeFrom(S_PongCheck other) {
       if (other == null) {
         return;
       }
@@ -560,11 +560,11 @@ namespace Google.Protobuf.Protocol {
 
   }
 
-  public sealed partial class S_Errorcode : pb::IMessage<S_Errorcode> {
-    private static readonly pb::MessageParser<S_Errorcode> _parser = new pb::MessageParser<S_Errorcode>(() => new S_Errorcode());
+  public sealed partial class S_ErrorCode : pb::IMessage<S_ErrorCode> {
+    private static readonly pb::MessageParser<S_ErrorCode> _parser = new pb::MessageParser<S_ErrorCode>(() => new S_ErrorCode());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<S_Errorcode> Parser { get { return _parser; } }
+    public static pb::MessageParser<S_ErrorCode> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -577,22 +577,22 @@ namespace Google.Protobuf.Protocol {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_Errorcode() {
+    public S_ErrorCode() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_Errorcode(S_Errorcode other) : this() {
+    public S_ErrorCode(S_ErrorCode other) : this() {
       code_ = other.code_;
       message_ = other.message_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_Errorcode Clone() {
-      return new S_Errorcode(this);
+    public S_ErrorCode Clone() {
+      return new S_ErrorCode(this);
     }
 
     /// <summary>Field number for the "code" field.</summary>
@@ -619,11 +619,11 @@ namespace Google.Protobuf.Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as S_Errorcode);
+      return Equals(other as S_ErrorCode);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(S_Errorcode other) {
+    public bool Equals(S_ErrorCode other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -682,7 +682,7 @@ namespace Google.Protobuf.Protocol {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(S_Errorcode other) {
+    public void MergeFrom(S_ErrorCode other) {
       if (other == null) {
         return;
       }

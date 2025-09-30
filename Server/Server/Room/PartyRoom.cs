@@ -30,11 +30,11 @@ namespace Server
             //방 인원 체크
             if (players.Count.Equals(maxCount))
             {
-                S_Errorcode errrorPacket = ErrorCodeFactory.GetErrorCode(ErrorCode.MAX_ROOM_COUNT);
+                S_ErrorCode errrorPacket = ErrorCodeFactory.GetErrorCode(ErrorCode.MAX_ROOM_COUNT);
                 session.Send(errrorPacket);
                 return;
             }
-            Partyplayerinfo playerinfo = new Partyplayerinfo()
+            PartyPlayerInfo playerinfo = new PartyPlayerInfo()
             {
                 SessionId = session.sessionId,
                 NickName = session.nickName,
@@ -50,11 +50,11 @@ namespace Server
             players.Add(session.sessionId, player);
 
             //본인에게 정보 전송
-            S_Partyroominfo packet = new S_Partyroominfo() { RoomInfo = GetPartyRoomInfo() };
+            S_PartyRoomInfo packet = new S_PartyRoomInfo() { RoomInfo = GetPartyRoomInfo() };
             session.Send(packet);
 
             //타인에게 정보 전송
-            S_Enterpartyroom enterRoomPacket = new S_Enterpartyroom()
+            S_EnterPartyRoom enterRoomPacket = new S_EnterPartyRoom()
             {
                 PlayerInfo = playerinfo
             };
@@ -81,7 +81,7 @@ namespace Server
                         int originMasterId = masterId;
                         masterId = players.First().Value.session.sessionId;
 
-                        S_Partyroominfo packet = new S_Partyroominfo() { RoomInfo = GetPartyRoomInfo() };
+                        S_PartyRoomInfo packet = new S_PartyRoomInfo() { RoomInfo = GetPartyRoomInfo() };
                         BroadCast(packet);
 
                         Console.WriteLine($"Party Master Change {originMasterId} -> {masterId}");
@@ -89,7 +89,7 @@ namespace Server
                 }
 
                 //Room에 BroadCast
-                S_Exitpartyroom leavePacket = new S_Exitpartyroom()
+                S_ExitPartyRoom leavePacket = new S_ExitPartyRoom()
                 {
                     SessionId = session.sessionId,
                 };
@@ -110,9 +110,9 @@ namespace Server
         }
         #endregion
 
-        public Partyroominfo GetPartyRoomInfo()
+        public PartyRoomInfo GetPartyRoomInfo()
         {
-            Partyroominfo roomInfo = new Partyroominfo();
+            PartyRoomInfo roomInfo = new PartyRoomInfo();
             roomInfo.RoomId = roomId;
             roomInfo.MasterId = masterId;
             foreach (PartyPlayer player in players.Values)

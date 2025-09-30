@@ -1,13 +1,11 @@
 syntax = "proto3";
 package Protocol;
 
-import "google/protobuf/timestamp.proto";
-
 option csharp_namespace = "Google.Protobuf.Protocol";
 
 enum MsgId {
-    C_PINGCHECK = 0;
-    S_PONGCHECK = 1;
+    C_PING_CHECK = 0;
+    S_PONG_CHECK = 1;
 
     C_CONNECT = 2;
     S_CONNECT = 3;
@@ -19,56 +17,56 @@ enum MsgId {
     S_READY = 7;
     
     C_START = 8;
-    S_LOADINGSTART = 9;
+    S_LOADING_START = 9;
     
     C_MOVE = 10;
     S_MOVE = 11;
 
-    C_EXITROOM = 12;
-    S_EXITROOM = 13;
+    C_EXIT_ROOM = 12;
+    S_EXIT_ROOM = 13;
 
-    C_CREATEROOM = 15;
-    C_CREATEORJOINROOM = 16;
+    C_CREATE_ROOM = 15;
+    C_CREATE_OR_JOIN_ROOM = 16;
     
-    C_ENTERMATCHROOM = 17;
-    S_ENTERMATCHROOM = 18;
+    C_ENTER_MATCH_ROOM = 17;
+    S_ENTER_MATCH_ROOM = 18;
 
-    S_MATCHROOMINFO = 21;
+    S_MATCH_ROOM_INFO = 21;
 
-    C_LOADINGCOMPLETE = 22;
-    S_INGAMESTART = 23;
+    C_LOADING_COMPLETE = 22;
+    S_IN_GAME_START = 23;
 
-    S_SPAWNENEMY = 26;
-    S_ERRORCODE = 27;
+    S_SPAWN_ENEMY = 26;
+    S_ERROR_CODE = 27;
 
-    C_EXITGAMEROOM = 28;
-    S_EXITGAMEROOM = 29;
+    C_EXIT_GAME_ROOM = 28;
+    S_EXIT_GAME_ROOM = 29;
 
-    C_ENEMYMOVE = 30;
-    S_ENEMYMOVE = 31;
+    C_ENEMY_MOVE = 30;
+    S_ENEMY_MOVE = 31;
 
-    S_GAMEROOMINFO = 32;
+    S_GAME_ROOM_INFO = 32;
 
-    C_CREATEPARTYROOM = 200;
-    C_ENTERPARTYROOM = 201;
-    S_ENTERPARTYROOM = 202;
-    C_EXITPARTYROOM = 203;
-    S_PARTYROOMINFO = 204;
-    S_EXITPARTYROOM = 205;
+    C_CREATE_PARTY_ROOM = 200;
+    C_ENTER_PARTY_ROOM = 201;
+    S_ENTER_PARTY_ROOM = 202;
+    C_EXIT_PARTY_ROOM = 203;
+    S_PARTY_ROOM_INFO = 204;
+    S_EXIT_PARTY_ROOM = 205;
     C_INVITE = 206;
     S_INVITE = 207;
 
-    S_MATCHSTART = 300;
+    S_MATCH_START = 300;
 
     C_INPUT = 401;
     S_INPUT = 402;
     C_EXP = 403;
     S_EXP = 404;
-    S_LEVELUP = 405;
-    C_NEWSKILL = 406;
-    C_UPGRADESKILL = 407;
-    S_SKILLSELECT = 408;
-    S_LEVELUPFINISH = 409;
+    S_LEVEL_UP = 405;
+    C_NEW_SKILL = 406;
+    C_UPGRADE_SKILL = 407;
+    S_SKILL_SELECT = 408;
+    S_LEVEL_UP_FINISH = 409;
 }
 
 enum GameObjectType {

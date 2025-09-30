@@ -16,7 +16,7 @@ namespace Server.Game
 
         public GameObjectType objectType { get; set; } = GameObjectType.None;
 
-        public Objectinfo objectinfo { get; set; }
+        public ObjectInfo objectInfo { get; set; }
 
         public virtual void Update() 
         { 

@@ -10,6 +10,6 @@ namespace Server.Game
     public class PartyPlayer
     {
         public ClientSession session;
-        public Partyplayerinfo playerInfo;
+        public PartyPlayerInfo playerInfo;
     }
 }

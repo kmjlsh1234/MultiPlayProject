@@ -1,63 +1,61 @@
 syntax = "proto3";
 package Protocol;
 
-import "google/protobuf/timestamp.proto";
-import "Protocol_Enum.proto";
 option csharp_namespace = "Google.Protobuf.Protocol";
 
-message Objectinfo {
+message ObjectInfo {
     int32 objectId = 1;
     int32 templateId = 2;
-    Positioninfo pos = 3;
-    Cellinfo cellInfo = 4;
-    Stateinfo stateInfo = 5;
+    PositionInfo pos = 3;
+    CellInfo cellInfo = 4;
+    StateInfo stateInfo = 5;
     int32 targetId = 6;
 }
 
-message Partyroominfo {
+message PartyRoomInfo {
     int32 roomId = 1;
     int32 masterId = 2;
-    repeated Partyplayerinfo players = 3;
+    repeated PartyPlayerInfo players = 3;
 }
 
-message Matchroominfo {
+message MatchRoomInfo {
     int32 roomId = 1;
     int32 masterId = 2;
-    repeated Matchplayerinfo players = 3;
+    repeated MatchPlayerInfo players = 3;
 }
 
-message Gameroominfo {
+message GameRoomInfo {
     int32 roomId = 1;
     int32 masterId = 2;
-    repeated Objectinfo players = 3;
+    repeated ObjectInfo players = 3;
     int32 randomSeed = 4;
 }
 
-message Partyplayerinfo {
+message PartyPlayerInfo {
     int32 sessionId = 1;
     string nickName = 2;
     bool isReady = 3;
 }
 
-message Matchplayerinfo {
+message MatchPlayerInfo {
     int32 sessionId = 1;
     string nickName = 2;
     bool isReady = 3;
 }
 
-message Positioninfo{
+message PositionInfo{
     float posX = 1;
     float posY = 2;
     float posZ = 3;
 }
 
-message Inputinfo{
+message InputInfo{
     float x = 1;
     float y = 2;
     float z = 3;
 }
 
-message Stateinfo{
+message StateInfo{
     int32 level = 1;
     int32 hp = 2;
     int32 maxHp = 3;
@@ -65,12 +63,12 @@ message Stateinfo{
     float speed = 5;
 }
 
-message Cellinfo{
+message CellInfo{
     int32 x = 1;
     int32 y = 2;
 }
 
-message Skillinfo{
+message SkillInfo{
     int32 id = 1;
     int32 skillLevel = 2;
     int32 skillDamage = 4;

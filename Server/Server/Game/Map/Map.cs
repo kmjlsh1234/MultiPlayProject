@@ -23,7 +23,7 @@ namespace Server.Game
         private readonly int width;
         private readonly int height;
 
-        private Dictionary<Cellinfo, Cell> cells = new Dictionary<Cellinfo, Cell>();
+        private Dictionary<CellInfo, Cell> cells = new Dictionary<CellInfo, Cell>();
 
         public Map(float cellSize, int minX, int minY, int maxX , int maxY)
         {
@@ -39,7 +39,7 @@ namespace Server.Game
             {
                 for(int y = minY; y< maxY; y++)
                 {
-                    Cellinfo key = new Cellinfo() { X = x, Y = y };
+                    CellInfo key = new CellInfo() { X = x, Y = y };
                     cells.Add(key, new Cell());
                 }
             }
@@ -50,9 +50,9 @@ namespace Server.Game
             //TODO : 
         }
 
-        public Cellinfo WorldToCell(Positioninfo pos)
+        public CellInfo WorldToCell(PositionInfo pos)
         {
-            Cellinfo cell = new Cellinfo();
+            CellInfo cell = new CellInfo();
 
             cell.X = (int)Math.Floor(pos.PosX / cellSize);
             cell.Y = (int)Math.Floor(pos.PosZ / cellSize);
@@ -60,7 +60,7 @@ namespace Server.Game
             return cell;
         }
 
-        public void UpdateObjectPosition(GameObject go, Cellinfo oldCellPos, Cellinfo newCellPos)
+        public void UpdateObjectPosition(GameObject go, CellInfo oldCellPos, CellInfo newCellPos)
         {
             if (cells.TryGetValue(oldCellPos, out Cell oldCell))
             {
@@ -71,14 +71,14 @@ namespace Server.Game
 
         public void Remove(GameObject go)
         {
-            Cell cell = GetCell(go.objectinfo.CellInfo);
+            Cell cell = GetCell(go.objectInfo.CellInfo);
             if (cell == null)
                 return;
 
             cell.GameObjects.Remove(go);
 
         }
-        public void Add(GameObject go, Cellinfo cellPos)
+        public void Add(GameObject go, CellInfo cellPos)
         {
             Cell cell = GetCell(cellPos);
 
@@ -88,7 +88,7 @@ namespace Server.Game
             }
         }
 
-        private Cell GetCell(Cellinfo info)
+        private Cell GetCell(CellInfo info)
         {
             Cell cell = null;
             
@@ -102,7 +102,7 @@ namespace Server.Game
         }
 
         // 두 셀 사이의 거리 계산 (맨하탄 거리)
-        public int GetCellDistance(Cellinfo cell1, Cellinfo cell2)
+        public int GetCellDistance(CellInfo cell1, CellInfo cell2)
         {
             return Math.Abs(cell1.X - cell2.X) + Math.Abs(cell1.Y - cell2.Y);
         }

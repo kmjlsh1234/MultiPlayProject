@@ -21,8 +21,8 @@ public class PacketManager
 
     public void Register()
     {
-        onRecv.Add((ushort) MsgId.CPingcheck, MakePacket<C_Pingcheck>);
-        handler.Add((ushort)MsgId.CPingcheck, PacketHandler.C_PingcheckHandler);
+        onRecv.Add((ushort) MsgId.CPingCheck, MakePacket<C_PingCheck>);
+        handler.Add((ushort)MsgId.CPingCheck, PacketHandler.C_PingCheckHandler);
 
         onRecv.Add((ushort) MsgId.CConnect, MakePacket<C_Connect>);
         handler.Add((ushort)MsgId.CConnect, PacketHandler.C_ConnectHandler);
@@ -39,35 +39,35 @@ public class PacketManager
         onRecv.Add((ushort) MsgId.CMove, MakePacket<C_Move>);
         handler.Add((ushort)MsgId.CMove, PacketHandler.C_MoveHandler);
 
-        onRecv.Add((ushort) MsgId.CExitroom, MakePacket<C_Exitroom>);
-        handler.Add((ushort)MsgId.CExitroom, PacketHandler.C_ExitroomHandler);
+        onRecv.Add((ushort) MsgId.CExitRoom, MakePacket<C_ExitRoom>);
+        handler.Add((ushort)MsgId.CExitRoom, PacketHandler.C_ExitRoomHandler);
 
-        onRecv.Add((ushort) MsgId.CCreateroom, MakePacket<C_Createroom>);
-        handler.Add((ushort)MsgId.CCreateroom, PacketHandler.C_CreateroomHandler);
+        onRecv.Add((ushort) MsgId.CCreateRoom, MakePacket<C_CreateRoom>);
+        handler.Add((ushort)MsgId.CCreateRoom, PacketHandler.C_CreateRoomHandler);
 
-        onRecv.Add((ushort) MsgId.CCreateorjoinroom, MakePacket<C_Createorjoinroom>);
-        handler.Add((ushort)MsgId.CCreateorjoinroom, PacketHandler.C_CreateorjoinroomHandler);
+        onRecv.Add((ushort) MsgId.CCreateOrJoinRoom, MakePacket<C_CreateOrJoinRoom>);
+        handler.Add((ushort)MsgId.CCreateOrJoinRoom, PacketHandler.C_CreateOrJoinRoomHandler);
 
-        onRecv.Add((ushort) MsgId.CEntermatchroom, MakePacket<C_Entermatchroom>);
-        handler.Add((ushort)MsgId.CEntermatchroom, PacketHandler.C_EntermatchroomHandler);
+        onRecv.Add((ushort) MsgId.CEnterMatchRoom, MakePacket<C_EnterMatchRoom>);
+        handler.Add((ushort)MsgId.CEnterMatchRoom, PacketHandler.C_EnterMatchRoomHandler);
 
-        onRecv.Add((ushort) MsgId.CLoadingcomplete, MakePacket<C_Loadingcomplete>);
-        handler.Add((ushort)MsgId.CLoadingcomplete, PacketHandler.C_LoadingcompleteHandler);
+        onRecv.Add((ushort) MsgId.CLoadingComplete, MakePacket<C_LoadingComplete>);
+        handler.Add((ushort)MsgId.CLoadingComplete, PacketHandler.C_LoadingCompleteHandler);
 
-        onRecv.Add((ushort) MsgId.CExitgameroom, MakePacket<C_Exitgameroom>);
-        handler.Add((ushort)MsgId.CExitgameroom, PacketHandler.C_ExitgameroomHandler);
+        onRecv.Add((ushort) MsgId.CExitGameRoom, MakePacket<C_ExitGameRoom>);
+        handler.Add((ushort)MsgId.CExitGameRoom, PacketHandler.C_ExitGameRoomHandler);
 
-        onRecv.Add((ushort) MsgId.CEnemymove, MakePacket<C_Enemymove>);
-        handler.Add((ushort)MsgId.CEnemymove, PacketHandler.C_EnemymoveHandler);
+        onRecv.Add((ushort) MsgId.CEnemyMove, MakePacket<C_EnemyMove>);
+        handler.Add((ushort)MsgId.CEnemyMove, PacketHandler.C_EnemyMoveHandler);
 
-        onRecv.Add((ushort) MsgId.CCreatepartyroom, MakePacket<C_Createpartyroom>);
-        handler.Add((ushort)MsgId.CCreatepartyroom, PacketHandler.C_CreatepartyroomHandler);
+        onRecv.Add((ushort) MsgId.CCreatePartyRoom, MakePacket<C_CreatePartyRoom>);
+        handler.Add((ushort)MsgId.CCreatePartyRoom, PacketHandler.C_CreatePartyRoomHandler);
 
-        onRecv.Add((ushort) MsgId.CEnterpartyroom, MakePacket<C_Enterpartyroom>);
-        handler.Add((ushort)MsgId.CEnterpartyroom, PacketHandler.C_EnterpartyroomHandler);
+        onRecv.Add((ushort) MsgId.CEnterPartyRoom, MakePacket<C_EnterPartyRoom>);
+        handler.Add((ushort)MsgId.CEnterPartyRoom, PacketHandler.C_EnterPartyRoomHandler);
 
-        onRecv.Add((ushort) MsgId.CExitpartyroom, MakePacket<C_Exitpartyroom>);
-        handler.Add((ushort)MsgId.CExitpartyroom, PacketHandler.C_ExitpartyroomHandler);
+        onRecv.Add((ushort) MsgId.CExitPartyRoom, MakePacket<C_ExitPartyRoom>);
+        handler.Add((ushort)MsgId.CExitPartyRoom, PacketHandler.C_ExitPartyRoomHandler);
 
         onRecv.Add((ushort) MsgId.CInvite, MakePacket<C_Invite>);
         handler.Add((ushort)MsgId.CInvite, PacketHandler.C_InviteHandler);
@@ -78,11 +78,11 @@ public class PacketManager
         onRecv.Add((ushort) MsgId.CExp, MakePacket<C_Exp>);
         handler.Add((ushort)MsgId.CExp, PacketHandler.C_ExpHandler);
 
-        onRecv.Add((ushort) MsgId.CNewskill, MakePacket<C_Newskill>);
-        handler.Add((ushort)MsgId.CNewskill, PacketHandler.C_NewskillHandler);
+        onRecv.Add((ushort) MsgId.CNewSkill, MakePacket<C_NewSkill>);
+        handler.Add((ushort)MsgId.CNewSkill, PacketHandler.C_NewSkillHandler);
 
-        onRecv.Add((ushort) MsgId.CUpgradeskill, MakePacket<C_Upgradeskill>);
-        handler.Add((ushort)MsgId.CUpgradeskill, PacketHandler.C_UpgradeskillHandler);
+        onRecv.Add((ushort) MsgId.CUpgradeSkill, MakePacket<C_UpgradeSkill>);
+        handler.Add((ushort)MsgId.CUpgradeSkill, PacketHandler.C_UpgradeSkillHandler);
         
     
     }

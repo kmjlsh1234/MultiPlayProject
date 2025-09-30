@@ -5,14 +5,14 @@ using ServerCore;
 
 public partial class PacketHandler
 {
-    public static void C_LoadingcompleteHandler(Session s, IMessage pkt)
+    public static void C_LoadingCompleteHandler(Session s, IMessage pkt)
     {
         ClientSession session = s as ClientSession;
         session.gameRoom.Push(() => session.gameRoom.CheckGameStart(session));
 
     }
 
-    public static void C_ExitgameroomHandler(Session s, IMessage pkt)
+    public static void C_ExitGameRoomHandler(Session s, IMessage pkt)
     {
         ClientSession session = s as ClientSession;
         session.gameRoom.ExitRoom(session);
@@ -32,10 +32,10 @@ public partial class PacketHandler
         session.gameRoom.HandleInput(session, packet);
     }
 
-    public static void C_EnemymoveHandler(Session s, IMessage pkt)
+    public static void C_EnemyMoveHandler(Session s, IMessage pkt)
     {
         ClientSession session = s as ClientSession;
-        C_Enemymove packet = pkt as C_Enemymove;
+        C_EnemyMove packet = pkt as C_EnemyMove;
         session.gameRoom.HandleEnemyMove(session, packet); 
     }
 
@@ -46,17 +46,17 @@ public partial class PacketHandler
         session.gameRoom.Push(() => session.gameRoom.AddExp(session, packet));
     }
 
-    public static void C_NewskillHandler(Session s, IMessage pkt)
+    public static void C_NewSkillHandler(Session s, IMessage pkt)
     {
         ClientSession session = s as ClientSession;
-        C_Newskill packet = pkt as C_Newskill;
+        C_NewSkill packet = pkt as C_NewSkill;
         session.gameRoom.Push(() => session.gameRoom.SkillSelect(session, packet));
     }
 
-    public static void C_UpgradeskillHandler(Session s, IMessage pkt)
+    public static void C_UpgradeSkillHandler(Session s, IMessage pkt)
     {
         ClientSession session = s as ClientSession;
-        C_Upgradeskill packet = pkt as C_Upgradeskill;
+        C_UpgradeSkill packet = pkt as C_UpgradeSkill;
         session.gameRoom.Push(() => session.gameRoom.SkillSelect(session, packet));
     }
 }

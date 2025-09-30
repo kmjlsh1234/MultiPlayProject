@@ -10,6 +10,6 @@ namespace Server.Game
     public class MatchPlayer
     {
         public ClientSession session;
-        public Matchplayerinfo playerInfo;
+        public MatchPlayerInfo playerInfo;
     }
 }

@@ -23,7 +23,7 @@ namespace Server
         {
             MatchPlayer player = new MatchPlayer();
             player.session = session;
-            player.playerInfo = new Matchplayerinfo()
+            player.playerInfo = new MatchPlayerInfo()
             {
                 SessionId = session.sessionId,
                 NickName = session.nickName,
@@ -32,13 +32,13 @@ namespace Server
             players.Add(session.sessionId, player);
 
             //본인에게 정보 전송
-            S_Matchroominfo packet = new S_Matchroominfo() { RoomInfo = GenerateRoomInfo() };
+            S_MatchRoomInfo packet = new S_MatchRoomInfo() { RoomInfo = GenerateRoomInfo() };
             session.Send(packet);
 
             //타인에게 정보 전송
-            S_Entermatchroom enterRoomPacket = new S_Entermatchroom()
+            S_EnterMatchRoom enterRoomPacket = new S_EnterMatchRoom()
             {
-                PlayerInfo = new Matchplayerinfo()
+                PlayerInfo = new MatchPlayerInfo()
                 {
                     SessionId = session.sessionId,
                     NickName = session.nickName,
@@ -70,7 +70,7 @@ namespace Server
                         int originMasterId = masterId;
                         masterId = players.First().Value.session.sessionId;
 
-                        S_Matchroominfo packet = new S_Matchroominfo() { RoomInfo = GenerateRoomInfo() };
+                        S_MatchRoomInfo packet = new S_MatchRoomInfo() { RoomInfo = GenerateRoomInfo() };
                         BroadCast(packet);
 
                         Console.WriteLine($"Master Change {originMasterId} -> {masterId}");
@@ -78,7 +78,7 @@ namespace Server
                 }
 
                 //Room에 BroadCast
-                S_Exitroom leavePacket = new S_Exitroom()
+                S_ExitRoom leavePacket = new S_ExitRoom()
                 {
                     SessionId = session.sessionId,
                 };
@@ -127,9 +127,9 @@ namespace Server
             Console.WriteLine("GameStart");
         }
 
-        public Matchroominfo GenerateRoomInfo()
+        public MatchRoomInfo GenerateRoomInfo()
         {
-            Matchroominfo roomInfo = new Matchroominfo();
+            MatchRoomInfo roomInfo = new MatchRoomInfo();
             roomInfo.RoomId = roomId;
             roomInfo.MasterId = masterId;
             foreach (MatchPlayer p in players.Values)

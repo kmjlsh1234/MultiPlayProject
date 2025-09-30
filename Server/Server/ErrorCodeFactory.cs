@@ -10,9 +10,9 @@ namespace Server
 {
     public class ErrorCodeFactory
     {
-        public static S_Errorcode GetErrorCode(ErrorCode errorCode)
+        public static S_ErrorCode GetErrorCode(ErrorCode errorCode)
         {
-            return new S_Errorcode()
+            return new S_ErrorCode()
             {
                 Code = errorCode.Code,
                 Message = errorCode.Message,

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 public partial class PacketHandler
 {
-    public static void C_PingcheckHandler(Session s, IMessage pkt)
+    public static void C_PingCheckHandler(Session s, IMessage pkt)
     {
         //s.Send(new S_PongPacket().Write());
     }

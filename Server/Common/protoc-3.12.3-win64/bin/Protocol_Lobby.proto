@@ -1,7 +1,6 @@
 syntax = "proto3";
 package Protocol;
 import "Protocol_Data.proto"; 
-import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Google.Protobuf.Protocol";
 
@@ -13,35 +12,35 @@ message S_Connect{
     int32 sessionId = 1;
 }
 
-message C_Createroom {
+message C_CreateRoom {
 
 }
 
-message C_Createpartyroom {
+message C_CreatePartyRoom {
 
 }
 
-message C_Enterpartyroom {
+message C_EnterPartyRoom {
     int32 roomId = 1;
 }
 
-message C_Exitpartyroom {
+message C_ExitPartyRoom {
 
 }
 
-message S_Enterpartyroom{
-    Partyplayerinfo playerInfo = 1;
+message S_EnterPartyRoom{
+    PartyPlayerInfo playerInfo = 1;
 }
 
-message S_Partyroominfo {
-    Partyroominfo roomInfo = 1;
+message S_PartyRoomInfo {
+    PartyRoomInfo roomInfo = 1;
 }
 
-message S_Exitpartyroom {
+message S_ExitPartyRoom {
     int32 sessionId = 1;
 }
 
-message C_Createorjoinroom{
+message C_CreateOrJoinRoom{
 
 }
 

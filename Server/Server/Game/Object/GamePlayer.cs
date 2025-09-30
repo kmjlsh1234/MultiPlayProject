@@ -27,14 +27,14 @@ namespace Server.Game
             objectId = session.sessionId;
             objectType = GameObjectType.Player;
             
-            Positioninfo pos = new Positioninfo()
+            PositionInfo pos = new PositionInfo()
             {
                 PosX = 0, 
                 PosY = 0, 
                 PosZ = 0,
             };
 
-            Stateinfo stateInfo = new Stateinfo()
+            StateInfo stateInfo = new StateInfo()
             {
                 Hp = 600,
                 MaxHp = 600,
@@ -43,7 +43,7 @@ namespace Server.Game
                 Speed = 3,
             };
 
-            objectinfo = new Objectinfo()
+            objectInfo = new ObjectInfo()
             {
                 ObjectId = objectId,
                 Pos = pos,
@@ -70,13 +70,13 @@ namespace Server.Game
 
         public void UpdateGridPosition()
         {
-            Cellinfo newCell = gameRoom.map.WorldToCell(objectinfo.Pos);
+            CellInfo newCell = gameRoom.map.WorldToCell(objectInfo.Pos);
 
-            if(newCell != objectinfo.CellInfo)
+            if(newCell != objectInfo.CellInfo)
             {
-                gameRoom.map.UpdateObjectPosition(this, objectinfo.CellInfo, newCell);
+                gameRoom.map.UpdateObjectPosition(this, objectInfo.CellInfo, newCell);
             }
-            objectinfo.CellInfo = newCell;
+            objectInfo.CellInfo = newCell;
         }
     }
 }
