@@ -21,13 +21,13 @@ namespace Server.Game.Object
             objectType = GameObjectType.Enemy;
         }
 
-        public void Init(Vector2 position, GameRoom gameRoom)
+        public void Init(int templateId, Vector2 position, GameRoom gameRoom)
         {
             this.gameRoom = gameRoom;
 
             objectInfo = new ObjectInfo();
             objectInfo.ObjectId = objectId;
-            objectInfo.TemplateId = 200001;
+            objectInfo.TemplateId = templateId;
             objectInfo.Pos = new PositionInfo()
             {
                 PosX = position.X,

@@ -63,7 +63,10 @@ namespace Server.Game
             Vector2 point = spawnPoints[i];
 
             Enemy enemy = ObjectManager.Instance.Add<Enemy>(point);
-            enemy.Init(point, gameRoom);
+
+            int templateId = rand.Next(0, 2) == 0 ? 200001 : 200002;
+            Console.WriteLine($"Spawn {templateId}");
+            enemy.Init(templateId, point, gameRoom);
 
             return enemy;
         }

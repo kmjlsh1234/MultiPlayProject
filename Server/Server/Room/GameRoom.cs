@@ -185,8 +185,6 @@ namespace Server
                 };
 
                 BroadCast(movePacket);
-                //Console.WriteLine($"{player.objectId} : [ {packet.CellInfo.X}, {packet.CellInfo.Y}]");
-                //Console.WriteLine($"{player.objectId} : [ {movePacket.DirX}, {movePacket.DirY}, {movePacket.DirZ}]");
             }
         }
 
@@ -210,7 +208,7 @@ namespace Server
         public void SpawnEnemy()
         {
             if (isSkillSelect) return;
-
+            
             Enemy enemy = spawningPool.TrySpawn();
             enemies.Add(enemy.objectId, enemy);
 
@@ -225,7 +223,7 @@ namespace Server
 
         public void AddExp(ClientSession session, C_Exp packet)
         {
-            exp = packet.ExpCount;
+            exp += packet.ExpCount;
 
             S_Exp resPacket = new S_Exp() {  ExpCount = exp };
             BroadCast(resPacket);
@@ -258,16 +256,20 @@ namespace Server
             {
                 player.isSkillSelect = true;
             }
-
+            
             switch (pkt.GetType() as IMessage)
             {
                 case C_UpgradeSkill:
                     C_UpgradeSkill upgradeSkill = pkt as C_UpgradeSkill;
                     player.skillManageComponent.UpgradeSkill(upgradeSkill.Skillinfo.Id);
+
+                    Console.WriteLine($"Player {player.objectId} Upgrade Skill {upgradeSkill.Skillinfo.Id}");
                     break;
                 case C_NewSkill:
                     C_NewSkill newSkill = pkt as C_NewSkill;
                     player.skillManageComponent.AddSkill(newSkill.Skillinfo);
+
+                    Console.WriteLine($"Player {player.objectId} Add New Skill {newSkill.Skillinfo.Id}");
                     break;
                 default:
                     break;
