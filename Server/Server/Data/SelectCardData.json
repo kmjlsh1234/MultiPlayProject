@@ -1,0 +1,257 @@
+[
+  {
+    "id": 800001,
+    "cardType": "BaseStatType",
+    "statType": "DamageRate",
+    "name": "타이탄의 분노",
+    "description": "기본 피해량이 n% 증가합니다.",
+    "atlasName": "Improvements",
+    "iconName": "improvement_icon_damage",
+    "values": [
+      5,
+      10,
+      15,
+      20
+    ]
+  },
+  {
+    "id": 800002,
+    "cardType": "BaseStatType",
+    "statType": "FireRate",
+    "name": "서두름의 베일",
+    "description": "기본 시전 속도가 n% 증가합니다.",
+    "atlasName": "Improvements",
+    "iconName": "improvement_icon_firerate",
+    "values": [
+      6,
+      9,
+      12,
+      17
+    ]
+  },
+  {
+    "id": 800003,
+    "cardType": "BaseStatType",
+    "statType": "MoveSpeedRate",
+    "name": "퀵스텝 서지",
+    "description": "기본 이동 속도가 n% 증가합니다.",
+    "atlasName": "Improvements",
+    "iconName": "improvement_icon_movespeed",
+    "values": [
+      8,
+      12,
+      17,
+      21
+    ]
+  },
+  {
+    "id": 800004,
+    "cardType": "BaseStatType",
+    "statType": "Defence",
+    "name": "신비한 장벽",
+    "description": "방어력이 n 증가합니다.",
+    "atlasName": "Improvements",
+    "iconName": "improvement_icon_armor",
+    "values": [
+      16,
+      26,
+      42,
+      60
+    ]
+  },
+  {
+    "id": 800005,
+    "cardType": "BaseStatType",
+    "statType": "SizeRate",
+    "name": "거대한 은혜",
+    "description": "주문 크기가 n% 증가합니다.",
+    "atlasName": "Improvements",
+    "iconName": "improvement_icon_size",
+    "values": [
+      8,
+      12,
+      17,
+      24
+    ]
+  },
+  {
+    "id": 800006,
+    "cardType": "BaseStatType",
+    "statType": "MaxHp",
+    "name": "바이탈리티 포지",
+    "description": "최대 체력이 n 증가합니다.",
+    "atlasName": "Improvements",
+    "iconName": "improvement_icon_maxhealth",
+    "values": [
+      100,
+      200,
+      300,
+      400
+    ]
+  },
+  {
+    "id": 800007,
+    "cardType": "BaseStatType",
+    "statType": "HpRegen",
+    "name": "젊어지게 하는 에코",
+    "description": "체력 재생이 n 증가합니다.",
+    "atlasName": "Improvements",
+    "iconName": "improvement_icon_healthregeneration",
+    "values": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "id": 800008,
+    "cardType": "BaseStatType",
+    "statType": "DodgeRate",
+    "name": "스위프트 오버레이",
+    "description": "회피 확률이 n% 증가합니다.",
+    "atlasName": "Improvements",
+    "iconName": "improvement_icon_dodge",
+    "values": [
+      4,
+      6,
+      9,
+      12
+    ]
+  },
+  {
+    "id": 800009,
+    "cardType": "BaseStatType",
+    "statType": "CollectionRadiusRate",
+    "name": "마인드 리치",
+    "description": "아이템 획득 거리가 n% 증가합니다.",
+    "atlasName": "Improvements",
+    "iconName": "improvement_icon_pickupradius",
+    "values": [
+      8,
+      12,
+      17,
+      24
+    ]
+  },
+  {
+    "id": 800010,
+    "cardType": "BaseStatType",
+    "statType": "CriticalHitChanceRate",
+    "name": "캐스트 정밀도",
+    "description": "치명타 확률이 n% 증가합니다.",
+    "atlasName": "Improvements",
+    "iconName": "improvement_icon_criticalchance",
+    "values": [
+      4,
+      6,
+      9,
+      12
+    ]
+  },
+  {
+    "id": 800011,
+    "cardType": "BaseStatType",
+    "statType": "CriticalHitDamageRate",
+    "name": "위저드 엣지",
+    "description": "기본 치명타 피해량이 n% 증가합니다.",
+    "atlasName": "Improvements",
+    "iconName": "improvement_icon_criticaldamage",
+    "values": [
+      10,
+      20,
+      35,
+      50
+    ]
+  },
+  {
+    "id": 800012,
+    "cardType": "BaseStatType",
+    "statType": "ExpBonusRate",
+    "name": "지혜의 포옹",
+    "description": "경험치 획득량이 n% 증가합니다.",
+    "atlasName": "Improvements",
+    "iconName": "improvement_icon_xpgain",
+    "values": [
+      7,
+      12,
+      17,
+      21
+    ]
+  },
+  {
+    "id": 800013,
+    "cardType": "BaseStatType",
+    "statType": "Luck",
+    "name": "행운",
+    "description": "행운이 n 증가합니다.",
+    "atlasName": "Improvements",
+    "iconName": "improvement_icon_luck",
+    "values": [
+      2,
+      5,
+      9,
+      12
+    ]
+  },
+  {
+    "id": 800014,
+    "cardType": "SkillStatType",
+    "statType": "SkillDamage",
+    "name": "스킬 이름(주문 공격력)",
+    "description": "주문 공격력이 n% 증가합니다.",
+    "atlasName": null,
+    "iconName": null,
+    "values": [
+      10,
+      15,
+      25,
+      40
+    ]
+  },
+  {
+    "id": 800015,
+    "cardType": "SkillStatType",
+    "statType": "SkillCoolTime",
+    "name": "스킬 이름(시전 속도)",
+    "description": "당신의 주문 시전 속도가 n% 증가합니다.",
+    "atlasName": null,
+    "iconName": null,
+    "values": [
+      10,
+      15,
+      25,
+      40
+    ]
+  },
+  {
+    "id": 800016,
+    "cardType": "SkillStatType",
+    "statType": "SkillSize",
+    "name": "스킬 이름(시전 속도)",
+    "description": "당신의 주문 크기가 n% 증가합니다.",
+    "atlasName": null,
+    "iconName": null,
+    "values": [
+      10,
+      15,
+      25,
+      40
+    ]
+  },
+  {
+    "id": 800017,
+    "cardType": "SkillStatType",
+    "statType": "SkillReach",
+    "name": "스킬 이름(주문 사거리)",
+    "description": "당신의 주문 사거리가 n% 증가합니다.",
+    "atlasName": null,
+    "iconName": null,
+    "values": [
+      10,
+      15,
+      25,
+      40
+    ]
+  }
+]

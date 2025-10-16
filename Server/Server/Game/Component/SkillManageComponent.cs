@@ -11,10 +11,10 @@ namespace Server.Game
     {
         public GamePlayer owner;
         public Dictionary<int, SkillInfo> activeSkills = new Dictionary<int, SkillInfo>();
-        
-        public SkillManageComponent(GamePlayer owner)
+
+        public void Initialize(GamePlayer player)
         {
-            this.owner = owner;
+            owner = player;
         }
 
         /// <summary>
@@ -40,7 +40,8 @@ namespace Server.Game
             }
         }
 
-        public List<SkillInfo> GetSelectList()
+
+        public List<SkillInfo> SelectCardRewards()
         {
             return null;
         }

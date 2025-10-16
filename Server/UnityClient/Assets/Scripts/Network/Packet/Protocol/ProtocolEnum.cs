@@ -24,7 +24,7 @@ namespace Google.Protobuf.Protocol {
     static ProtocolEnumReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChNQcm90b2NvbF9FbnVtLnByb3RvEghQcm90b2NvbCrkBgoFTXNnSWQSEAoM",
+            "ChNQcm90b2NvbF9FbnVtLnByb3RvEghQcm90b2NvbCqABwoFTXNnSWQSEAoM",
             "Q19QSU5HX0NIRUNLEAASEAoMU19QT05HX0NIRUNLEAESDQoJQ19DT05ORUNU",
             "EAISDQoJU19DT05ORUNUEAMSCgoGQ19DSEFUEAQSCgoGU19DSEFUEAUSCwoH",
             "Q19SRUFEWRAGEgsKB1NfUkVBRFkQBxILCgdDX1NUQVJUEAgSEwoPU19MT0FE",
@@ -44,14 +44,25 @@ namespace Google.Protobuf.Protocol {
             "B1NfSU5QVVQQkgMSCgoFQ19FWFAQkwMSCgoFU19FWFAQlAMSDwoKU19MRVZF",
             "TF9VUBCVAxIQCgtDX05FV19TS0lMTBCWAxIUCg9DX1VQR1JBREVfU0tJTEwQ",
             "lwMSEwoOU19TS0lMTF9TRUxFQ1QQmAMSFgoRU19MRVZFTF9VUF9GSU5JU0gQ",
-            "mQMqQQoOR2FtZU9iamVjdFR5cGUSCAoETk9ORRAAEgoKBlBMQVlFUhABEgkK",
-            "BUVORU1ZEAISDgoKUFJPSkVDVElMRRADKjgKDUNyZWF0dXJlU3RhdGUSCAoE",
-            "SURMRRAAEggKBE1PVkUQARIJCgVTS0lMTBACEggKBERFQUQQAyokCg1FbmVt",
-            "eU1vdmVNb2RlEgkKBUxPQ0FMEAASCAoEU1lOQxABQhuqAhhHb29nbGUuUHJv",
-            "dG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
+            "mQMSDAoHQ19TS0lMTBCaAxIMCgdTX1NLSUxMEJsDKkEKDkdhbWVPYmplY3RU",
+            "eXBlEggKBE5PTkUQABIKCgZQTEFZRVIQARIJCgVFTkVNWRACEg4KClBST0pF",
+            "Q1RJTEUQAyo4Cg1DcmVhdHVyZVN0YXRlEggKBElETEUQABIICgRNT1ZFEAES",
+            "CQoFU0tJTEwQAhIICgRERUFEEAMqJAoNRW5lbXlNb3ZlTW9kZRIJCgVMT0NB",
+            "TBAAEggKBFNZTkMQASpCCghDYXJkVHlwZRISCg5CQVNFX1NUQVRfVFlQRRAA",
+            "EhMKD1NLSUxMX1NUQVRfVFlQRRABEg0KCU5FV19TS0lMTBACKsMCCghTdGF0",
+            "VHlwZRIKCgZNQVhfSFAQABIMCghIUF9SRUdFThABEgsKB0RFRkVOQ0UQAhIP",
+            "CgtEQU1BR0VfUkFURRADEhMKD01PVkVfU1BFRURfUkFURRAEEg0KCUZJUkVf",
+            "UkFURRAFEg4KCkRPREdFX1JBVEUQBhINCglTSVpFX1JBVEUQBxIaChZDT0xM",
+            "RUNUSU9OX1JBRElVU19SQVRFEAgSHAoYQ1JJVElDQUxfSElUX0NIQU5DRV9S",
+            "QVRFEAkSHAoYQ1JJVElDQUxfSElUX0RBTUFHRV9SQVRFEAoSEgoORVhQX0JP",
+            "TlVTX1JBVEUQCxIICgRMVUNLEAwSEAoMU0tJTExfREFNQUdFEA0SEwoPU0tJ",
+            "TExfQ09PTF9USU1FEA4SDgoKU0tJTExfU0laRRAPEg8KC1NLSUxMX1JFQUNI",
+            "EBAqNwoGUmFyaXR5EgoKBkNPTU1PThAAEggKBFJBUkUQARIICgRFUElDEAIS",
+            "DQoJTEVHRU5EQVJZEANCG6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIG",
+            "cHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.EnemyMoveMode), }, null, null));
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.CreatureState), typeof(global::Google.Protobuf.Protocol.EnemyMoveMode), typeof(global::Google.Protobuf.Protocol.CardType), typeof(global::Google.Protobuf.Protocol.StatType), typeof(global::Google.Protobuf.Protocol.Rarity), }, null, null));
     }
     #endregion
 
@@ -104,6 +115,8 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("C_UPGRADE_SKILL")] CUpgradeSkill = 407,
     [pbr::OriginalName("S_SKILL_SELECT")] SSkillSelect = 408,
     [pbr::OriginalName("S_LEVEL_UP_FINISH")] SLevelUpFinish = 409,
+    [pbr::OriginalName("C_SKILL")] CSkill = 410,
+    [pbr::OriginalName("S_SKILL")] SSkill = 411,
   }
 
   public enum GameObjectType {
@@ -123,6 +136,39 @@ namespace Google.Protobuf.Protocol {
   public enum EnemyMoveMode {
     [pbr::OriginalName("LOCAL")] Local = 0,
     [pbr::OriginalName("SYNC")] Sync = 1,
+  }
+
+  public enum CardType {
+    [pbr::OriginalName("BASE_STAT_TYPE")] BaseStatType = 0,
+    [pbr::OriginalName("SKILL_STAT_TYPE")] SkillStatType = 1,
+    [pbr::OriginalName("NEW_SKILL")] NewSkill = 2,
+  }
+
+  public enum StatType {
+    [pbr::OriginalName("MAX_HP")] MaxHp = 0,
+    [pbr::OriginalName("HP_REGEN")] HpRegen = 1,
+    [pbr::OriginalName("DEFENCE")] Defence = 2,
+    [pbr::OriginalName("DAMAGE_RATE")] DamageRate = 3,
+    [pbr::OriginalName("MOVE_SPEED_RATE")] MoveSpeedRate = 4,
+    [pbr::OriginalName("FIRE_RATE")] FireRate = 5,
+    [pbr::OriginalName("DODGE_RATE")] DodgeRate = 6,
+    [pbr::OriginalName("SIZE_RATE")] SizeRate = 7,
+    [pbr::OriginalName("COLLECTION_RADIUS_RATE")] CollectionRadiusRate = 8,
+    [pbr::OriginalName("CRITICAL_HIT_CHANCE_RATE")] CriticalHitChanceRate = 9,
+    [pbr::OriginalName("CRITICAL_HIT_DAMAGE_RATE")] CriticalHitDamageRate = 10,
+    [pbr::OriginalName("EXP_BONUS_RATE")] ExpBonusRate = 11,
+    [pbr::OriginalName("LUCK")] Luck = 12,
+    [pbr::OriginalName("SKILL_DAMAGE")] SkillDamage = 13,
+    [pbr::OriginalName("SKILL_COOL_TIME")] SkillCoolTime = 14,
+    [pbr::OriginalName("SKILL_SIZE")] SkillSize = 15,
+    [pbr::OriginalName("SKILL_REACH")] SkillReach = 16,
+  }
+
+  public enum Rarity {
+    [pbr::OriginalName("COMMON")] Common = 0,
+    [pbr::OriginalName("RARE")] Rare = 1,
+    [pbr::OriginalName("EPIC")] Epic = 2,
+    [pbr::OriginalName("LEGENDARY")] Legendary = 3,
   }
 
   #endregion

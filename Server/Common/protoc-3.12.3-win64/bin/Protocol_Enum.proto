@@ -67,6 +67,8 @@ enum MsgId {
     C_UPGRADE_SKILL = 407;
     S_SKILL_SELECT = 408;
     S_LEVEL_UP_FINISH = 409;
+    C_SKILL = 410;
+    S_SKILL = 411;
 }
 
 enum GameObjectType {
@@ -86,4 +88,37 @@ enum CreatureState{
 enum EnemyMoveMode {
     LOCAL = 0;
     SYNC = 1;
+}
+
+enum CardType {
+    BASE_STAT_TYPE = 0;
+    SKILL_STAT_TYPE = 1;
+    NEW_SKILL = 2;
+}
+
+enum StatType {
+    MAX_HP = 0;
+    HP_REGEN = 1;
+    DEFENCE = 2;
+    DAMAGE_RATE = 3;
+    MOVE_SPEED_RATE = 4;
+    FIRE_RATE = 5;
+    DODGE_RATE = 6;
+    SIZE_RATE = 7;
+    COLLECTION_RADIUS_RATE = 8;
+    CRITICAL_HIT_CHANCE_RATE = 9;
+    CRITICAL_HIT_DAMAGE_RATE = 10;
+    EXP_BONUS_RATE = 11;
+    LUCK = 12;
+    SKILL_DAMAGE = 13;
+    SKILL_COOL_TIME = 14;
+    SKILL_SIZE = 15;
+    SKILL_REACH = 16;
+}
+
+enum Rarity {
+    COMMON = 0;
+    RARE = 1;
+    EPIC = 2;
+    LEGENDARY = 3;
 }

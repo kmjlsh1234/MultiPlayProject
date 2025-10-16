@@ -21,8 +21,8 @@ namespace Server.Game
         {
             this.session = session;
             this.gameRoom = room;
-            skillManageComponent = new SkillManageComponent(this);
-
+            skillManageComponent = new SkillManageComponent();
+            skillManageComponent.Initialize(this);
 
             objectId = session.sessionId;
             objectType = GameObjectType.Player;

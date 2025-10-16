@@ -79,3 +79,8 @@ message SkillInfo{
     float skillObjScale = 9;
     float skillObjSpeed = 10;
 }
+
+message SelectCardInfo {
+
+
+}

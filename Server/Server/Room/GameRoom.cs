@@ -6,15 +6,18 @@ using System;
 using System.Collections.Generic;
 using System.IO.Pipelines;
 using System.Linq;
+using System.Net.Sockets;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static Define;
 
 namespace Server
 {
     public class GameRoom : Room
     {
         public int PlayerCount { get { return players.Count; } }
+
         public Dictionary<int, GamePlayer> players = new Dictionary<int, GamePlayer>();
         public Dictionary<int, Enemy> enemies = new Dictionary<int, Enemy>();
 
@@ -29,6 +32,8 @@ namespace Server
         public int maxExp = 10;
 
         bool isSkillSelect = false;
+
+        private int[] unlockLevels = { 1, 5, 15, 25 }; 
 
         public GameRoom()
         {
@@ -137,7 +142,7 @@ namespace Server
         {
             this.count = count;
             //map.LoadMap("MapData");
-            
+
             return true;
         }
 
@@ -189,6 +194,7 @@ namespace Server
         }
 
         #endregion
+
         public void HandleEnemyMove(ClientSession session, C_EnemyMove packet)
         {
             S_EnemyMove resPacket = new S_EnemyMove();
@@ -234,6 +240,18 @@ namespace Server
             }
         }
 
+        public void SkillAttack(ClientSession session, C_Skill c_skill)
+        {
+            Console.WriteLine($"Session {session.sessionId} Use Skill {c_skill.Id}");
+
+            S_Skill s_skill = new S_Skill()
+            {
+                SessionId = session.sessionId,
+                SkillId = c_skill.Id,
+            };
+            BroadCast(s_skill);
+        }
+
         #region :::: LevelUp & SkillSelect
         void LevelUp()
         {
@@ -242,6 +260,18 @@ namespace Server
             maxExp *= 2;
             exp = 0;
 
+            foreach(GamePlayer player in players.Values)
+            {
+                if (unlockLevels.Contains(level))
+                {
+                    RewardSelect(player, SelectType.NewSkill);
+                }
+                else
+                {
+                    RewardSelect(player, SelectType.Upgrade);
+                }
+            }
+
             S_LevelUp packet = new S_LevelUp();
             BroadCast(packet);
 
@@ -249,7 +279,19 @@ namespace Server
             //TODO : 스킬 선택 타이머 시작
         }
 
-        
+        private void RewardSelect(GamePlayer player, SelectType type)
+        {
+            switch (type)
+            {
+                case SelectType.NewSkill:
+                    break;
+                case SelectType.Upgrade:
+                    break;
+                case SelectType.Infusion:
+                    break;
+            }
+        }
+
         public void SkillSelect(ClientSession session, IMessage pkt)
         {
             if(players.TryGetValue(session.sessionId, out GamePlayer player))
@@ -262,13 +304,10 @@ namespace Server
                 case C_UpgradeSkill:
                     C_UpgradeSkill upgradeSkill = pkt as C_UpgradeSkill;
                     player.skillManageComponent.UpgradeSkill(upgradeSkill.Skillinfo.Id);
-
-                    Console.WriteLine($"Player {player.objectId} Upgrade Skill {upgradeSkill.Skillinfo.Id}");
                     break;
                 case C_NewSkill:
                     C_NewSkill newSkill = pkt as C_NewSkill;
                     player.skillManageComponent.AddSkill(newSkill.Skillinfo);
-
                     Console.WriteLine($"Player {player.objectId} Add New Skill {newSkill.Skillinfo.Id}");
                     break;
                 default:
@@ -292,7 +331,7 @@ namespace Server
                 LevelUpFinish();
             }
 
-        }
+        }  
 
         private void LevelUpFinish()
         {

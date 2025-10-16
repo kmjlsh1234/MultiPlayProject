@@ -83,6 +83,9 @@ public class PacketManager
 
         onRecv.Add((ushort) MsgId.CUpgradeSkill, MakePacket<C_UpgradeSkill>);
         handler.Add((ushort)MsgId.CUpgradeSkill, PacketHandler.C_UpgradeSkillHandler);
+
+        onRecv.Add((ushort) MsgId.CSkill, MakePacket<C_Skill>);
+        handler.Add((ushort)MsgId.CSkill, PacketHandler.C_SkillHandler);
         
     
     }

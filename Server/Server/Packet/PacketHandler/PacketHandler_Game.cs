@@ -59,4 +59,11 @@ public partial class PacketHandler
         C_UpgradeSkill packet = pkt as C_UpgradeSkill;
         session.gameRoom.Push(() => session.gameRoom.SkillSelect(session, packet));
     }
+
+    public static void C_SkillHandler(Session s, IMessage pkt)
+    {
+        ClientSession session = s as ClientSession;
+        C_Skill packet = pkt as C_Skill;
+        session.gameRoom.Push(() => session.gameRoom.SkillAttack(session, packet));
+    }
 }

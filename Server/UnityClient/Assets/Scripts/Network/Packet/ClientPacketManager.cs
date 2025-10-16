@@ -95,6 +95,9 @@ public class PacketManager
 
         onRecv.Add((ushort) MsgId.SLevelUpFinish, MakePacket<S_LevelUpFinish>);
         handler.Add((ushort)MsgId.SLevelUpFinish, PacketHandler.S_LevelUpFinishHandler);
+
+        onRecv.Add((ushort) MsgId.SSkill, MakePacket<S_Skill>);
+        handler.Add((ushort)MsgId.SSkill, PacketHandler.S_SkillHandler);
         
     
     }

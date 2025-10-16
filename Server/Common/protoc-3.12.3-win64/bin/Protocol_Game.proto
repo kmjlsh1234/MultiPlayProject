@@ -72,11 +72,12 @@ message S_EnemyMove {
 }
 
 message C_Skill {
-    
+    int32 id = 1;
 }
 
 message S_Skill {
-
+    int32 sessionId = 1;
+    int32 skillId = 2;
 }
 
 message C_Exp{
