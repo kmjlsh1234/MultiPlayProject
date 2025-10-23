@@ -64,14 +64,13 @@ namespace Server.Game
 
             Enemy enemy = ObjectManager.Instance.Add<Enemy>(point);
 
-            int templateId = rand.Next(0, 2) == 0 ? 200001 : 200002;
+            int templateId = 200004; //rand.Next(0, 2) == 0 ? 200002 : 200004;
+            //templateId = rand.Next(0, 3) == 0 ? templateId : 200001;
+            
             Console.WriteLine($"Spawn {templateId}");
             enemy.Init(templateId, point, gameRoom);
 
             return enemy;
         }
-
-        
     }
-
 }
